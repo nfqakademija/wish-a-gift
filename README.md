@@ -96,7 +96,7 @@ Atsidarome naršyklėje [symfony.local](http://symfony.local)
   sudo su -c 'echo "127.0.0.1 symfony.prod" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
   docker build .docker/frontend/ -t frontend.symfony
-  docker-compose -f .docker/docker-compose.yml up -d
+  docker-compose up -d
   ```
 
 * JavaScript/CSS įrankiams (atsidaryti atskirame lange)
