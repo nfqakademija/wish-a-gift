@@ -44,14 +44,13 @@ Taip pat reikia įsidiegti [Kitematic](https://github.com/docker/kitematic/relea
 ### Projekto paleidimas (projekto kūrimui lokaliai)
 
 * Pasiruoškite infrastruktūrą:
-  * Pasikeičiame slaptažodžius:
-    `.docker` kataloge žr. failų su `APP_SECRET` ir `DATABASE_URL` reikšmėmis
+  * Pasikeičiame slaptažodžius: `docker-compose.yml` faile `APP_SECRET` ir `DATABASE_URL` reikšmės
   * Pasileidžiame:
   ```
   sudo su -c 'echo "127.0.0.1 symfony.local" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
-  docker build .docker/frontend/ -t frontend.symfony
-  docker-compose -f .docker/docker-compose.yml up -d
+  docker build .docker/frontend -t frontend.symfony
+  docker-compose up -d
   ```
 
 * JavaScript/CSS įrankiams (atsidaryti atskirame lange)
@@ -89,13 +88,12 @@ Atsidarome naršyklėje [symfony.local](http://symfony.local)
 ### Projekto paleidimas (palyginimui kaip atrodytų produkcinėje)
 
 * Pasiruoškite infrastruktūrą:
-  * Pasikeičiame slaptažodžius:
-    `.docker` kataloge žr. failų su `APP_SECRET` ir `DATABASE_URL` reikšmėmis
+  * Pasikeičiame slaptažodžius: `docker-compose.yml` faile `APP_SECRET` ir `DATABASE_URL` reikšmės
   * Pasileidžiame:
   ```
   sudo su -c 'echo "127.0.0.1 symfony.prod" >> /etc/hosts'
   docker build .docker/php -t php.symfony 
-  docker build .docker/frontend/ -t frontend.symfony
+  docker build .docker/frontend -t frontend.symfony
   docker-compose up -d
   ```
 
