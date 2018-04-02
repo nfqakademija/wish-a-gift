@@ -15,8 +15,8 @@ services:
     image: php.symfony
     environment:
       - APP_ENV=prod
-      - APP_SECRET=31ab70e5aea4699ba61deddc8438d2f1
-      - DATABASE_URL=mysql://root:p9iijKcfgENjBWDYgSH7@mysql.symfony:3306/symfony
+      - APP_SECRET=460e7ab843a2e9a80801934185be6022b6e1cdfb9a510c08debee23a9e73deb6
+      - DATABASE_URL=mysql://root:OjitmawfOb7GriGros9@mysql.symfony:3306/symfony
     volumes:
       - ../:/code
 
@@ -24,7 +24,7 @@ services:
     container_name: mysql.symfony
     image: mysql:5.7.21
     environment:
-      - MYSQL_ROOT_PASSWORD=p9iijKcfgENjBWDYgSH7
+      - MYSQL_ROOT_PASSWORD=OjitmawfOb7GriGros9
     volumes:
       - ./mysql-data/:/var/lib/mysql
 
