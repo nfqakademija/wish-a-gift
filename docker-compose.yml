@@ -33,3 +33,7 @@ services:
     image: frontend.symfony
     volumes:
       - ./:/code
+    ports:
+      - 127.0.0.1:9500:9500
+    extra_hosts:
+     - "symfony.local:0.0.0.0"
