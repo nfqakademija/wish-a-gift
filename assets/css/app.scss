@@ -1,3 +1,62 @@
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+
+@include media-breakpoint-up(xs) { }
+@include media-breakpoint-up(sm) {   }
+@include media-breakpoint-up(md) {   }
+@include media-breakpoint-up(lg) {   }
+@include media-breakpoint-up(xl) {   }
+
+:root {
+  --green: #71dd8a;
+  --white: #ffffff;
+  --font-size: 16px;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+}
+
+body {
+  margin: 20px;
+  padding: 10px;
+  background-color: var(--white);
+  //font-family: ;
+  font-size: var(--font-size);
+
+}
+
+#main {
+  h1 {
+    margin: 30px 20px 0 334px;
+    display: inline-block;
+    font-family: 'Pacifico', cursive;
+    //font-size: 20px;
+    //font-size: calc(var(--font-size) + 0.125em);
+  }
+  button {
+   float: left;
+  }
+}
+
+.container-fluid {
+  margin: 20px;
+  padding: 20px;
+  background-color: var(--green);
+
+}
+
+.addButton {
+  margin-bottom: 10px;
+}
+
+.saveButton {
+  margin-top: 55px;
+}
+
+.identificationForm {
+  margin-bottom: 55px;
+}

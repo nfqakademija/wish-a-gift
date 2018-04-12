@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div id="container-fluid">
+        <div class="col-xs-12">
+            <div class="row">
+                <textarea title="description" id="description">Write a few words in the description!</textarea>
+            </div>
+
+            <div class="row">
+                <button type="button" class="btn btn-success" class="addButton">Add email</button>
+            </div>
+
+            <div class="form-group" id="gift">
+                <input type="text" name="title" placeholder="I wish a gift!" />
+                <button type="button" class="deleteButton">x</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <input type="text" name="link" placeholder="Link to your friends" />
+                <button type="button" class="btn btn-success" onclick="">Generate a link for friends</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+
