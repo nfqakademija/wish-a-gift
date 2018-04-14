@@ -1,7 +1,6 @@
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css?family=Pacifico');
 
 @include media-breakpoint-up(xs) { }
 @include media-breakpoint-up(sm) {   }
@@ -9,43 +8,38 @@
 @include media-breakpoint-up(lg) {   }
 @include media-breakpoint-up(xl) {   }
 
-:root {
-  --green: #71dd8a;
-  --white: #ffffff;
-  --font-size: 16px;
-  --breakpoint-xs: 0;
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
-}
+/**
+Variables
+ */
+
+  $green: #71dd8a;
+  $white: #ffffff;
+  $font-size: 1em;
+  $breakpoint-xs: 0;
+  $breakpoint-sm: 576px;
+  $breakpoint-md: 768px;
+  $breakpoint-lg: 992px;
+  $breakpoint-xl: 1200px;
+
 
 body {
   margin: 20px;
   padding: 10px;
-  background-color: var(--white);
+  background-color: $white;
   //font-family: ;
-  font-size: var(--font-size);
+  font-size: $font-size;
 
 }
 
-#main {
-  h1 {
-    margin: 30px 20px 0 334px;
-    display: inline-block;
+h1 {
+    margin: auto;
     font-family: 'Pacifico', cursive;
-    //font-size: 20px;
-    //font-size: calc(var(--font-size) + 0.125em);
   }
-  button {
-   float: left;
-  }
-}
 
 .container-fluid {
   margin: 20px;
   padding: 20px;
-  background-color: var(--green);
+  background-color: $green;
 
 }
 
@@ -59,4 +53,9 @@ body {
 
 .identificationForm {
   margin-bottom: 55px;
+}
+
+#containerFluid {
+  margin: auto;
+  max-width: 768px;
 }

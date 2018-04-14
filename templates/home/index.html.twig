@@ -2,69 +2,75 @@
 
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-    {{ parent() }}
+  <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
+  {{ parent() }}
 {% endblock %}
 
 {% block header %}
-    <div class="container-fluid" id="main">
-        <h1>Wish<br/> A Gift</h1>
-    {% block createButton %}
-        <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modal" onclick="location.href='{{ path('modal') }}'">Create a WishList</button>
-    {% endblock %}
+  <div class="container-fluid">
+    <div class="row">
+      {#<div class="col-">#}
+      <h1>Wish<br/> A Gift</h1>
+      {#</div>#}
     </div>
+  </div>
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <form id="mainPageForm">
-            <div class="form-group row">
-                {#<label for="inputTitle" class="col-sm-2 col-form-label">Title:</label>#}
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" name="title" placeholder="Type the title for your list" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
-            </div>
-
-            <div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="title" placeholder="I wish a gift!" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="title" placeholder="And here I wish another gift!" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="title" placeholder="And here one more!" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        {% block shareButton %}
-            <button type="button" class="btn btn-success btn-md btn-block" onclick="location.href='{{ path('secondPage') }}'">Share</button>
-        {% endblock %}
-    </div>
-{% endblock %}
-
-{% block footer %}
-    <div class="container-fluid">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" name="title" placeholder="Link to your WishList" />
-            <div class="input-group-append">
-                <button type="button" class="btn btn-success" class="col-md-4" onclick="">Generate AdminLink</button>
-            </div>
+  <div class="container-fluid">
+    <form id="mainPageForm">
+      <div class="form-group row">
+        {#<label for="inputTitle" class="col-sm-2 col-form-label">Title:</label>#}
+        <div class="col-sm-12">
+          <input type="text" class="form-control" name="title" placeholder="Type in the title for your list"/>
         </div>
-    </div>
+      </div>
+
+      <div class="form-group">
+        <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
+      </div>
+
+      <div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="title" placeholder="Type in your wish here!!"/>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="title" placeholder="And here another wish!"/>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" name="title" placeholder="And here one more!"/>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    {% block createButton %}
+    <button type="button" class="btn btn-lg btn-block btn-success" id="modal" data-toggle="modal" data-target="#modal"
+            onclick="location.href='{{ path('modal') }}'">Create a WishList
+      {#<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#modal"#}
+              {#onclick="location.href='{{ path('modal') }}'">Create a WishList#}
+      </button>
+    {% endblock %}
+  </div>
 {% endblock %}
+
+{% block javascripts %}
+  {#<script>#}
+      {#$('#myModal').on('shown.bs.modal', function () {#}
+          {#$('#myInput').trigger('focus')#}
+      {#})#}
+  {#</script>#}
+
+{% endblock %}
+
+
 

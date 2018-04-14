@@ -16,4 +16,5 @@ class HomeController extends Controller
             'controller_name' => 'HomeController',
         ]);
     }
+
 }
