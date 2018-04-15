@@ -9,13 +9,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ModalController extends Controller
 {
     /**
-     * @Route("/modal", name="modal")
+     * @Route("/create", name="create")
      */
     public function index()
     {
-        return $this->render('modal/index.html.twig', [
+        return $this->render('create/index.html.twig', [
             'controller_name' => 'ModalController',
         ]);
     }
+
+
 
 }
