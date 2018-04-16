@@ -5,16 +5,19 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class HomeController extends Controller
+
+class ModalController extends Controller
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/create", name="create")
      */
     public function index()
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+        return $this->render('create/index.html.twig', [
+            'controller_name' => 'ModalController',
         ]);
     }
+
+
 
 }

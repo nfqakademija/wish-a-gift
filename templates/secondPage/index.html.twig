@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+  <div id="container-fluid">
+    <div class="form-group">
+      <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
+    </div>
+
+    {% block addButton %}
+    <div>
+      <button type="button" class="btn btn-success btn-md btn-block addButton" id="addButton">Add friend's email</button>
+    </div>
+    {% endblock %}
+
+    {# This array of emails, added by user, should be rendered automatically#}
+    <div class="input-group mb-3">
+      <input type="email" class="form-control" id="email" placeholder="type in friend's email"/>
+      <div class="input-group-append">
+       <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <div class="container-fluid">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" name="link" placeholder="Link to your friends"/>
+      <div class="input-group-append">
+        <button type="button" class="btn btn-success"  onclick="">Send a link to your friends</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+

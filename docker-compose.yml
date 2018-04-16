@@ -43,4 +43,10 @@ services:
     build: .docker/frontend/
     container_name: frontend.symfony
     volumes:
+
       - .:/code # Mount your code, so javaScript tools could see it
+
+    ports:
+      - "127.0.0.1:9500:9500"
+    extra_hosts:
+     - "symfony.local:0.0.0.0"

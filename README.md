@@ -11,7 +11,7 @@ visais reikalingais failais ir įrankiais darbui:
  
 - Lokalaus development'o aplinka (docker) (PHP 7.2, MySql DB, Nginx)
 - Pradinis bundle (AppBundle) kartu su stiliaus failais.
-- Įdiegtas bootstrap.
+- Įdiegtas bootstrap
 - Asset'ų buildinimas (npm, yarn, sass)
 - Travis CI template
 
