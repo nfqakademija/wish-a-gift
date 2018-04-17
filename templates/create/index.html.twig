@@ -18,17 +18,18 @@
           $('#addButton').click(function () {
               addGift($('#gift'), $('#giftList'));
           });
+
       });
 
       function addGift(gift, giftList) {
           console.log(gift, giftList);
 
-          giftList = giftList.find('ul').append('<li><div class="input-group mb-3">\n' +
+          giftList = giftList.append('<div class="input-group mb-3" id="giftItem">\n' +
               `<input type="text" class="form-control" readonly value="${escapeHtml(gift.val())}" />\n` +
               '<div class="input-group-append">\n' +
               '<button type="button" class="btn btn-outline btn-success deleteButton" id="deleteButton">x</button>\n' +
               '</div>\n' +
-              '</div></li>');
+              '</div>');
       }
 
       function escapeHtml(string) {
@@ -38,6 +39,13 @@
               .replace(/"/g, "&quot;")
               .replace(/'/g, "&#039;"));
       }
+
+      //clear input field on button click
+      $('input:text').click(
+          function(){
+              $(this).val('');
+          });
+
   </script>
 {% endblock %}
 
@@ -49,12 +57,12 @@
     </div>
 
     <div class="container-fluid">
-      <form id="modalForm">
+      <form id="createForm">
         <div id="identificationForm" class="identificationForm">
           <div class="form-group row">
             <label for="name" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="name" placeholder="Enter your name">
+              <input type="text" class="form-control" name="name" value="" placeholder="Enter your name">
             </div>
           </div>
           <div class="form-group row">
@@ -85,30 +93,14 @@
           </div>
 
           <div class="input-group mb-3">
-            <input id="gift" type="text" class="form-control" placeholder="Write your wish here"/>
+            <input id="gift" type="text" class="form-control" name="gift" placeholder="Write your wish here"/>
             <div class="input-group-append">
               <button class="btn btn-outline btn-success addButton" id="addButton" type="button">Add a Gift
               </button>
             </div>
           </div>
 
-          <div id="giftList">
-            <ul>
-              <li>
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" readonly value="value"/>
-                  <div class="input-group-append">
-                    <button type="button" class="btn btn-outline btn-success deleteButton" id="deleteButton">x
-                    </button>
-                  </div>
-                </div>
-              </li>
-
-            </ul>
-
-
-          </div>
-
+          <div id="giftList"></div>
 
         </div>
 
