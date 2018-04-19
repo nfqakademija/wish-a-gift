@@ -46,9 +46,6 @@ services:
         - mysql.symfony:db
       ports:
         - 127.0.0.1:32773:80
-      environment:
-          MYSQL_USERNAME: root
-          MYSQL_ROOT_PASSWORD: p9iijKcfgENjBWDYgSH7
 
   frontend.symfony:
     build: .docker/frontend/
