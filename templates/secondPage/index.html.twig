@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+{{ parent() }}
+
+  <script>
+      $(document).ready(function () {
+          console.log("All resources finished loading");
+
+          // add click handler for "Add" button
+          $('#addButton').click(function () {
+              addEmail($('#email'), $('#emailList'));
+          });
+
+      });
+
+      function addEmail(email, emailList) {
+          console.log(email, emailList);
+
+          emailList = emailList.append('<div class="input-group mb-3" id="giftItem">\n' +
+              `<input type="email" class="form-control" readonly value="${escapeHtml(email.val())}" />\n` +
+              '<div class="input-group-append">\n' +
+              '<button type="button" class="btn btn-outline btn-success deleteButton" id="deleteButton">x</button>\n' +
+              '</div>\n' +
+              '</div>');
+      }
+
+      function escapeHtml(string) {
+          return (string.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;"));
+      }
+
+      $('input:text').click(
+          function(){
+              $(this).val('');
+          });
+
+
+  </script>
+
+{% endblock %}
+
+{% block body %}
+  <div id="container-fluid">
+    <div class="form-group">
+      <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
+    </div>
+
+    <div class="input-group mb-3">
+      <input id="email" type="text" class="form-control" name="email" placeholder="Type your friend's email here"/>
+      <div class="input-group-append">
+        <button class="btn btn-outline btn-success addButton" id="addButton" type="button">Add Email
+        </button>
+      </div>
+    </div>
+
+    <div class="input-group mb-3" id="emailList"></div>
+{% endblock %}
+
+{% block footer %}
+  <div class="container-fluid">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" name="link" placeholder="Link to your friends"/>
+      <div class="input-group-append">
+        <button type="button" class="btn btn-success" onclick="">Send a link to your friends</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
