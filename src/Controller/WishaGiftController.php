@@ -35,7 +35,7 @@ class WishaGiftController extends Controller
             $entityManager1 = $this->getDoctrine()->getManager();
 
             $data = $request->request->all();
-            var_dump($data);
+            //var_dump($data);
             $giftName = $data['gift_list']['Gift']['Gift'];
 
             $gift->setUserId($lastGiftListId);
