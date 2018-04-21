@@ -39,14 +39,7 @@ class GiftList
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gift;
-    /**
-     * @ORM\Column(type="integer", length=1)
-     */
-    private $public_list;
+    protected $gift;
 
     public function getId()
     {
@@ -113,27 +106,13 @@ class GiftList
         return $this;
     }
 
-    public function getGift(): ?string
+    public function getGift()
     {
         return $this->gift;
     }
 
-    public function setGift(string $gift): self
+    public function setGift(Gift $gift = null)
     {
-        $this->gift = $gift;
-
-        return $this;
-    }
-
-    public function getPublicList(): ?string
-    {
-        return $this->public_list;
-    }
-
-    public function setPublicList(string $public_list): self
-    {
-        $this->public_list = $public_list;
-
-        return $this;
+        $this->gift= $gift;
     }
 }
