@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Form\GiftListType;
+use App\Form\GiftType;
 use App\Entity\GiftList;
 use App\Entity\Gift;
 use Symfony\Component\Routing\Annotation\Route;

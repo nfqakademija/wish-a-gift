@@ -24,7 +24,7 @@ class Gift
     /**
      * @ORM\Column(type="string", length=254)
      */
-    private $giftName;
+    private $gift;
 
     public function getId()
     {
@@ -43,14 +43,14 @@ class Gift
         return $this;
     }
 
-    public function getGiftName(): ?string
+    public function getGift(): ?string
     {
-        return $this->giftName;
+        return $this->gift;
     }
 
-    public function setGiftName(string $giftName): self
+    public function setGift(string $gift): self
     {
-        $this->giftName = $giftName;
+        $this->gift = $gift;
 
         return $this;
     }
