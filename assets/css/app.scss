@@ -1,4 +1,3 @@
-
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 
@@ -21,13 +20,21 @@ Variables
   $breakpoint-lg: 992px;
   $breakpoint-xl: 1200px;
 
+html {
+  width: 100%;
+  height: 100%;
+  background: #fff url("../images/background_img.jpg") no-repeat fixed center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 body {
   margin: 20px;
   padding: 10px;
-  background-color: $white;
-  //font-family: ;
   font-size: $font-size;
+  background-color: transparent;
 
 }
 
@@ -43,10 +50,6 @@ h1 {
 
 }
 
-//.addButton {
-//  margin-bottom: 10px;
-//}
-
 .saveButton {
   margin-top: 55px;
 }
@@ -55,7 +58,20 @@ h1 {
   margin-bottom: 55px;
 }
 
-#containerFluid {
+.container-wishlist {
   margin: auto;
+  padding: 20px;
   max-width: 768px;
+  border-radius: 70px;
+  background: linear-gradient(#d3c4f2, #fff0 75%),
+    linear-gradient(90deg, rgba(111, 66, 193, 0.8), rgba(0, 0, 0, 0) 50%),
+    linear-gradient(0deg, rgba(111, 66, 193, 0.8), rgba(0, 255, 255, 0.8), rgba(0, 0, 0, 0));
+  //background-size: auto 100%;
+  //background-blend-mode: unset;
+  //background: #d3c4f2 url("../images/background_img.jpg") no-repeat center;
+  //opacity: 0.8;
+}
+
+.modal-content.container-wishlist {
+  border: none;
 }
