@@ -17,16 +17,39 @@
 
 {% block body %}
   <div class="container-fluid">
-    <form id="mainPageForm" action="{{ path('create') }}" method="post">
+    <form id="mainPageForm" method="post" action="">
       <div class="form-group row">
         <div class="col-sm-12">
-          <input type="text" class="form-control" name="title" placeholder="Type in the title for your list"/>
+            {{ form_errors(form.Title) }}
+            {{ form_label(form.Title, 'Title', {'for': 'title'}) }}
+
+              {{ form_widget(form.Title, {
+
+                  'attr': {
+                      'class': 'form-control',
+                      'placeholder': 'Type the title for your list',
+                      'novalidate': 'novalidate',
+                      'required': 'false'
+                  }})
+              }}
+
         </div>
       </div>
 
       <div class="form-group">
-        <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
+          {{ form_label(form.Description, 'Description', {'for': 'description'}) }}
+          {{ form_widget(form.Description, {
+              'attr': {
+                  'class': 'form-control',
+                  'row': "10"
+              }})
+          }}
       </div>
+        {{ form_widget(form.Uuid, {
+            'attr': {
+                'value': uuid
+            }})
+        }}
 
       {#<div>#}
         {#<div class="input-group mb-3">#}
@@ -49,12 +72,8 @@
         {#</div>#}
       {#</div>#}
 
-      <button type="submit" class="btn btn-lg btn-block btn-secondary">Create a WishList</button>
+      <button type="submit" class="btn btn-lg btn-block btn-secondary" name="gift_list[Save]" value="Create a WishList">Create a WishList</button>
     </form>
-
   </div>
 {% endblock %}
-
-
-
 

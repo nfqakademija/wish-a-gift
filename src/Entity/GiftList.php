@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GiftListRepository")
@@ -17,21 +18,32 @@ class GiftList
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $uuid;
+
+    /**
+     * @ORM\Column(type="string", length=101, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string", length=101, nullable=true)
+     *  @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $email;
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      */
     private $title;
     /**
@@ -39,18 +51,23 @@ class GiftList
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gift;
-    /**
-     * @ORM\Column(type="integer", length=1)
-     */
-    private $public_list;
+    protected $gift;
 
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 
     public function getFirstname(): ?string
@@ -113,27 +130,13 @@ class GiftList
         return $this;
     }
 
-    public function getGift(): ?string
+    public function getGift()
     {
         return $this->gift;
     }
 
-    public function setGift(string $gift): self
+    public function setGift(Gift $gift = null)
     {
-        $this->gift = $gift;
-
-        return $this;
-    }
-
-    public function getPublicList(): ?string
-    {
-        return $this->public_list;
-    }
-
-    public function setPublicList(string $public_list): self
-    {
-        $this->public_list = $public_list;
-
-        return $this;
+        $this->gift= $gift;
     }
 }
