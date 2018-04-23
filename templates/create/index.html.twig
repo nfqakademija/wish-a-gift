@@ -36,7 +36,7 @@
           giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
               `<input type="text" class="form-control" readonly value="${escapeHtml(giftVal)}" />\n` +
               '<div class="input-group-append">\n' +
-              `<button type="button" class="btn btn-outline btn-success deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">x</button>\n` +
+              `<button type="button" class="btn btn-outline btn-secondary deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">x</button>\n` +
               '</div>\n' +
               '</div>');
 
@@ -126,7 +126,7 @@
             'placeholder': 'Write your wish here'
           }}) }}
         <div class="input-group-append">
-          <button class="btn btn-outline btn-success addButton" id="addButton" type="button">Add a Gift</button>
+          <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add a Gift</button>
         </div>
       </div>
 
@@ -135,12 +135,12 @@
       {{ form_widget(form.Save, {
         'attr': {
           'type': 'submit',
-          'class': 'btn btn-success btn-md btn-block saveButton'
+          'class': 'btn btn-secondary btn-md btn-block saveButton'
         }}) }}
       {{ form_end(form) }}
     </div>
 
-    <button type="button" class="btn btn-success btn-md btn-block" data-toggle="modal" data-target="#modal">
+    <button type="button" class="btn btn-secondary btn-md btn-block" data-toggle="modal" data-target="#modal">
       Share with Friends
     </button>
 
@@ -160,17 +160,14 @@
             <div class="form-group">
               <textarea class="form-control" title="description" id="description" rows="3"></textarea>
             </div>
-
             <div class="input-group mb-3">
               <input id="email" type="text" class="form-control" name="email"
                      placeholder="Type your friend's email here"/>
               <div class="input-group-append">
-                <button class="btn btn-outline btn-success addButton" id="addButton" type="button">Add Email</button>
+                <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
               </div>
             </div>
-
             <div class="input-group mb-3" id="emailList"></div>
-
           </div>
 
           <div class="modal-footer">
@@ -178,7 +175,7 @@
               <div class="input-group mb-3">
                 <input type="text" class="form-control" name="link" />
                 <div class="input-group-append">
-                  <button type="button" class="btn btn-success" onclick="">Send a link to your friends</button>
+                  <button type="button" class="btn btn-secondary" onclick="">Send a link to your friends</button>
                 </div>
               </div>
             </div>
@@ -187,14 +184,12 @@
         </div>
       </div>
     </div>
-
-
   </div>
 
   <div class="footer">
     <div class="container-fluid">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" name="title" placeholder="Link to your WishList"/>
+      <input type="text" class="form-control" name="title" />
       {#<div class="input-group-append">#}
         {#<button type="button" class="btn btn-success" onclick="">Copy</button>#}
       {#</div>#}
