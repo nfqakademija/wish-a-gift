@@ -10,9 +10,7 @@
 {% block header %}
   <div class="container-fluid">
     <div class="row">
-      {#<div class="col-">#}
       <h1>Wish<br/> A Gift</h1>
-      {#</div>#}
     </div>
   </div>
 {% endblock %}
@@ -21,7 +19,6 @@
   <div class="container-fluid">
     <form id="mainPageForm" method="post" action="">
       <div class="form-group row">
-        {#<label for="inputTitle" class="col-sm-2 col-form-label">Title:</label>#}
         <div class="col-sm-12">
             {{ form_errors(form.Title) }}
             {{ form_label(form.Title, 'Title', {'for': 'title'}) }}
@@ -54,45 +51,29 @@
             }})
         }}
 
-      <!--<div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="Type in your wish here!!"/>
-          <div class="input-group-append">
-            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="And here another wish!"/>
-          <div class="input-group-append">
-            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="And here one more!"/>
-          <div class="input-group-append">
-            <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
-          </div>
-        </div>
-      </div>-->
+      {#<div>#}
+        {#<div class="input-group mb-3">#}
+          {#<input type="text" class="form-control" name="title" placeholder="Type in your wish here!!"/>#}
+          {#<div class="input-group-append">#}
+            {#<button type="button" class="btn btn-outline btn-success deleteButton">x</button>#}
+          {#</div>#}
+        {#</div>#}
+        {#<div class="input-group mb-3">#}
+          {#<input type="text" class="form-control" name="title" placeholder="And here another wish!"/>#}
+          {#<div class="input-group-append">#}
+            {#<button type="button" class="btn btn-outline btn-success deleteButton">x</button>#}
+          {#</div>#}
+        {#</div>#}
+        {#<div class="input-group mb-3">#}
+          {#<input type="text" class="form-control" name="title" placeholder="And here one more!"/>#}
+          {#<div class="input-group-append">#}
+            {#<button type="button" class="btn btn-outline btn-success deleteButton">x</button>#}
+          {#</div>#}
+        {#</div>#}
+      {#</div>#}
 
-
-    {% block createButton %}
-    <input type="submit" class="btn btn-lg btn-block btn-success" name="gift_list[Save]" value="Create a WishList" />
-      {#<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#modal"#}
-              {#onclick="location.href='{{ path('modal') }}'">Create a WishList#}
+      <button type="submit" class="btn btn-lg btn-block btn-secondary" name="gift_list[Save]" value="Create a WishList">Create a WishList</button>
     </form>
-    {% endblock %}
   </div>
 {% endblock %}
-
-{% block javascripts %}
-  {#<script>#}
-      {#$('#myModal').on('shown.bs.modal', function () {#}
-          {#$('#myInput').trigger('focus')#}
-      {#})#}
-  {#</script>#}
-
-{% endblock %}
-
-
 
