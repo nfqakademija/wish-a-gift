@@ -16,7 +16,7 @@
 
           // add click handler for "Add" button
           $('#addButton').click(function () {
-              addGift($('#gift'), $('#giftList'));
+              addGift($('#gift_list_Gift_Gift'), $('#giftList'));
           });
 
       });
@@ -25,7 +25,7 @@
           console.log(gift, giftList);
 
           giftList = giftList.append('<div class="input-group mb-3" id="giftItem">\n' +
-              `<input type="text" class="form-control" readonly value="${escapeHtml(gift.val())}" />\n` +
+              `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(gift.val())}" />\n` +
               '<div class="input-group-append">\n' +
               '<button type="button" class="btn btn-outline btn-success deleteButton" id="deleteButton">x</button>\n' +
               '</div>\n' +
@@ -41,16 +41,16 @@
       }
 
       //clear input field on button click
-      $('input:text').click(
-          function(){
-              $(this).val('');
-          });
+     // $('input:text').click(
+         // function(){
+            //  $(this).val('');
+          //});
 
   </script>
 {% endblock %}
 
 {% block body %}
-  <div class="">
+  <div class="">{{ lastid }}
 
     <div class="modal-header">
       <h1 class="modal-title" id="modalTitle">Create a Wish List</h1>
@@ -58,6 +58,7 @@
 
     <div class="container-fluid">
         {{ form_start(form, {
+            'action': lastid ,
           'attr': {
             'id': 'createForm'
           }} )
@@ -129,14 +130,13 @@
                 'placeholder': 'Write your wish here'
               }})
             }}
+
             <div class="input-group-append">
               <button class="btn btn-outline btn-success addButton" id="addButton" type="button">Add a Gift
               </button>
             </div>
           </div>
-
           <div id="giftList"></div>
-
         </div>
 
         {{ form_widget(form.Save, {
@@ -145,9 +145,6 @@
           }})
         }}
 
-        <button type="button" class="btn btn-success btn-md btn-block"
-                onclick="location.href='{{ path('secondPage') }}'">Share with Friends
-        </button>
         {{ form_end(form) }}
     </div>
 
@@ -156,7 +153,7 @@
   <div class="modal-footer">
     <div class="container-fluid">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name="title" placeholder="Link to your WishList"/>
+        <input type="text" class="form-control" name="uuid" value="{{ uuid }}"/>
         <div class="input-group-append">
           <button type="button" class="btn btn-success" onclick="">Copy</button>
         </div>

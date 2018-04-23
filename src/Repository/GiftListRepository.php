@@ -22,7 +22,7 @@ class GiftListRepository extends ServiceEntityRepository
 //    /**
 //     * @return GiftList[] Returns an array of GiftList objects
 //     */
-    /*
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('g')
@@ -34,7 +34,7 @@ class GiftListRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?GiftList

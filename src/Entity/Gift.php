@@ -22,7 +22,7 @@ class Gift
     private $userId;
 
     /**
-     * @ORM\Column(type="string", length=254)
+     * @ORM\Column(type="string", length=254, nullable=true)
      */
     private $gift;
 

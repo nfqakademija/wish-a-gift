@@ -19,46 +19,68 @@
 
 {% block body %}
   <div class="container-fluid">
-    <form id="mainPageForm">
+    <form id="mainPageForm" method="post" action="">
       <div class="form-group row">
         {#<label for="inputTitle" class="col-sm-2 col-form-label">Title:</label>#}
         <div class="col-sm-12">
-          <input type="text" class="form-control" name="title" placeholder="Type in the title for your list"/>
+            {{ form_errors(form.Title) }}
+            {{ form_label(form.Title, 'Title', {'for': 'title'}) }}
+
+              {{ form_widget(form.Title, {
+
+                  'attr': {
+                      'class': 'form-control',
+                      'placeholder': 'Type the title for your list',
+                      'novalidate': 'novalidate',
+                      'required': 'false'
+                  }})
+              }}
+
         </div>
       </div>
 
       <div class="form-group">
-        <textarea class="form-control" title="description" id="description" rows="3">Write a few words in the description!</textarea>
+          {{ form_label(form.Description, 'Description', {'for': 'description'}) }}
+          {{ form_widget(form.Description, {
+              'attr': {
+                  'class': 'form-control',
+                  'row': "10"
+              }})
+          }}
       </div>
+        {{ form_widget(form.Uuid, {
+            'attr': {
+                'value': uuid
+            }})
+        }}
 
-      <div>
+      <!--<div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="title" placeholder="Type in your wish here!!"/>
+          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="Type in your wish here!!"/>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="title" placeholder="And here another wish!"/>
+          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="And here another wish!"/>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="title" placeholder="And here one more!"/>
+          <input type="text" class="form-control" name="gift_list[Gift][]" placeholder="And here one more!"/>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline btn-success deleteButton">x</button>
           </div>
         </div>
-      </div>
-    </form>
+      </div>-->
+
 
     {% block createButton %}
-    <button type="button" class="btn btn-lg btn-block btn-success" id="modal" data-toggle="modal" data-target="#modal"
-            onclick="location.href='{{ path('create') }}'">Create a WishList
+    <input type="submit" class="btn btn-lg btn-block btn-success" name="gift_list[Save]" value="Create a WishList" />
       {#<button type="button" class="btn btn-lg btn-block btn-success" data-toggle="modal" data-target="#modal"#}
               {#onclick="location.href='{{ path('modal') }}'">Create a WishList#}
-      </button>
+    </form>
     {% endblock %}
   </div>
 {% endblock %}
