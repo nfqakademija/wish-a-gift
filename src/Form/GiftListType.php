@@ -24,7 +24,7 @@ class GiftListType extends AbstractType
         $builder
             ->add('Uuid', HiddenType::class)
             ->add('FirstName', TextType::class)
-            ->add('LastName', TextType::class)
+//            ->add('LastName', TextType::class)
             ->add('Email', EmailType::class)
             ->add('Title', TextType::class,
                 array(

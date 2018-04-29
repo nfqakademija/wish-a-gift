@@ -1,79 +1,19 @@
-// the ~ allows you to reference things in node_modules
+//the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~shards-ui/dist/css/shards";
+//@import "~shards-ui/src/extras/scss/shards-extras";
+@import "~shards-ui/dist/css/shards-extras";
+//@import "~shards-ui/src/extras/scss/agency-landing";
+//@import "~bootstrap/scss/variables";
 
-@include media-breakpoint-up(xs) {
+.shards-landing-page--1 {
+  // Welcome section
+  // Sets up the background cover image and the overlay gradient.
+  .welcome {
+    background: url('../images/welcome-cover.jpg') no-repeat center center fixed;
+  }
 }
 
-@include media-breakpoint-up(sm) {
-}
-
-@include media-breakpoint-up(md) {
-}
-
-@include media-breakpoint-up(lg) {
-}
-
-@include media-breakpoint-up(xl) {
-}
-
-/**
-Variables
- */
-
-$font-size: 1em;
-$breakpoint-xs: 0;
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-
-html {
-  width: 100%;
-  height: 100%;
-  background: #fff url("../images/background_img.jpg") no-repeat fixed center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-
-body {
-  margin: 20px;
-  padding: 10px;
-  font-size: $font-size;
-  background-color: transparent;
-
-}
-
-h1, h3 {
-  margin: auto;
-  font-family: 'Pacifico', cursive;
-}
-
-.container-fluid {
-  margin: 20px;
-  padding: 20px;
-  width: auto;
-}
-
-.saveButton {
-  margin-top: 55px;
-}
-
-.identificationForm {
-  margin-bottom: 20px;
-}
-
-.container-wishlist {
-  margin: auto;
-  padding: 20px;
-  max-width: 768px;
-  border-radius: 70px;
-  background: linear-gradient(#d3c4f2, rgba(255, 255, 255, 0) 75%),
-    linear-gradient(90deg, rgba(111, 66, 193, 0.8), rgba(0, 0, 0, 0) 50%),
-    linear-gradient(0deg, rgba(111, 66, 193, 0.8), rgba(0, 255, 255, 0.8), rgba(0, 0, 0, 0));
-}
-
-.modal-content.container-wishlist {
-  border: none;
+.col-form-label {
+  color: #ffff;
 }

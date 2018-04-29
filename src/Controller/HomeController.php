@@ -40,7 +40,7 @@ class HomeController extends Controller
             //var_dump($request->request->get($form->getName()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftlist);
-            $entityManager->flush();
+//            $entityManager->flush();
 
             $lastGiftListId = $giftlist->getId();
 
@@ -51,7 +51,7 @@ class HomeController extends Controller
                     'uuid' => $this->uuid
                 ]
             );
-        }else {
+        } else {
             return $this->render('home/index.html.twig',
                 ['form' => $form->createView(),
                     'uuid' => $this->uuid

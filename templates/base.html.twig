@@ -4,21 +4,27 @@
   <meta charset="UTF-8">
   <title>{% block title %}{{ "Wish a Gift" }}{% endblock %}</title>
   {% block stylesheets %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
   {% endblock %}
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}">
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
   {% block canonical_meta %}{% endblock %}
 </head>
-<body>
-<div class="container-fluid container-wishlist">
+
+<body class="{% block bodyClass %}{{ "shards-landing-page--1" }}{% endblock %}">
   {% block header %}{% endblock %}
   {% block body %}{% endblock %}
-  {#{% block footer %}{% endblock %}#}
-</div>
+  {% block footer %}{% endblock %}
 
 {% block javascripts %}
   <script src="{{ asset('build/js/app.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  {#<script src="{{ asset('build/js/shards.min.js') }}"></script>#}
+
 {% endblock %}
 </body>
+
 </html>

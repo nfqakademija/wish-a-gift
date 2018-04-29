@@ -86,11 +86,6 @@ class WishaGiftController extends Controller
         //var_dump($routescontroller);
         $giftlist = new GiftList();
 
-
-
-
-
-
         $form = $this->createForm(GiftListType::class, $giftlist);
         $form->handleRequest($request);
 //        /var_dump($form);
@@ -122,10 +117,12 @@ class WishaGiftController extends Controller
            // return $this->redirectToRoute('publiclist');
         }
 
+        $lastGiftListId = 1;
 
         return $this->render('create/index.html.twig',
             ['form' => $form->createView(),
-                'lastid' => 'update/'. $lastGiftListId
+                'lastid' => 'update/'. $lastGiftListId,
+                'uuid' => Uuid::uuid4()->toString()
         ]
 
         );
@@ -155,14 +152,15 @@ class WishaGiftController extends Controller
     }
 
     /**
-     * @Route("/giftlist", name="giftlist")
+     * @Route("/saved/gift/list", name="saved_gift_list")
      * @return Response
      */
     public function giftList()
     {
         var_dump('hh');
-        return $this->render('giftlist/index.html.twig',
+        return $this->render('saved_gift_list/index.html.twig',
             ['giftlist' => 'jjj']
         );
     }
+
 }
