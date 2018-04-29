@@ -5,6 +5,7 @@ use App\Form\GiftListType;
 use App\Form\GiftType;
 use App\Entity\GiftList;
 use App\Entity\Gift;
+use App\Repository\GiftListRepository;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,52 +17,38 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WishaGiftController extends Controller
 {
-    //private $router;
+    //pr
+    private $uuid;
 
+    public function uuid()
+    {
+
+        $uuid4 = Uuid::uuid4();
+        $this->uuid = $uuid4->toString();
+
+        return $this;
+    }
 
     /**
-     * @Route("/update/{lastid}", name="update")
-     * @param Request $request
-     * @param int $lastid
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @Route("/giftlist/admin/{uuidadmin}", name="giftlist-admin")
+     * @param string $uuidadmin
+     * @return Response
      */
-    public function update(Request $request, int $lastid)
+    public function admin(string $uuidadmin)
     {
-        //$giftlist = new GiftList();
-        $em = $this->getDoctrine()->getManager();
-        //$giftlist = new GiftList();
-        //$lastGiftListId = $giftlist->getId();
-        //var_dump($em->get);
-        $product = $em->getRepository(GiftList::class)->find($lastid);
-        $form = $this->createForm(GiftListType::class, $product);
-        $form->handleRequest($request);
+        $getuuid =  $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findByUuidAdmin($uuidadmin);
 
-        if ($form->isSubmitted()) {
-
-
-            $data = $request->request->all();
-            //$form->get('firstName')->submit('Fabien');
-//var_dump($data['gift_list']['Gifts']);
-            $giftNames = $data['gift_list']['Gifts'];
-            foreach ($giftNames as $key => $giftName) {
-
-                $gift = new Gift();
-                $entityManager1 = $this->getDoctrine()->getManager();
-                $gift->setUserId($lastid);
-                $gift->setGift($giftName);
-                $entityManager1->persist($gift);
-                $entityManager1->flush();
-            }
-
-            // return $this->redirectToRoute('publiclist');
+        if (!$getuuid){
+            return $this->redirectToRoute('home');
         }
+        return $this->render('giftlistadmin/index.html.twig',
+            array(
+                'uuidadmin' => $uuidadmin
 
+            ));
 
-         //var_dump($giftlist);
-        //$product->setFirstName('New producddddt name!');
-        //$em->persist($giftlist);
-        $em->flush();
-        return $em;
     }
 
     /**
@@ -72,28 +59,13 @@ class WishaGiftController extends Controller
 
     public function create(Request $request)
     {
-       // $y = $this->router->generate(
-           // 'create',
-           // array('slug' => '123')
-        //);
-        //var_dump($uuid);
-// $this->get('router')->generate('blog_show', array('slug' => 'my-blog-post'));
-        //$uuid1 = Uuid::uuid1();
-
-        //var_dump($uuid1->toString());
-        //$routescontroller = new RoutesController();
-        //$routescontroller->routes();
-        //var_dump($routescontroller);
+        $uuidAdmin = $this->uuid()->uuid;
+        $uuid = $this->uuid()->uuid;
         $giftlist = new GiftList();
-
-
-
-
-
 
         $form = $this->createForm(GiftListType::class, $giftlist);
         $form->handleRequest($request);
-//        /var_dump($form);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -103,12 +75,12 @@ class WishaGiftController extends Controller
             $entityManager->flush();
 
             $lastGiftListId = $giftlist->getId();
+            $lastUuidAdmin = $giftlist->getUuidAdmin();
 
 
 
-           /* $data = $request->request->all();
-//var_dump($data['gift_list']['Gift']);
-            $giftNames = $data['gift_list']['Gift'];
+          $data = $request->request->all();
+            $giftNames = $data['gift_list']['Gifts'];
             foreach ($giftNames as $key => $giftName) {
 
                 $gift = new Gift();
@@ -117,15 +89,16 @@ class WishaGiftController extends Controller
                 $gift->setGift($giftName);
                 $entityManager1->persist($gift);
                 $entityManager1->flush();
-            }*/
+            }
 
-           // return $this->redirectToRoute('publiclist');
+            return $this->redirectToRoute('giftlist-admin', array('uuidadmin' => $lastUuidAdmin));
         }
 
 
         return $this->render('create/index.html.twig',
             ['form' => $form->createView(),
-                'lastid' => 'update/'. $lastGiftListId
+                'uuid' => $uuid,
+                'uuidadmin' => $uuidAdmin
         ]
 
         );
@@ -142,13 +115,6 @@ class WishaGiftController extends Controller
             ->getRepository(GiftList::class)
             ->findBy(['public_list' => 1]);
 
-        //if (!$product) {
-          //  throw $this->createNotFoundException(
-               // 'No product found for id '.$id
-           // );
-        //}
-
-        //return new Response('Name: '.$giftlist->getFirstname());
         return $this->render('publiclist/index.html.twig',
             ['giftlist' => $giftlist]
         );

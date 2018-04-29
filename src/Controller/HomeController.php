@@ -14,13 +14,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
-    private $uuid;
-    public function __construct()
-    {
-        $uuid4 = Uuid::uuid4();
-        $this->uuid = $uuid4->toString();
+    //private $uuid;
+   // public function __construct()
+    //{
+    //    $uuid4 = Uuid::uuid4();
+    //    $this->uuid = $uuid4->toString();
 
-    }
+    //}
 
     /**
      * @Route("/", name="home")
@@ -30,7 +30,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
        // var_dump($this->uuid);
-        $giftlist = new GiftList();
+       /* $giftlist = new GiftList();
         $form = $this->createForm(GiftListType::class, $giftlist);
         $form->handleRequest($request);
 
@@ -51,14 +51,15 @@ class HomeController extends Controller
                     'uuid' => $this->uuid
                 ]
             );
-        }else {
+        }else { */
             return $this->render('home/index.html.twig',
-                ['form' => $form->createView(),
-                    'uuid' => $this->uuid
+                [
+                    //'form' => $form->createView(),
+                    'uuid' =>'jjj'
                 ]
 
             );
-        }
+       // }
     }
 
 }

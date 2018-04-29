@@ -58,7 +58,7 @@
 {% endblock %}
 
 {% block header %}
-  <div class="container-fluid">{{ lastid }}
+  <div class="container-fluid">
     <div class="row">
       <h1>Create a Wish List</h1>
     </div>
@@ -69,9 +69,9 @@
   <div class="container-fluid">
     <div id="identificationForm" class="identificationForm">
       {{ form_start(form, {
-        'action': lastid,
         'attr': {
-          'id': 'createForm'
+          'id': 'createForm',
+              'action': 'create'
         }})
       }}
       <div class="form-group row">
@@ -135,6 +135,20 @@
           <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add a Gift</button>
         </div>
       </div>
+        <div class="form-group">
+            {{ form_widget(form.Uuid, {
+                'attr': {
+                    'value': uuid
+                }})
+            }}
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.UuidAdmin, {
+                'attr': {
+                    'value': uuidadmin
+                }})
+            }}
+        </div>
 
       <div id="giftList"></div>
 
@@ -146,10 +160,6 @@
       }}
       {{ form_end(form) }}
     </div>
-
-    <button type="button" class="btn btn-secondary btn-md btn-block" data-toggle="modal" data-target="#modal">
-      Share with Friends
-    </button>
 
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
          aria-hidden="true">
@@ -181,6 +191,7 @@
             <div class="container-fluid">
               <div class="input-group mb-3">
                 <input type="text" class="form-control" name="uuid" value="{{ uuid }}"/>
+                  <input type="text" class="form-control" name="uuidadmin" value="{{ uuidadmin }}"/>
                 <div class="input-group-append">
                   <button type="button" class="btn btn-secondary" onclick="">Copy</button>
                 </div>
@@ -196,10 +207,6 @@
   <div class="footer">
     <div class="container-fluid">
     <div class="input-group mb-3">
-      <input type="text" class="form-control" name="adminLink" />
-      {#<div class="input-group-append">#}
-        {#<button type="button" class="btn btn-success" onclick="">Copy</button>#}
-      {#</div>#}
     </div>
     </div>
   </div>

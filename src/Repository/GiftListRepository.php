@@ -23,16 +23,17 @@ class GiftListRepository extends ServiceEntityRepository
 //     * @return GiftList[] Returns an array of GiftList objects
 //     */
 
-    public function findByExampleField($value)
+    public function findByUuidAdmin($value)
     {
+
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('g.uuidadmin = :uuidadmin')
+            ->setParameter('uuidadmin', $value)
             ->getQuery()
             ->getResult()
-        ;
+            ;
+
+        //var_dump($t);
     }
 
 
