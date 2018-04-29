@@ -48,13 +48,6 @@ class GiftListType extends AbstractType
             ->add('Gift', GiftType::class)
             ->add('Save', SubmitType::class);
 
-        //$builder
-        //  ->add('Gift', CollectionType::class, array(
-        //     'entry_type' => GiftType::class,
-        //     'entry_options' => array('label' => false),
-        //     'allow_add' => true
-        //  ));
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
