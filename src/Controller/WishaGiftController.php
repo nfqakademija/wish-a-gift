@@ -97,8 +97,7 @@ class WishaGiftController extends Controller
 
             return $this->redirectToRoute('giftlist-admin',
                 array(
-                    'uuidadmin' => $lastUuidAdmin,
-                    'error_gift' => $giftNames
+                    'uuidadmin' => $lastUuidAdmin
 
                 ));
         }
