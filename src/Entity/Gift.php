@@ -18,6 +18,7 @@ class Gift
 
     /**
      * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="App\Entity\GiftList", mappedBy="id")
      */
     private $userId;
 

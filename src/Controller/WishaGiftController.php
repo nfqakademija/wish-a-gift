@@ -34,6 +34,8 @@ class WishaGiftController extends Controller
             ->getRepository(GiftList::class)
             ->findByUuidAdmin($uuidadmin);
 
+        var_dump($getuuid);
+
         if (!$getuuid){
             return $this->redirectToRoute('home');
         }

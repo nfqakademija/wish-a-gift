@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\GiftList;
+use App\Entity\Gift;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -27,6 +28,8 @@ class GiftListRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('g')
+            ->innerJoin(Gift::class, 'gi', 'WITH', 'gi.userId = g.id')
+            ->select('gi', 'g')
             ->andWhere('g.uuidadmin = :uuidadmin')
             ->setParameter('uuidadmin', $value)
             ->getQuery()

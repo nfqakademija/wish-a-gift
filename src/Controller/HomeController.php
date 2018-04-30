@@ -21,10 +21,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
+
                  return $this->render('home/index.html.twig'
 
             );
-        }
+    }
 
 
 }

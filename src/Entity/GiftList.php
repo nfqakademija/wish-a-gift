@@ -14,6 +14,8 @@ class GiftList
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gift", inversedBy="userid")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $id;
     /**
