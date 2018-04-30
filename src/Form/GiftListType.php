@@ -33,7 +33,7 @@ class GiftListType extends AbstractType
                 ))
             ->add('Email', EmailType::class, array(
                 'required' => true,
-                'constraints' => array(new Email())
+                'constraints' => array(new Email(), new NotBlank())
             ))
             ->add('Title', TextType::class,
                 array(

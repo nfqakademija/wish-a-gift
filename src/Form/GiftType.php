@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class GiftType extends AbstractType
 {
@@ -15,7 +16,11 @@ class GiftType extends AbstractType
     {
         $builder
 
-            ->add('Gift', TextType::class);
+            ->add('Gift', TextType::class,
+                array(
+                    'required' => true,
+                    'constraints' => array(new NotBlank())
+                ));
 
     }
 

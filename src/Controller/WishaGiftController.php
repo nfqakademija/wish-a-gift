@@ -2,22 +2,16 @@
 namespace App\Controller;
 
 use App\Form\GiftListType;
-use App\Form\GiftType;
 use App\Entity\GiftList;
 use App\Entity\Gift;
-use App\Repository\GiftListRepository;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-//use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
-//use Ramsey\Uuid\Uuid;
 
 class WishaGiftController extends Controller
 {
-    //pr
     private $uuid;
 
     public function uuid()
@@ -34,7 +28,7 @@ class WishaGiftController extends Controller
      * @param string $uuidadmin
      * @return Response
      */
-    public function admin(string $uuidadmin)
+    public function admin( string $uuidadmin)
     {
         $getuuid =  $this->getDoctrine()
             ->getRepository(GiftList::class)
@@ -48,7 +42,6 @@ class WishaGiftController extends Controller
                 'uuidadmin' => $uuidadmin
 
             ));
-
     }
 
     /**
@@ -66,6 +59,9 @@ class WishaGiftController extends Controller
         $form = $this->createForm(GiftListType::class, $giftlist);
         $form->handleRequest($request);
 
+        ////$errors = $form->getErrors();
+        //var_dump($errors);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -77,10 +73,16 @@ class WishaGiftController extends Controller
             $lastGiftListId = $giftlist->getId();
             $lastUuidAdmin = $giftlist->getUuidAdmin();
 
-
-
-          $data = $request->request->all();
+            $data = $request->request->all();
             $giftNames = $data['gift_list']['Gifts'];
+           // $giftNames = '';
+           // if (!isset($giftNames) || empty($giftNames)) {
+             //   $giftNames = $data['gift_list']['Gift']['Gift'];
+           // }else {
+            //    $giftNames = "no gift";
+
+            //}
+
             foreach ($giftNames as $key => $giftName) {
 
                 $gift = new Gift();
@@ -91,7 +93,12 @@ class WishaGiftController extends Controller
                 $entityManager1->flush();
             }
 
-            return $this->redirectToRoute('giftlist-admin', array('uuidadmin' => $lastUuidAdmin));
+            return $this->redirectToRoute('giftlist-admin',
+                array(
+                    'uuidadmin' => $lastUuidAdmin,
+                    'error_gift' => $giftNames
+
+                ));
         }
 
 
@@ -101,34 +108,6 @@ class WishaGiftController extends Controller
                 'uuidadmin' => $uuidAdmin
         ]
 
-        );
-    }
-
-    /**
-     * @Route("/publiclist", name="publiclist")
-     * @param Request $request
-     * @return Response
-     */
-    public function publicList(Request $request)
-    {
-        $giftlist = $this->getDoctrine()
-            ->getRepository(GiftList::class)
-            ->findBy(['public_list' => 1]);
-
-        return $this->render('publiclist/index.html.twig',
-            ['giftlist' => $giftlist]
-        );
-    }
-
-    /**
-     * @Route("/giftlist", name="giftlist")
-     * @return Response
-     */
-    public function giftList()
-    {
-        var_dump('hh');
-        return $this->render('giftlist/index.html.twig',
-            ['giftlist' => 'jjj']
         );
     }
 }
