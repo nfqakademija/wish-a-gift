@@ -41,7 +41,7 @@ class WishaGiftController extends Controller
         }
         return $this->render('giftlistadmin/index.html.twig',
             array(
-                'uuidadmin' => $uuidadmin
+                'data' => $getuuid
 
             ));
     }
