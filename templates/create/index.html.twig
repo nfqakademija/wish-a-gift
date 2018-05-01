@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'form/form_errors.html.twig' %}
 
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 {% block stylesheets %}
@@ -38,7 +39,7 @@
               '</div>\n' +
               '</div>');
 
-          gift.val('').focus();
+          gift.val('.').focus();
       }
 
       function escapeHtml(string) {
@@ -73,10 +74,11 @@
                   'novalidate': 'novalidate'
             }})
           }}
-
+          {{ form_errors(form) }}
           <div class="row">
               {{ form_label(form.FirstName, 'Name:', {'for': 'name', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
               <div class="col">
+                  {{ form_errors(form.FirstName) }}
                 {{ form_widget(form.FirstName, {
                   'attr': {
                     'class': 'form-control',
@@ -89,6 +91,7 @@
           <div class="row">
             {{ form_label(form.Email, 'Email:', {'for': 'email', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
             <div class="col">
+                {{ form_errors(form.Email) }}
               {{ form_widget(form.Email, {
                 'attr': {
                   'class': 'form-control',
@@ -106,6 +109,7 @@
               'label_attr': {'class': 'col-sm-2 col-form-label'}})
             }}
             <div class="col">
+                {{ form_errors(form.Title) }}
               {{ form_widget(form.Title, {
                 'attr': {
                   'class': 'form-control',
@@ -122,6 +126,7 @@
               }})
             }}
             <div class="col">
+                {{ form_errors(form.Description) }}
             {{ form_widget(form.Description, {
               'attr': {
                 'class': 'form-control',
@@ -134,6 +139,7 @@
           <br />
 
           <div class="input-group mb-3">
+              {#{{ form_errors(form.Gift.Gift) }}#}
             {{ form_widget(form.Gift.Gift, {
               'attr': {
                 'class': 'form-control newGift',

@@ -2,11 +2,11 @@
 
 {% block title %}Homepage - {{ parent() }}{% endblock %}
 {% block stylesheets %}
-  {{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
-  {{ parent() }}
+    {{ parent() }}
 
     <script>
         $(document).ready(function () {
@@ -36,7 +36,7 @@
                 '</div>\n' +
                 '</div>');
 
-            gift.val('').focus();
+            // gift.val('').focus();
         }
 
         function escapeHtml(string) {
@@ -58,104 +58,127 @@
     <div class="welcome d-flex justify-content-center flex-column">
         <div class="row">
             <div class="col-sm-12">
-                <h1 class="welcome-heading display-4 text-white" style="text-align:center;">Create your Wishlist</h1>
+                <h1 class="welcome-heading display-4 text-white" style="text-align:center;">Giftlist</h1>
             </div>
         </div>
 
         <div class="container">
             <div class="col-md-12">
-                <form>
-                  {{ form_start(form, {
-                    'action': lastid,
-                    'attr': {
-                      'id': 'createForm'
-                    }})
-                  }}
+                <div class="row">
+                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
+                    <div class="col">
+                        {{ data.0.firstname }}
+                    </div>
+                </div>
 
-                    <div class="row">
-                      {{ form_label(form.FirstName, 'Name:', {'for': 'name', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
-                        <div class="col">
-                          {{ form_widget(form.FirstName, {
-                            'attr': {
-                              'class': 'form-control',
-                              'id': 'form1-name',
-                              'placeholder': 'Name'
-                            }} )
-                          }}
+                <div class="row">
+
+                    <label for="email" class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col">
+                        {{ data.0.email }}
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <label for="title" class="col-sm-2 col-form-label">Title:</label>
+                    <div class="col">
+                        {{ data.0.title }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label for="description" class="col-sm-2 col-form-label">Description:</label>
+                    <div class="col">
+                        {{ data.0.description }}
+                    </div>
+                </div>
+                <div class="row">
+                <label for="description" class="col-sm-2 col-form-label">Gift List:</label>
+                {% for user in data %}
+                    <div class="col">
+                    {{ user.Gift }}
+
+                </div>
+                {% endfor %}
+                </div>
+                <br />
+
+                {#<div class="input-group mb-3">#}
+                {#{{ form_widget(form.Gift.Gift, {#}
+                {#'attr': {#}
+                {#'class': 'form-control newGift',#}
+                {#'placeholder': 'Type in your wish here and press Add button'#}
+                {#}})#}
+                {#}}#}
+                {#<div class="input-group-append">#}
+                {#<button class="btn btn-primary addButton" id="addButton" type="button">Add a Gift</button>#}
+                {#</div>#}
+                {#</div>#}
+
+                <div id="giftList"></div>
+
+                <button type="submit" class="btn btn-lg btn-outline-white btn-pill btn-block saveButton">Edit</button>
+
+                {#modal trigger#}
+                <button type="button" class="btn btn-lg btn-outline-white btn-pill btn-block" data-toggle="modal" data-target="#modal">
+                    Share with Friends
+                </button>
+
+                {#modal#}
+                {% block modal %}
+                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content container-wishlist">
+
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="modalTitle">Title</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <textarea class="form-control" title="description" id="description" rows="3"></textarea>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input id="email" type="text" class="form-control" name="email"
+                                               placeholder="Type your friend's email here"/>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3" id="emailList"></div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="container-fluid">
+                                        <div class="input-group mb-3">
+                                            {#<input type="text" class="form-control" name="uuid" value="{{ uuid }}"/>#}
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-secondary" onclick="">Copy</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                      {{ form_label(form.Email, 'Email:', {'for': 'email', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
-                        <div class="col">
-                          {{ form_widget(form.Email, {
-                            'attr': {
-                              'class': 'form-control',
-                              'placeholder': 'Email',
-                              'aria-describedby': 'emailHelp'
-                            }})
-                          }}
+                    <div class="footer">
+                        <div class="container-fluid"><br>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="adminLink" value="{{ data.0.uuid }}"/>
+                                <div class="input-group-append">
+                                    {#<button type="button" class="btn btn-success" onclick="">Copy</button>#}
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <br />
+                {% endblock %}
 
-                    <div class="row">
-                      {{ form_label(form.Title, 'Title:', {
-                        'for': 'title',
-                        'label_attr': {'class': 'col-sm-2 col-form-label'}})
-                      }}
-                        <div class="col">
-                          {{ form_widget(form.Title, {
-                            'attr': {
-                              'class': 'form-control',
-                              'placeholder': 'Title'
-                            }})
-                          }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                      {{ form_label(form.Description, 'Description', {
-                        'for': 'description',
-                        'label_attr': {'class': 'col-sm-2 col-form-label'
-                        }})
-                      }}
-                        <div class="col">
-                          {{ form_widget(form.Description, {
-                            'attr': {
-                              'class': 'form-control',
-                              'row': '5',
-                              'placeholder': 'Type in few words in description'
-                            }})
-                          }}
-                        </div>
-                    </div>
-                    <br />
-
-                    <div class="input-group mb-3">
-                      {{ form_widget(form.Gift.Gift, {
-                        'attr': {
-                          'class': 'form-control newGift',
-                          'placeholder': 'Type in your wish here and press Add button'
-                        }})
-                      }}
-                        <div class="input-group-append">
-                            <button class="btn btn-primary addButton" id="addButton" type="button">Add a Gift</button>
-                        </div>
-                    </div>
-
-                    <div id="giftList"></div>
-
-                  {{ form_widget(form.Save, {
-                    'attr': {
-                      'type': 'submit',
-                      'class': 'btn btn-lg btn-outline-white btn-pill btn-block saveButton'
-                    }})
-                  }}
-
-                  {{ form_end(form) }}
-                </form>
             </div>
         </div>
-    </div>
 {% endblock %}

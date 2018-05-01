@@ -17,3 +17,17 @@
 .col-form-label {
   color: #ffff;
 }
+
+.col-form-label {
+  color: #ffff;
+}
+.container {
+   max-width: 800px;
+ }
+
+ul {
+    list-style: none;
+    &.error{
+      text-shadow: 0 0 4px #fff
+    }
+  }
