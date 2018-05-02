@@ -18,13 +18,14 @@ class Gift
 
     /**
      * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="App\Entity\GiftList", mappedBy="id")
      */
     private $userId;
 
     /**
-     * @ORM\Column(type="string", length=254)
+     * @ORM\Column(type="string", length=254, nullable=true)
      */
-    private $giftName;
+    private $gift;
 
     public function getId()
     {
@@ -43,14 +44,14 @@ class Gift
         return $this;
     }
 
-    public function getGiftName(): ?string
+    public function getGift(): ?string
     {
-        return $this->giftName;
+        return $this->gift;
     }
 
-    public function setGiftName(string $giftName): self
+    public function setGift(string $gift): self
     {
-        $this->giftName = $giftName;
+        $this->gift = $gift;
 
         return $this;
     }

@@ -1,61 +1,13 @@
-
-// the ~ allows you to reference things in node_modules
+//the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.css";
+//@import "~shards-ui/dist/css/shards";
+//@import "~shards-ui/src/extras/scss/shards-extras";
+//@import "~shards-ui/dist/css/shards-extras";
+//@import "~shards-ui/src/extras/scss/agency-landing";
+//@import "~bootstrap/scss/variables";
 
-@include media-breakpoint-up(xs) { }
-@include media-breakpoint-up(sm) {   }
-@include media-breakpoint-up(md) {   }
-@include media-breakpoint-up(lg) {   }
-@include media-breakpoint-up(xl) {   }
-
-/**
-Variables
- */
-
-  $green: #71dd8a;
-  $white: #ffffff;
-  $font-size: 1em;
-  $breakpoint-xs: 0;
-  $breakpoint-sm: 576px;
-  $breakpoint-md: 768px;
-  $breakpoint-lg: 992px;
-  $breakpoint-xl: 1200px;
-
-
-body {
-  margin: 20px;
-  padding: 10px;
-  background-color: $white;
-  //font-family: ;
-  font-size: $font-size;
-
-}
-
-h1 {
-    margin: auto;
-    font-family: 'Pacifico', cursive;
-  }
-
-.container-fluid {
-  margin: 20px;
-  padding: 20px;
-  background-color: $green;
-
-}
-
-//.addButton {
-//  margin-bottom: 10px;
-//}
-
-.saveButton {
-  margin-top: 55px;
-}
-
-.identificationForm {
-  margin-bottom: 55px;
-}
-
-#containerFluid {
-  margin: auto;
-  max-width: 768px;
+.shards-landing-page--1 {
+  // Welcome section
+  // Sets up the background cover image and the overlay gradient.
 }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\GiftList;
+use App\Entity\Gift;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -22,19 +23,22 @@ class GiftListRepository extends ServiceEntityRepository
 //    /**
 //     * @return GiftList[] Returns an array of GiftList objects
 //     */
-    /*
-    public function findByExampleField($value)
+
+    public function findByUuidAdmin($value)
     {
+
         return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('g.id', 'ASC')
-            ->setMaxResults(10)
+            ->innerJoin(Gift::class, 'gi', 'WITH', 'gi.userId = g.id')
+            ->select('gi', 'g')
+            ->andWhere('g.uuidadmin = :uuidadmin')
+            ->setParameter('uuidadmin', $value)
             ->getQuery()
             ->getResult()
-        ;
+            ;
+
+        //var_dump($t);
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?GiftList

@@ -1,0 +1,11 @@
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <ul class="error text-danger">
+                {% for error in errors %}
+                    <li><i class="fa fa-exclamation-circle mr-1"></i>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GiftListRepository")
+ * @ORM\Table(indexes={@ORM\Index(columns={"uuid", "uuidadmin"})})
  */
 class GiftList
 {
@@ -13,21 +14,17 @@ class GiftList
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Gift", inversedBy="userid")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $id;
-
     /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string", length=101, nullable=true)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string", length=101, nullable=true)
      */
     private $email;
     /**
@@ -38,15 +35,17 @@ class GiftList
      * @ORM\Column(type="string", length=100)
      */
     private $description;
+    /**
+     * @ORM\Column(type="string", length=254, unique=true)
+     */
+    private $uuid;
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $uuidadmin;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $gift;
-    /**
-     * @ORM\Column(type="integer", length=1)
-     */
-    private $public_list;
+    protected $gift;
+
 
     public function getId()
     {
@@ -61,18 +60,6 @@ class GiftList
     public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
 
         return $this;
     }
@@ -113,27 +100,37 @@ class GiftList
         return $this;
     }
 
-    public function getGift(): ?string
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getUuidAdmin(): ?string
+    {
+        return $this->uuidadmin;
+    }
+
+    public function setUuidAdmin(string $uuidadmin): self
+    {
+        $this->uuidadmin = $uuidadmin;
+
+        return $this;
+    }
+
+    public function getGift()
     {
         return $this->gift;
     }
 
-    public function setGift(string $gift): self
+    public function setGift(Gift $gift = null)
     {
-        $this->gift = $gift;
-
-        return $this;
-    }
-
-    public function getPublicList(): ?string
-    {
-        return $this->public_list;
-    }
-
-    public function setPublicList(string $public_list): self
-    {
-        $this->public_list = $public_list;
-
-        return $this;
+        $this->gift= $gift;
     }
 }
