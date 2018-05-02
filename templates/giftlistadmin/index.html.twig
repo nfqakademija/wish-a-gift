@@ -55,130 +55,131 @@
 {% endblock %}
 
 {% block body %}
-    <div class="welcome d-flex justify-content-center flex-column">
-        <div class="row">
-            <div class="col-sm-12">
-                <h1 class="welcome-heading display-4 text-white" style="text-align:center;">Giftlist</h1>
+    {{ include('navigation/navigation.html.twig') }}
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Giftlist</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Name</h4>#}
+                    <p class="text-muted">{{ data.0.firstname }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Email</h4>#}
+                    <p class="text-muted">{{ data.0.email }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      {#<i class="fa fa-lock fa-stack-1x fa-inverse"></i>#}
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Title</h4>#}
+                    <p class="text-muted">{{ data.0.title }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      {#<i class="fa fa-lock fa-stack-1x fa-inverse"></i>#}
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Description</h4>#}
+                    <p class="text-muted">{{ data.0.description }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Gifts</h4>#}
+                    <p class="text-muted">
+                        {% for user in data %}
+                            <div class="col">
+                                {{ user.Gift }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
+    <div id="giftList"></div>
+    <button type="submit" class="btn btn-lg btn-outline-white btn-pill btn-block saveButton">Edit</button>
+    <button type="button" class="btn btn-lg btn-outline-white btn-pill btn-block" data-toggle="modal" data-target="#modal">
+        Share with Friends
+    </button>
+    <div class="footer">
+        <div class="container-fluid"><br>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="adminLink" value="{{ httpHost }}/giftlist/{{ data.0.uuid }}"/>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-success" onclick="">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <div class="container">
-            <div class="col-md-12">
-                <div class="row">
-                    <label for="name" class="col-sm-2 col-form-label">Name:</label>
-                    <div class="col">
-                        {{ data.0.firstname }}
+    <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl"></div>
                     </div>
                 </div>
-
-                <div class="row">
-
-                    <label for="email" class="col-sm-2 col-form-label">Email:</label>
-                    <div class="col">
-                        {{ data.0.email }}
-                    </div>
-                </div>
-                <br />
-
-                <div class="row">
-                    <label for="title" class="col-sm-2 col-form-label">Title:</label>
-                    <div class="col">
-                        {{ data.0.title }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <label for="description" class="col-sm-2 col-form-label">Description:</label>
-                    <div class="col">
-                        {{ data.0.description }}
-                    </div>
-                </div>
-                <div class="row">
-                <label for="description" class="col-sm-2 col-form-label">Gift List:</label>
-                {% for user in data %}
-                    <div class="col">
-                    {{ user.Gift }}
-
-                </div>
-                {% endfor %}
-                </div>
-                <br />
-
-                {#<div class="input-group mb-3">#}
-                {#{{ form_widget(form.Gift.Gift, {#}
-                {#'attr': {#}
-                {#'class': 'form-control newGift',#}
-                {#'placeholder': 'Type in your wish here and press Add button'#}
-                {#}})#}
-                {#}}#}
-                {#<div class="input-group-append">#}
-                {#<button class="btn btn-primary addButton" id="addButton" type="button">Add a Gift</button>#}
-                {#</div>#}
-                {#</div>#}
-
-                <div id="giftList"></div>
-
-                <button type="submit" class="btn btn-lg btn-outline-white btn-pill btn-block saveButton">Edit</button>
-
-                {#modal trigger#}
-                <button type="button" class="btn btn-lg btn-outline-white btn-pill btn-block" data-toggle="modal" data-target="#modal">
-                    Share with Friends
-                </button>
-
-                {#modal#}
-                {% block modal %}
-                    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content container-wishlist">
-
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="modalTitle">Title</h3>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2 class="text-uppercase">Title</h2>
+                                <p class="item-intro text-muted"></p>
+                                <div class="form-group">
+                                    <textarea class="form-control" title="description" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="email" type="text" class="form-control" name="email" placeholder="Type your friend's email here"/>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="uuid" value=".." />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-secondary" onclick="">Copy</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                        <i class="fa fa-times"></i>
+                                        Send
                                     </button>
                                 </div>
-
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <textarea class="form-control" title="description" id="description" rows="3"></textarea>
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <input id="email" type="text" class="form-control" name="email"
-                                               placeholder="Type your friend's email here"/>
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
-                                        </div>
-                                    </div>
-                                    <div class="input-group mb-3" id="emailList"></div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <div class="container-fluid">
-                                        <div class="input-group mb-3">
-                                            {#<input type="text" class="form-control" name="uuid" value="{{ uuid }}"/>#}
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-secondary" onclick="">Copy</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
-
-                    <div class="footer">
-                        <div class="container-fluid"><br>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="adminLink" value="{{ data.0.uuid }}"/>
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-success" onclick="">Copy</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endblock %}
-
+                </div>
             </div>
         </div>
+    </div>
 {% endblock %}

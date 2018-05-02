@@ -28,20 +28,21 @@ class WishaGiftController extends Controller
      * @param string $uuidadmin
      * @return Response
      */
-    public function admin( string $uuidadmin)
+    public function admin(Request $request, string $uuidadmin)
     {
         $getuuid =  $this->getDoctrine()
             ->getRepository(GiftList::class)
             ->findByUuidAdmin($uuidadmin);
 
-        //var_dump($getuuid);
+        $httpHost = $request->getHttpHost();
 
         if (!$getuuid){
             return $this->redirectToRoute('home');
         }
         return $this->render('giftlistadmin/index.html.twig',
             array(
-                'data' => $getuuid
+                'data' => $getuuid,
+                'httpHost' => $httpHost
 
             ));
     }

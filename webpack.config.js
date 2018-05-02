@@ -16,6 +16,8 @@ Encore
     // .addEntry('js/app', './assets/js/addButton.js')
 
     .addStyleEntry('css/app', './assets/css/app.scss')
+    .addStyleEntry('scss/agency', './assets/scss/agency.scss')
+    .addStyleEntry('css/agency.min', './assets/css/agency.min.css')
 
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()

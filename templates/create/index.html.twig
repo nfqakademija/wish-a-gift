@@ -33,7 +33,7 @@
           giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
               `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
               '<div class="input-group-append">\n' +
-              `<button type="button" class="btn btn-danger deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
+              `<button type="button" class="btn btn-danger btn-xl deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
               `<i class="fas fa-times mr-2"></i>\n` +
               `</button>\n` +
               '</div>\n' +
@@ -58,122 +58,109 @@
 {% endblock %}
 
 {% block body %}
-  <div class="welcome d-flex justify-content-center flex-column">
-    <div class="row">
-      <div class="col-sm-12">
-        <h1 class="welcome-heading display-4 text-white" style="text-align:center;">Create your Gift List</h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="col-md-12">
-          {{ form_start(form, {
-            'attr': {
-              'id': 'createForm',
-                  'action': 'create',
-                  'novalidate': 'novalidate'
-            }})
-          }}
-          {{ form_errors(form) }}
-          <div class="row">
-              {{ form_label(form.FirstName, 'Name:', {'for': 'name', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
-              <div class="col">
-                  {{ form_errors(form.FirstName) }}
-                {{ form_widget(form.FirstName, {
-                  'attr': {
-                    'class': 'form-control',
-                    'placeholder': 'Name'
-                  }} )
-                }}
-              </div>
-          </div>
-
-          <div class="row">
-            {{ form_label(form.Email, 'Email:', {'for': 'email', 'label_attr': {'class': 'col-sm-2 col-form-label'}}) }}
-            <div class="col">
-                {{ form_errors(form.Email) }}
-              {{ form_widget(form.Email, {
-                'attr': {
-                  'class': 'form-control',
-                  'placeholder': 'Email',
-                  'aria-describedby': 'emailHelp'
-                }})
-              }}
+    {{ include('navigation/navigation.html.twig') }}
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Create your Gift List</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
             </div>
-          </div>
-          <br />
+            <div class="row">
+                <div class="col-lg-12">
+                    {#<form id="contactForm" name="sentMessage" novalidate>#}
+                        {{ form_start(form, {
+                            'attr': {
+                                'id': 'createForm',
+                                'action': 'create',
+                                'novalidate': 'novalidate'
+                            }})
+                        }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_widget(form.FirstName, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Your Name'
+                                        }} )
+                                    }}
+                                    <p class="help-block text-danger">{{ form_errors(form.FirstName) }}</p>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.Email, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Your Email'
+                                        }})
+                                    }}
+                                    <p class="help-block text-danger">{{ form_errors(form.Email) }}</p>
+                                </div>
+                                <div class="input-group">
+                                {#{{ form_errors(form.Gift.Gift) }}#}
+                                {{ form_widget(form.Gift.Gift, {
+                                    'attr': {
+                                        'class': 'form-control newGift',
+                                        'placeholder': 'Type Gift and press Add button'
+                                    }})
+                                }}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary btn-xl" id="addButton" type="button">
+                                            Add a Gift
+                                        </button>
+                                    </div>
+                                </div><br>
+                                <div class="form-group">
+                                    <div id="giftList"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_widget(form.Title, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Title'
+                                        }})
+                                    }}
+                                    <p class="help-block text-danger">{{ form_errors(form.Title) }}</p>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.Description, {
+                                        'attr': {
+                                            'class': 'form-control',
+                                            'placeholder': 'Description'
+                                        }})
+                                    }}
+                                    <p class="help-block text-danger">{{ form_errors(form.Description) }}</p>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.Save, {
+                                        'attr': {
+                                            'class': 'btn btn-primary  btn-block btn-xl text-uppercase'
+                                        }})
+                                    }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.Uuid, {
+                                    'attr': {
+                                        'value': uuid
+                                    }}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.UuidAdmin, {
+                                    'attr': {
+                                        'value': uuidadmin
+                                    }}) }}
+                            </div>
+                            </div>
+                            <div class="clearfix"></div>
 
-          <div class="row">
-            {{ form_label(form.Title, 'Title:', {
-              'for': 'title',
-              'label_attr': {'class': 'col-sm-2 col-form-label'}})
-            }}
-            <div class="col">
-                {{ form_errors(form.Title) }}
-              {{ form_widget(form.Title, {
-                'attr': {
-                  'class': 'form-control',
-                  'placeholder': 'Title'
-                }})
-              }}
+                        </div>
+                {{ form_end(form) }}
+
+                </div>
             </div>
-          </div>
-
-          <div class="row">
-            {{ form_label(form.Description, 'Description', {
-              'for': 'description',
-              'label_attr': {'class': 'col-sm-2 col-form-label'
-              }})
-            }}
-            <div class="col">
-                {{ form_errors(form.Description) }}
-            {{ form_widget(form.Description, {
-              'attr': {
-                'class': 'form-control',
-                'row': '5',
-                'placeholder': 'Type in few words in description'
-              }})
-            }}
-            </div>
-          </div>
-          <br />
-
-          <div class="input-group mb-3">
-              {#{{ form_errors(form.Gift.Gift) }}#}
-            {{ form_widget(form.Gift.Gift, {
-              'attr': {
-                'class': 'form-control newGift',
-                'placeholder': 'Type in your wish here and press Add button'
-              }})
-            }}
-            <div class="input-group-append">
-              <button class="btn btn-light addButton" id="addButton" type="button">Add a Gift</button>
-            </div>
-          </div>
-
-          <div class="form-group">
-              {{ form_widget(form.Uuid, {
-                  'attr': {
-                      'value': uuid
-                  }}) }}
-          </div>
-          <div class="form-group">
-              {{ form_widget(form.UuidAdmin, {
-                  'attr': {
-                      'value': uuidadmin
-                  }}) }}
-          </div>
-
-          <div id="giftList"></div>
-
-          {{ form_widget(form.Save, {
-            'attr': {
-              'class': 'btn btn-lg btn-outline-white btn-pill btn-block saveButton'
-            }})
-          }}
-
-          {{ form_end(form) }}
-      </div>
-    </div>
-  </div>
+    </section>
 {% endblock %}
