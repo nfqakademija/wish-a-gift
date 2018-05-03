@@ -1,3 +1,13 @@
-
-// the ~ allows you to reference things in node_modules
+//the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~font-awesome/css/font-awesome.css";
+//@import "~shards-ui/dist/css/shards";
+//@import "~shards-ui/src/extras/scss/shards-extras";
+//@import "~shards-ui/dist/css/shards-extras";
+//@import "~shards-ui/src/extras/scss/agency-landing";
+//@import "~bootstrap/scss/variables";
+
+.shards-landing-page--1 {
+  // Welcome section
+  // Sets up the background cover image and the overlay gradient.
+}

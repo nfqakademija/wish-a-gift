@@ -1,18 +1,26 @@
 {
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.17.0",
-        "bootstrap": "4.0.0",
-        "jquery": "3.2.1",
-        "node-sass": "^4.8.3",
-        "popper.js": "1.12.9",
-        "sass-loader": "^6.0.7"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production"
-    }
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.17.0",
+    "bootstrap": "4.0.0",
+    "jquery": "3.2.1",
+    "node-sass": "^4.8.3",
+    "popper.js": "1.12.9",
+    "sass-loader": "^6.0.7",
+    "shards-ui": "^2.0.2"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server --host symfony.local --port 9500",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BlackrockDigital/startbootstrap-agency.git"
+  }
 }

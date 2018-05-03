@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            console.log("All resources finished loading");
+
+            let counter = 0;
+            // add click handler for "Add" button
+            $('#addButton').click(function() {
+                addGift($('.newGift'), counter++, $('#giftList'));
+            });
+
+        });
+
+        function addGift(gift, counter, giftList) {
+            console.log(gift, giftList);
+
+            const giftVal = gift.val().trim();
+
+            if (!giftVal) {
+                return;
+            }
+
+            giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
+                `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
+                '<div class="input-group-append">\n' +
+                `<button type="button" class="btn btn-outline btn-secondary deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">x</button>\n` +
+                '</div>\n' +
+                '</div>');
+
+            // gift.val('').focus();
+        }
+
+        function escapeHtml(string) {
+            return (string.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;"));
+        }
+
+        function deleteGift(giftItem) {
+            giftItem.remove();
+        }
+
+    </script>
+{% endblock %}
+
+{% block body %}
+    {{ include('navigation/navigation.html.twig') }}
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading text-uppercase">Giftlist</h2>
+                    <h3 class="section-subheading text-muted"></h3>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-user fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Name</h4>#}
+                    <p class="text-muted">{{ data.0.firstname }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Email</h4>#}
+                    <p class="text-muted">{{ data.0.email }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      {#<i class="fa fa-lock fa-stack-1x fa-inverse"></i>#}
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Title</h4>#}
+                    <p class="text-muted">{{ data.0.title }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      {#<i class="fa fa-lock fa-stack-1x fa-inverse"></i>#}
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Description</h4>#}
+                    <p class="text-muted">{{ data.0.description }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <span class="d-inline-block fa-stack fa-4x">
+                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                      <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                    </span>
+                    <div class="d-inline-block">
+                    {#<h4 class="service-heading">Gifts</h4>#}
+                    <p class="text-muted">
+                        {% for user in data %}
+                            <div class="col">
+                                {{ user.Gift }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="giftList"></div>
+    <button type="submit" class="btn btn-lg btn-outline-white btn-pill btn-block saveButton">Edit</button>
+    <button type="button" class="btn btn-lg btn-outline-white btn-pill btn-block" data-toggle="modal" data-target="#modal">
+        Share with Friends
+    </button>
+    <div class="footer">
+        <div class="container-fluid"><br>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="adminLink" value="{{ httpHost }}/giftlist/{{ data.0.uuid }}"/>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-success" onclick="">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2 class="text-uppercase">Title</h2>
+                                <p class="item-intro text-muted"></p>
+                                <div class="form-group">
+                                    <textarea class="form-control" title="description" id="description" rows="3"></textarea>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input id="email" type="text" class="form-control" name="email" placeholder="Type your friend's email here"/>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
+                                    </div>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="uuid" value=".." />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-secondary" onclick="">Copy</button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                        <i class="fa fa-times"></i>
+                                        Send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

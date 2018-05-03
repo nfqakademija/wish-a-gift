@@ -1,26 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Homepage - {{ parent() }}{% endblock %}
-
 {% block stylesheets %}
-    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-    {{ parent() }}
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-weight: 100;
-            font-family: 'Lato';
-        }
-
-        .title {
-            margin: 20px auto;
-            text-align: center;
-            font-size: 96px;
-        }
-    </style>
+  {{ parent() }}
 {% endblock %}
 
+
 {% block body %}
-    <div class="title">NFQ Akademija</div>
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-heading text-uppercase">Wish A Gift</div>
+        <div class="intro-lead-in">Think of event. Create a Gift list. Share it with friends. And get awesome presents!</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{{ path('create') }}">Create a Gift List</a>
+
+      </div>
+    </div>
+  </header>
+{% endblock %}
+
+{% block footer %}
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Wish a gift 2018</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="#">
+                <i class="fa fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <i class="fa fa-facebook"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <i class="fa fa-linkedin"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        {#<div class="col-md-4">#}
+          {#<ul class="list-inline quicklinks">#}
+            {#<li class="list-inline-item">#}
+              {#<a href="#">Privacy Policy</a>#}
+            {#</li>#}
+            {#<li class="list-inline-item">#}
+              {#<a href="#">Terms of Use</a>#}
+            {#</li>#}
+          {#</ul>#}
+        {#</div>#}
+      </div>
+    </div>
+  </footer>
 {% endblock %}
