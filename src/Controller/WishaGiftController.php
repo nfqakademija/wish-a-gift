@@ -24,30 +24,6 @@ class WishaGiftController extends Controller
     }
 
     /**
-     * @Route("/giftlist/admin/{uuidadmin}", name="giftlist-admin")
-     * @param string $uuidadmin
-     * @return Response
-     */
-    public function admin(Request $request, string $uuidadmin)
-    {
-        $getuuid =  $this->getDoctrine()
-            ->getRepository(GiftList::class)
-            ->findByUuidAdmin($uuidadmin);
-
-        $httpHost = $request->getHttpHost();
-
-        if (!$getuuid){
-            return $this->redirectToRoute('home');
-        }
-        return $this->render('giftlistadmin/index.html.twig',
-            array(
-                'data' => $getuuid,
-                'httpHost' => $httpHost
-
-            ));
-    }
-
-    /**
      * @Route("/create", name="create")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
