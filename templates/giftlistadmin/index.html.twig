@@ -1,57 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage - {{ parent() }}{% endblock %}
+{% block title %}{{ parent() }}{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
-    <script>
-        $(document).ready(function () {
-            console.log("All resources finished loading");
-
-            let counter = 0;
-            // add click handler for "Add" button
-            $('#addButton').click(function() {
-                addGift($('.newGift'), counter++, $('#giftList'));
-            });
-
-        });
-
-        function addGift(gift, counter, giftList) {
-            console.log(gift, giftList);
-
-            const giftVal = gift.val().trim();
-
-            if (!giftVal) {
-                return;
-            }
-
-            giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
-                `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
-                '<div class="input-group-append">\n' +
-                `<button type="button" class="btn btn-outline btn-secondary deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">x</button>\n` +
-                '</div>\n' +
-                '</div>');
-
-            // gift.val('').focus();
-        }
-
-        function escapeHtml(string) {
-            return (string.replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;"));
-        }
-
-        function deleteGift(giftItem) {
-            giftItem.remove();
-        }
-
-    </script>
 {% endblock %}
 
 {% block body %}
@@ -131,7 +86,7 @@
     <div class="footer">
         <div class="container-fluid"><br>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name="adminLink" value="{{ httpHost }}/giftlist/{{ data.0.uuid }}"/>
+                <input class="form-control" name="adminLink" type="text" value="{{ httpHost }}/giftlist/{{ data.0.uuid }}"/>
                 <div class="input-group-append">
                     <button type="button" class="btn btn-success" onclick="">Copy</button>
                 </div>
