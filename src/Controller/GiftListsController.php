@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\GiftList;
+use App\Entity\Gift;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GiftListsController extends Controller
 {
+    public function uuidUser(string $uuiduser)
+    {
+        $getuuiduser =  $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findByUuidUser($uuiduser);
+//        var_dump($getuuiduser);
+        return $getuuiduser;
+    }
     /**
      * @Route("/giftlist/admin/{uuidadmin}", name="giftlist-admin")
      * @param Request $request
@@ -43,15 +52,13 @@ class GiftListsController extends Controller
      */
     public function user(Request $request, string $uuiduser)
     {
-        $getuuiduser =  $this->getDoctrine()
-            ->getRepository(GiftList::class)
-            ->findByUuidUser($uuiduser);
+        $getuuiduser = $this->uuidUser($uuiduser);
+        if(!$this->uuidUser($uuiduser)) {
+            return $this->redirectToRoute('home');
+        }
 
         $httpHostuser = $request->getHttpHost();
 
-        if (!$getuuiduser){
-            return $this->redirectToRoute('home');
-        }
         return $this->render('giftlist/user.html.twig',
             array(
                 'data' => $getuuiduser,
@@ -59,4 +66,33 @@ class GiftListsController extends Controller
 
             ));
     }
+
+    /**
+     * @Route("/giftlist/user/{uuiduser}/edit/{id}")
+     * @param $id
+     * @param $uuiduser
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function update($id, $uuiduser)
+    {
+        if(!$this->uuidUser($uuiduser)) {
+            return $this->redirectToRoute('home');
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $active = $entityManager->getRepository(Gift::class)->find($id);
+
+        if (!$active) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+        $active->setActive(0);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('product_show', [
+            //'id' => $active ->getId()
+        ]);
+    }
+
 }
