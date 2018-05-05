@@ -45,24 +45,24 @@
                     {#</div>#}
                     {#</div>#}
                     <div class="row">
-                        <div class="col-md-12">
-                            <span class="d-inline-block fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <div class="d-inline-block">
+                        {#<div class="col-md-12">#}
+                            {#<span class="d-inline-block fa-stack fa-4x">#}
+                                {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
+                                {#<i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>#}
+                            {#</span>#}
+                            {#<div class="d-inline-block">#}
                                 {#<h4 class="service-heading">Title</h4>#}
-                                <p class="text-muted">{{ data.0.title|capitalize }}</p>
-                            </div>
-                        </div>
+                                {#<p class="text-muted">{{ data.0.title|capitalize }}</p>#}
+                            {#</div>#}
+                        {#</div>#}
 
                         <div class="col-md-12">
                             <span class="d-inline-block fa-stack fa-4x">
                                 <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
                             </span>
-                            <div class="col-md-8 d-inline-flex align-top">
-                                {#<h4 class="service-heading">Description</h4>#}
+                            <div class="col-md-12">
+                                <h4 class="service-heading">{{ data.0.title|capitalize }}</h4>
                                 <p class="text-muted">{{ data.0.description }}</p>
                             </div>
                         </div>
