@@ -30,7 +30,7 @@ class GiftList
      */
     private $title;
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="text")
      */
     private $description;
     /**
