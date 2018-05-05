@@ -14,17 +14,15 @@ class GiftList
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gift", inversedBy="userid")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $id;
     /**
-     * @ORM\Column(type="string", length=101, nullable=true)
+     * @ORM\Column(type="string", length=101)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=101, nullable=true)
+     * @ORM\Column(type="string", length=101)
      */
     private $email;
     /**
@@ -36,11 +34,11 @@ class GiftList
      */
     private $description;
     /**
-     * @ORM\Column(type="string", length=254, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $uuid;
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $uuidadmin;
 

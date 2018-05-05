@@ -18,19 +18,44 @@ class GiftListsController extends Controller
      */
     public function admin(Request $request, string $uuidadmin)
     {
-        $getuuid =  $this->getDoctrine()
+        $getuuidadmin =  $this->getDoctrine()
             ->getRepository(GiftList::class)
             ->findByUuidAdmin($uuidadmin);
 
-        $httpHost = $request->getHttpHost();
+        $httpHostadmin = $request->getHttpHost();
 
-        if (!$getuuid){
+        if (!$getuuidadmin){
             return $this->redirectToRoute('home');
         }
-        return $this->render('giftlistadmin/index.html.twig',
+        return $this->render('giftlist/admin.html.twig',
             array(
-                'data' => $getuuid,
-                'httpHost' => $httpHost
+                'data' => $getuuidadmin,
+                'httpHost' => $httpHostadmin
+
+            ));
+    }
+
+    /**
+     * @Route("/giftlist/user/{uuiduser}", name="giftlist-user")
+     * @param Request $request
+     * @param string $uuiduser
+     * @return Response
+     */
+    public function user(Request $request, string $uuiduser)
+    {
+        $getuuiduser =  $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findByUuidUser($uuiduser);
+
+        $httpHostuser = $request->getHttpHost();
+
+        if (!$getuuiduser){
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('giftlist/user.html.twig',
+            array(
+                'data' => $getuuiduser,
+                'httpHost' => $httpHostuser
 
             ));
     }

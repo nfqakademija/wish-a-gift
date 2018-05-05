@@ -17,7 +17,8 @@
     "build": "encore production"
   },
   "dependencies": {
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "startbootstrap-agency": "^4.0.0-beta"
   },
   "repository": {
     "type": "git",

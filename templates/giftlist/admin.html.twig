@@ -84,56 +84,50 @@
         Share with Friends
     </button>
     <div class="footer">
-        <div class="container-fluid"><br>
-            <div class="input-group mb-3">
-                <input class="form-control" name="adminLink" type="text" value="{{ httpHost }}/giftlist/{{ data.0.uuid }}"/>
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-success" onclick="">Copy</button>
-                </div>
-            </div>
+        <div class="container-fluid">
+
         </div>
     </div>
 
     <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="close-modal" data-dismiss="modal">
                     <div class="lr">
                         <div class="rl"></div>
                     </div>
                 </div>
+                <section class="share">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
                             <div class="modal-body">
-                                <!-- Project Details Go Here -->
-                                <h2 class="text-uppercase">Title</h2>
+                                <h2 class="text-uppercase">Share With Friends</h2>
                                 <p class="item-intro text-muted"></p>
                                 <div class="form-group">
-                                    <textarea class="form-control" title="description" id="description" rows="3"></textarea>
+                                    <textarea class="form-control" title="description" id="description" rows="10"></textarea>
                                 </div>
+
                                 <div class="input-group mb-3">
-                                    <input id="email" type="text" class="form-control" name="email" placeholder="Type your friend's email here"/>
+                                    <input type="text" class="form-control" name="email" placeholder="Type your friend's email here."/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline btn-secondary addButton" id="addButton" type="button">Add Email</button>
+                                        <button class="btn btn-dark btn-xl btn-secondary" id="addButton" type="button">Add Email</button>
                                     </div>
                                 </div>
-                                <div class="container-fluid">
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="uuid" value=".." />
+                                        <input type="text" class="form-control" name="uuid" value="{{ httpHost }}/giftlist/user/{{ data.0.uuid }}"/>
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-secondary" onclick="">Copy</button>
+                                            <button type="button" class="btn btn-dark btn-xl btn-secondary" onclick="">Copy</button>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary" data-dismiss="modal" type="button">
-                                        <i class="fa fa-times"></i>
-                                        Send
-                                    </button>
+                                <div class="form-group">
+                                    <button id="sendMessageButton" class="btn btn-primary  btn-block btn-xl text-uppercase" type="submit">Send</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                </section>
             </div>
         </div>
     </div>

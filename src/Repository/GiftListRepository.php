@@ -39,6 +39,21 @@ class GiftListRepository extends ServiceEntityRepository
         //var_dump($t);
     }
 
+    public function findByUuidUser($value)
+    {
+
+        return $this->createQueryBuilder('g')
+            ->innerJoin(Gift::class, 'gi', 'WITH', 'gi.userId = g.id')
+            ->select('gi', 'g')
+            ->andWhere('g.uuid = :uuid')
+            ->setParameter('uuid', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+
+        //var_dump($t);
+    }
+
 
     /*
     public function findOneBySomeField($value): ?GiftList
