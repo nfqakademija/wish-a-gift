@@ -12,3 +12,8 @@
   // Welcome section
   // Sets up the background cover image and the overlay gradient.
 }
+@media(min-width:768px) {
+  section {
+    padding: 50px 0;
+  }
+}
