@@ -91,13 +91,13 @@
 
     <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog p-5">
-            <div class="modal-content p-0">
+            <div class="modal-content">
                 <div class="close-modal" data-dismiss="modal">
                     <div class="lr">
                         <div class="rl"></div>
                     </div>
                 </div>
-                <section class="contact">
+                {#<section class="contact">#}
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
@@ -111,23 +111,23 @@
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" name="email" placeholder="Type your friend's email here."/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-dark btn-xl btn-secondary" id="addButton" type="button">Add Email</button>
+                                        <button class="btn btn-xl bg-dark border-dark" id="addButton" type="button">Add Email</button>
                                     </div>
                                 </div>
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" name="uuid" value="{{ httpHost }}/giftlist/user/{{ data.0.uuid }}"/>
                                         <div class="input-group-append">
-                                            <button type="button" class="btn btn-dark btn-xl btn-secondary" onclick="">Copy</button>
+                                            <button type="button" class="btn btn-xl bg-dark border-dark" onclick="">Copy</button>
                                         </div>
                                     </div>
                                 <div class="form-group">
-                                    <button id="sendMessageButton" class="btn btn-primary  btn-block btn-xl text-uppercase" type="submit">Send</button>
+                                    <button id="sendMessageButton" class="btn btn-block btn-xl text-uppercase" type="submit">Send</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </section>
+                {#</section>#}
             </div>
         </div>
     </div>

@@ -33,7 +33,7 @@
           giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
               `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
               '<div class="input-group-append">\n' +
-              `<button type="button" class="btn btn-danger btn-xl deleteButton" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
+              `<button type="button" class="btn btn-xl bg-danger border-danger" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
               `<i class="fas fa-times mr-2"></i>\n` +
               `</button>\n` +
               '</div>\n' +
