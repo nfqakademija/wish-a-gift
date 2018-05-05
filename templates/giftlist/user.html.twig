@@ -11,40 +11,39 @@
 
 {% block body %}
     {{ include('navigation/navigation.html.twig') }}
+    <br><br><br><br>
     <section id="services">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">Giftlist</h2>
-                    <h3 class="section-subheading text-muted"></h3>
+                    <h2 class="section-heading text-uppercase">{{ data.0.firstname }} Gift List</h2>
+                    <h3 class="section-subheading text-muted">{{ data.0.email }}</h3>
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4 text-left">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="d-inline-block fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fa fa-user fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <div class="d-inline-block">
+                <div class="col-md-6 text-left">
+                    {#<div class="row">#}
+                        {#<div class="col-md-12">#}
+                            {#<span class="d-inline-block fa-stack fa-4x">#}
+                                {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
+                                {#<i class="fa fa-user fa-stack-1x fa-inverse"></i>#}
+                            {#</span>#}
+                            {#<div class="d-inline-block">#}
                                 {#<h4 class="service-heading">Name</h4>#}
-                                <p class="text-muted">{{ data.0.firstname }}</p>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <span class="d-inline-block fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <div class="d-inline-block">
+                                {#<p class="text-muted">{{ data.0.firstname }}</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                        {#<div class="col-md-12">#}
+                            {#<span class="d-inline-block fa-stack fa-4x">#}
+                                {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
+                                {#<i class="fa fa-envelope fa-stack-1x fa-inverse"></i>#}
+                            {#</span>#}
+                            {#<div class="d-inline-block">#}
                                 {#<h4 class="service-heading">Email</h4>#}
-                                <p class="text-muted">{{ data.0.email }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 text-left">
+                                {#<p class="text-muted">{{ data.0.email }}</p>#}
+                            {#</div>#}
+                        {#</div>#}
+                    {#</div>#}
                     <div class="row">
                         <div class="col-md-12">
                             <span class="d-inline-block fa-stack fa-4x">
@@ -53,7 +52,7 @@
                             </span>
                             <div class="d-inline-block">
                                 {#<h4 class="service-heading">Title</h4>#}
-                                <p class="text-muted">{{ data.0.title }}</p>
+                                <p class="text-muted">{{ data.0.title|capitalize }}</p>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -61,27 +60,33 @@
                                 <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
                             </span>
-                            <div class="d-inline-block">
+                            <div class="col-md-8 d-inline-flex align-top">
                                 {#<h4 class="service-heading">Description</h4>#}
                                 <p class="text-muted">{{ data.0.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6">
                 {% for user in data %}
                     {% if user.Gift is not null %}
-                    <div class="col-lg-12 text-left">
-                        <span class="d-inline-block fa-stack fa-4x">
+                    <div class="col-md-12 d-inline-block">
+
+                        <div class="float-left fa-stack fa-4x">
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                             <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
-                        </span>
+                        </div>
                         <div class="d-inline-block">
                             {#<h4 class="service-heading">Gifts</h4>#}
-                            <p class="text-muted">{{ user.Gift }}</p>
+                            <p class="text-muted">{{ user.Gift|capitalize }}</p>
+                        </div>
+                        <div class="float-right">
+                            <button id="active" class="btn btn-xl bg-dark border-dark" type="submit" value="{{ user.id }}">order</button>
                         </div>
                     </div>
                     {% endif %}
                 {% endfor %}
+                </div>
             </div>
         </div>
     </section>
