@@ -16,8 +16,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">{{ data.0.firstname }} Gift List</h2>
-                    <h3 class="section-subheading text-muted">{{ data.0.email }}</h3>
+                    <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
+                    <h3 class="section-subheading text-muted">{{ data.email }}</h3>
                 </div>
             </div>
             <div class="row text-center">
@@ -64,15 +64,14 @@
                             {#<h4 class="service-heading">{{ data.0.title|capitalize }}</h4>#}
                             {#</div>#}
                             <div class="col-md-12">
-                                <h4 class="service-heading">{{ data.0.title|capitalize }}</h4>
-                                <p class="text-muted">{{ data.0.description }}</p>
+                                <h4 class="service-heading">{{ data.title|capitalize }}</h4>
+                                <p class="text-muted">{{ data.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                {% for user in data %}
-                    {% if user.Gift is not null %}
+                {% for gift in data.gifts %}
                     <div class="col-md-12 d-inline-block">
 
                         <div class="float-left fa-stack fa-4x">
@@ -81,13 +80,12 @@
                         </div>
                         <div class="d-inline-block">
                             {#<h4 class="service-heading">Gifts</h4>#}
-                            <p class="text-muted">{{ user.Gift|capitalize }}</p>
+                            <p class="text-muted">{{ gift.gift|capitalize }}</p>
                         </div>
                         <div class="float-right">
-                            <button id="active" class="btn btn-xl bg-dark border-dark" type="submit" value="{{ user.id }}">order</button>
+                            <button id="active" class="btn btn-xl bg-dark border-dark" type="submit" value="{{ gift.id }}">reserve</button>
                         </div>
                     </div>
-                    {% endif %}
                 {% endfor %}
                 </div>
             </div>

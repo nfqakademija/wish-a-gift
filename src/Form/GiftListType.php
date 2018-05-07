@@ -45,7 +45,11 @@ class GiftListType extends AbstractType
                     'required' => true,
                     'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
-            ->add('Gift', GiftType::class)
+            ->add('Gifts', CollectionType::class, [
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => GiftType::class,
+                'prototype' => GiftType::class])
             ->add('Save', SubmitType::class);
 
     }

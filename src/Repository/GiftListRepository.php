@@ -27,15 +27,17 @@ class GiftListRepository extends ServiceEntityRepository
     public function findByUuidAdmin($value)
     {
 
-        return $this->createQueryBuilder('g')
-            ->innerJoin(Gift::class, 'gi', 'WITH', 'gi.userId = g.id')
-            ->select('gi', 'g')
-            ->andWhere('g.uuidadmin = :uuidadmin')
+        return $this->findOneBy(['uuidadmin' => $value]);
+
+        return $this->createQueryBuilder('gl')
+            ->select('gl.uuid')
+            ->from('App:GiftList', 'gl')
+            ->innerJoin('gl.gifts', 'gifts')
+            ->andWhere('gl.uuidadmin = :uuidadmin')
             ->setParameter('uuidadmin', $value)
             ->getQuery()
-            ->getResult()
+            ->getFirstResult()
             ;
-
         //var_dump($t);
     }
 

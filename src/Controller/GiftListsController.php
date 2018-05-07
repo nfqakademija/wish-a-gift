@@ -13,12 +13,13 @@ class GiftListsController extends Controller
 {
     public function uuidUser(string $uuiduser)
     {
-        $getuuiduser =  $this->getDoctrine()
+        $getuuiduser = $this->getDoctrine()
             ->getRepository(GiftList::class)
-            ->findByUuidUser($uuiduser);
+            ->findOneBy(['uuid' => $uuiduser]);
 //        var_dump($getuuiduser);
         return $getuuiduser;
     }
+
     /**
      * @Route("/giftlist/admin/{uuidadmin}", name="giftlist-admin")
      * @param Request $request
@@ -27,33 +28,33 @@ class GiftListsController extends Controller
      */
     public function admin(Request $request, string $uuidadmin)
     {
-        $getuuidadmin =  $this->getDoctrine()
+        $giftListEntity = $this->getDoctrine()
             ->getRepository(GiftList::class)
             ->findByUuidAdmin($uuidadmin);
 
         $httpHostadmin = $request->getHttpHost();
 
-        if (!$getuuidadmin){
+        if (!$giftListEntity) {
             return $this->redirectToRoute('home');
         }
         return $this->render('giftlist/admin.html.twig',
             array(
-                'data' => $getuuidadmin,
+                'data' => $giftListEntity,
                 'httpHost' => $httpHostadmin
-
             ));
     }
 
     /**
-     * @Route("/giftlist/user/{uuiduser}", name="giftlist-user")
+     * @Route("/giftlist/{uuiduser}", name="giftlist-user")
      * @param Request $request
      * @param string $uuiduser
      * @return Response
      */
     public function user(Request $request, string $uuiduser)
     {
-        $getuuiduser = $this->uuidUser($uuiduser);
-        if(!$this->uuidUser($uuiduser)) {
+        $giftListEntity = $this->uuidUser($uuiduser);
+        if (!$giftListEntity) {
+            $this->addFlash('danger', 'Wishlist does not exist! Please, check the URL and try again, if you believe in yourself.');
             return $this->redirectToRoute('home');
         }
 
@@ -61,7 +62,7 @@ class GiftListsController extends Controller
 
         return $this->render('giftlist/user.html.twig',
             array(
-                'data' => $getuuiduser,
+                'data' => $giftListEntity,
                 'httpHost' => $httpHostuser
 
             ));
@@ -75,16 +76,20 @@ class GiftListsController extends Controller
      */
     public function update($id, $uuiduser)
     {
-        if(!$this->uuidUser($uuiduser)) {
+        if (!$this->uuidUser($uuiduser)) {
             return $this->redirectToRoute('home');
         }
+
+        $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findOneBy(['uuid' => $uuiduser]);
 
         $entityManager = $this->getDoctrine()->getManager();
         $active = $entityManager->getRepository(Gift::class)->find($id);
 
         if (!$active) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No product found for id ' . $id
             );
         }
         $active->setActive(0);

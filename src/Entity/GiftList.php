@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GiftListRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"uuid", "uuidadmin"})})
+ * @ORM\Table(name="gift_list", indexes={@ORM\Index(columns={"uuid", "uuidadmin"})})
  */
 class GiftList
 {
@@ -42,7 +43,17 @@ class GiftList
      */
     private $uuidadmin;
 
-    protected $gift;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList")
+     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
+     */
+    protected $gifts;
+
+
+    public function __construct()
+    {
+        $this->gifts = new ArrayCollection();
+    }
 
 
     public function getId()
@@ -122,13 +133,18 @@ class GiftList
         return $this;
     }
 
-    public function getGift()
+    public function getGifts()
     {
-        return $this->gift;
+        return $this->gifts;
     }
 
-    public function setGift(Gift $gift = null)
+    public function setGifts($gifts): void
     {
-        $this->gift= $gift;
+        $this->gifts = $gifts;
     }
+
+
+
+
+
 }

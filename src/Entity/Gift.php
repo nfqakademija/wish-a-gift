@@ -31,6 +31,13 @@ class Gift
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GiftList", inversedBy="gifts")
+     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
+     */
+    protected $giftList;
+
+
     public function getId()
     {
         return $this->id;
@@ -68,6 +75,25 @@ class Gift
     public function setActive(int $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGiftListId()
+    {
+        return $this->giftListId;
+    }
+
+    /**
+     * @param mixed $giftListId
+     * @return self
+     */
+    public function setGiftListId($giftListId): self
+    {
+        $this->giftListId = $giftListId;
 
         return $this;
     }

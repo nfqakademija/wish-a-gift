@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="input-group">
                                 {#{{ form_errors(form.Gift.Gift) }}#}
-                                {{ form_widget(form.Gift.Gift, {
+                                {{ form_widget(form.Gifts, {
                                     'attr': {
                                         'class': 'form-control newGift',
                                         'placeholder': 'Type Gift and press Add button'
@@ -111,9 +111,7 @@
                                         </button>
                                     </div>
                                 </div><br>
-                                <div class="form-group">
-                                    <div id="giftList"></div>
-                                </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
