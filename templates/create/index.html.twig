@@ -10,155 +10,225 @@
   {{ parent() }}
 
   <script>
-      $(document).ready(function () {
-          console.log("All resources finished loading");
+      // $(document).ready(function () {
+      //     console.log("All resources finished loading");
 
-          let counter = 0;
-          // add click handler for "Add" button
-          $('#addButton').click(function() {
-              addGift($('.newGift'), counter++, $('#giftList'));
-          });
+          // setup an "add a tag" link
+          // let $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+          // let $newLinkLi = $('<li></li>').append($addTagLink);
+          //
+          // jQuery(document).ready(function() {
+          //     // Get the ul that holds the collection of tags
+          //     let $collectionHolder = $('ul.tags');
+          //
+          //     // add the "add a tag" anchor and li to the tags ul
+          //     $collectionHolder.append($newLinkLi);
+          //
+          //     // count the current form inputs we have (e.g. 2), use that as the new
+          //     // index when inserting a new item (e.g. 2)
+          //     $collectionHolder.data('index', $collectionHolder.find(':input').length);
+          //
+          //     $addTagLink.on('click', function(e) {
+          //         // prevent the link from creating a "#" on the URL
+          //         e.preventDefault();
+          //
+          //         // add a new tag form (see code block below)
+          //         addTagForm($collectionHolder, $newLinkLi);
+          //     });
+          //
+          //
+          // });
+          //
+          // function addTagForm($collectionHolder, $newLinkLi) {
+          //     // Get the data-prototype explained earlier
+          //     let prototype = $collectionHolder.data('prototype');
+          //
+          //     // get the new index
+          //     let index = $collectionHolder.data('index');
+          //
+          //     // Replace '$$name$$' in the prototype's HTML to
+          //     // instead be a number based on how many items we have
+          //     let newForm = prototype.replace(/__name__/g, index);
+          //
+          //     // increase the index with one for the next item
+          //     $collectionHolder.data('index', index + 1);
+          //
+          //     // Display the form in the page in an li, before the "Add a tag" link li
+          //     let $newFormLi = $('<div></div>').append(newForm);
+          //
+          //     // also add a remove button, just for this example
+          //     $newFormLi.append('<a href="#" class="remove-tag">x</a>');
+          //
+          //     $newLinkLi.before($newFormLi);
+          //
+          //     // handle the removal, just for this example
+          //     $('.remove-tag').click(function(e) {
+          //         e.preventDefault();
+          //
+          //         $(this).parent().remove();
+          //
+          //         return false;
+          //     });
+          //
 
-      });
 
-      function addGift(gift, counter, giftList) {
-          console.log(gift, giftList);
 
-          const giftVal = gift.val().trim();
 
-          if (!giftVal) {
-              return;
-          }
 
-          giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
-              `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
-              '<div class="input-group-append">\n' +
-              `<button type="button" class="btn btn-xl bg-danger border-danger" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
-              `<i class="fas fa-times mr-2"></i>\n` +
-              `</button>\n` +
-              '</div>\n' +
-              '</div>');
 
-          gift.val('.').focus();
-      }
 
-      function escapeHtml(string) {
-          return (string.replace(/&/g, "&amp;")
-              .replace(/</g, "&lt;")
-              .replace(/>/g, "&gt;")
-              .replace(/"/g, "&quot;")
-              .replace(/'/g, "&#039;"));
-      }
 
-      function deleteGift(giftItem) {
-          giftItem.remove();
-      }
+
+
+
+
+
+
+      //     let counter = 0;
+      //     // add click handler for "Add" button
+      //     $('#addButton').click(function () {
+      //         addGift($('.newGift'), counter++, $('#giftList'));
+      //     });
+      //
+      // });
+      //
+      // function addGift(gift, counter, giftList) {
+      //     console.log(gift, giftList);
+      //
+      //     const giftVal = gift.val().trim();
+      //
+      //     if (!giftVal) {
+      //         return;
+      //     }
+      //
+      //     giftList = giftList.append(`<div class="input-group mb-3" id="giftItem${counter}">\n` +
+      //         `<input type="text" class="form-control" name="gift_list[Gifts][]" readonly value="${escapeHtml(giftVal)}" />\n` +
+      //         '<div class="input-group-append">\n' +
+      //         `<button type="button" class="btn btn-xl bg-danger border-danger" id="deleteButton" onclick="deleteGift($('#giftItem${counter}'))">\n` +
+      //         `<i class="fas fa-times mr-2"></i>\n` +
+      //         `</button>\n` +
+      //         '</div>\n' +
+      //         '</div>');
+      //
+      //     gift.val('.').focus();
+      // }
+      //
+      // function escapeHtml(string) {
+      //     return (string.replace(/&/g, "&amp;")
+      //         .replace(/</g, "&lt;")
+      //         .replace(/>/g, "&gt;")
+      //         .replace(/"/g, "&quot;")
+      //         .replace(/'/g, "&#039;"));
+      // }
+      //
+      // function deleteGift(giftItem) {
+      //     giftItem.remove();
+      // }
 
   </script>
 {% endblock %}
 
 {% block body %}
-    {{ include('navigation/navigation.html.twig') }}
-    <section id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">Create your Gift List</h2>
-                    <h3 class="section-subheading text-muted"></h3>
+  {{ include('navigation/navigation.html.twig') }}
+  <section id="contact">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Create your Gift List</h2>
+          <h3 class="section-subheading text-muted"></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          {#<form id="contactForm" name="sentMessage" novalidate>#}
+          {{ form_start(form, {
+            'attr': {
+              'id': 'createForm',
+              'action': 'create',
+              'novalidate': 'novalidate'
+            }}) }}
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                {{ form_widget(form.firstname, {
+                  'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Your Name'
+                  }} ) }}
+                <p class="help-block text-danger">{{ form_errors(form.firstname) }}</p>
+              </div>
+              <div class="form-group">
+                {{ form_widget(form.email, {
+                  'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Your Email'
+                  }}) }}
+                <p class="help-block text-danger">{{ form_errors(form.email) }}</p>
+              </div>
+              <div class="input-group">
+                {##}
+                {#{% for gift in form.Gifts %}#}
+                  {#<div>{{ form_row(gift.name) }}</div>#}
+                {#{% endfor %}#}
+
+                {{ form_widget(form.gifts, {
+                  'attr': {
+                    'class': 'form-control newGift',
+                    'placeholder': 'Type Gift and press Add button',
+                    'value': 'Gift'
+                  }}) }}
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-xl" id="addButton" type="button">
+                    Add a Gift
+                  </button>
                 </div>
+              </div>
+              <br>
+
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    {#<form id="contactForm" name="sentMessage" novalidate>#}
-                        {{ form_start(form, {
-                            'attr': {
-                                'id': 'createForm',
-                                'action': 'create',
-                                'novalidate': 'novalidate'
-                            }})
-                        }}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {{ form_widget(form.FirstName, {
-                                        'attr': {
-                                            'class': 'form-control',
-                                            'placeholder': 'Your Name'
-                                        }} )
-                                    }}
-                                    <p class="help-block text-danger">{{ form_errors(form.FirstName) }}</p>
-                                </div>
-                                <div class="form-group">
-                                    {{ form_widget(form.Email, {
-                                        'attr': {
-                                            'class': 'form-control',
-                                            'placeholder': 'Your Email'
-                                        }})
-                                    }}
-                                    <p class="help-block text-danger">{{ form_errors(form.Email) }}</p>
-                                </div>
-                                <div class="input-group">
-                                {#{{ form_errors(form.Gift.Gift) }}#}
-                                {{ form_widget(form.Gifts, {
-                                    'attr': {
-                                        'class': 'form-control newGift',
-                                        'placeholder': 'Type Gift and press Add button'
-                                    }})
-                                }}
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary btn-xl" id="addButton" type="button">
-                                            Add a Gift
-                                        </button>
-                                    </div>
-                                </div><br>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    {{ form_widget(form.Title, {
-                                        'attr': {
-                                            'class': 'form-control',
-                                            'placeholder': 'Title'
-                                        }})
-                                    }}
-                                    <p class="help-block text-danger">{{ form_errors(form.Title) }}</p>
-                                </div>
-                                <div class="form-group">
-                                    {{ form_widget(form.Description, {
-                                        'attr': {
-                                            'class': 'form-control',
-                                            'placeholder': 'Description'
-                                        }})
-                                    }}
-                                    <p class="help-block text-danger">{{ form_errors(form.Description) }}</p>
-                                </div>
-                                <div class="form-group">
-                                    {{ form_widget(form.Save, {
-                                        'attr': {
-                                            'class': 'btn btn-primary  btn-block btn-xl text-uppercase'
-                                        }})
-                                    }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form.Uuid, {
-                                    'attr': {
-                                        'value': uuid
-                                    }}) }}
-                            </div>
-                            <div class="form-group">
-                                {{ form_widget(form.UuidAdmin, {
-                                    'attr': {
-                                        'value': uuidadmin
-                                    }}) }}
-                            </div>
-                            </div>
-                            <div class="clearfix"></div>
-
-                        </div>
-                {{ form_end(form) }}
-
-                </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                {{ form_widget(form.title, {
+                  'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Title'
+                  }}) }}
+                <p class="help-block text-danger">{{ form_errors(form.title) }}</p>
+              </div>
+              <div class="form-group">
+                {{ form_widget(form.description, {
+                  'attr': {
+                    'class': 'form-control',
+                    'placeholder': 'Description'
+                  }}) }}
+                <p class="help-block text-danger">{{ form_errors(form.description) }}</p>
+              </div>
+              <div class="form-group">
+                {{ form_widget(form.Save, {
+                  'attr': {
+                    'class': 'btn btn-primary  btn-block btn-xl text-uppercase'
+                  }}) }}
+              </div>
             </div>
-    </section>
+            {#<div class="form-group">#}
+              {#{{ form_widget(form.uuid, {#}
+                {#'attr': {#}
+                  {#'value': uuid#}
+                {#}}) }}#}
+            {#</div>#}
+            {#<div class="form-group">#}
+              {#{{ form_widget(form.UuidAdmin, {#}
+                {#'attr': {#}
+                  {#'value': uuidadmin#}
+                {#}}) }}#}
+            {#</div>#}
+          </div>
+          <div class="clearfix"></div>
+
+        </div>
+        {{ form_end(form) }}
+
+      </div>
+    </div>
+  </section>
 {% endblock %}

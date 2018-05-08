@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Gift;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +17,12 @@ class GiftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Gift', TextType::class,
+            ->add('title', TextType::class,
+                array(
+                    'required' => true,
+                    'constraints' => array(new NotBlank())
+                ))
+            ->add('description', TextareaType::class,
                 array(
                     'required' => true,
                     'constraints' => array(new NotBlank())
@@ -28,7 +34,7 @@ class GiftType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Gift::class,
-            "allow_extra_fields" => true
+//            "allow_extra_fields" => true
         ));
     }
 }

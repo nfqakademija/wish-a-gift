@@ -14,15 +14,6 @@ class WishaGiftController extends Controller
 {
     private $uuid;
 
-    public function uuid()
-    {
-
-        $uuid4 = Uuid::uuid4();
-        $this->uuid = $uuid4->toString();
-
-        return $this;
-    }
-
     /**
      * @Route("/create", name="create")
      * @param Request $request
@@ -31,8 +22,6 @@ class WishaGiftController extends Controller
 
     public function create(Request $request)
     {
-        $uuidAdmin = $this->uuid()->uuid;
-        $uuid = $this->uuid()->uuid;
         $giftlist = new GiftList();
 
         $form = $this->createForm(GiftListType::class, $giftlist);
@@ -45,45 +34,48 @@ class WishaGiftController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
 
+
+            $giftlist->setUuid(Uuid::uuid4()->toString());
+            $giftlist->setUuidAdmin(Uuid::uuid4()->toString());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftlist);
             $entityManager->flush();
+//
+//            $lastGiftListId = $giftlist->getId();
+//            $lastUuidAdmin = $giftlist->getUuidAdmin();
 
-            $lastGiftListId = $giftlist->getId();
-            $lastUuidAdmin = $giftlist->getUuidAdmin();
+//            $data = $request->request->all();
+//            $giftNames = $data['gift_list']['Gifts'];
+//            $giftNames = '';
+//            if (!isset($giftNames) || empty($giftNames)) {
+//                $giftNames = $data['gift_list']['Gift']['Gift'];
+//            }else {
+//                $giftNames = "no gift";
+//
+//            }
 
-            $data = $request->request->all();
-            $giftNames = $data['gift_list']['Gifts'];
-           // $giftNames = '';
-           // if (!isset($giftNames) || empty($giftNames)) {
-             //   $giftNames = $data['gift_list']['Gift']['Gift'];
-           // }else {
-            //    $giftNames = "no gift";
-
-            //}
-
-            foreach ($giftNames as $key => $giftName) {
-
-                $gift = new Gift();
-                $entityManager1 = $this->getDoctrine()->getManager();
-                $gift->setUserId($lastGiftListId);
-                $gift->setGift($giftName);
-                $entityManager1->persist($gift);
-                $entityManager1->flush();
-            }
+//            foreach ($giftNames as $key => $giftName) {
+//
+//                $gift = new Gift();
+//                $entityManager1 = $this->getDoctrine()->getManager();
+//                $gift->setUserId($lastGiftListId);
+//                $gift->setGift($giftName);
+//                $entityManager1->persist($gift);
+//                $entityManager1->flush();
+//            }
 
             return $this->redirectToRoute('giftlist-admin',
                 array(
-                    'uuidadmin' => $lastUuidAdmin
-
+                    'uuidadmin' => $giftlist->getUuidAdmin(),
                 ));
         }
 
 
         return $this->render('create/index.html.twig',
             ['form' => $form->createView(),
-                'uuid' => $uuid,
-                'uuidadmin' => $uuidAdmin
+//                'uuid' => $uuid,
+//                'uuidadmin' => $uuidAdmin
         ]
 
         );

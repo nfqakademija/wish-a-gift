@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GiftListRepository")
- * @ORM\Table(name="gift_list", indexes={@ORM\Index(columns={"uuid", "uuidadmin"})})
+ * @ORM\Table(name="gift_list")
  */
 class GiftList
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="GUID")
+     * @ORM\Column(type="guid")
      */
     private $id;
     /**
@@ -35,23 +35,29 @@ class GiftList
      */
     private $description;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $uuid;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $uuidadmin;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList")
-     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
+//     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
      */
     protected $gifts;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime();
         $this->gifts = new ArrayCollection();
     }
 
@@ -133,18 +139,22 @@ class GiftList
         return $this;
     }
 
-    public function getGifts()
+    public function getGifts(): ArrayCollection
     {
         return $this->gifts;
     }
 
-    public function setGifts($gifts): void
+    public function addGift(Gift $gift): void
     {
-        $this->gifts = $gifts;
+        if (!$this->gifts->contains($gift)) {
+            $this->gifts->add($gift);
+        }
     }
 
-
-
-
-
+    public function removeGift(Gift $gift): void
+    {
+        if ($this->gifts->contains($gift)) {
+            $this->gifts->removeElement($gift);
+        }
+    }
 }

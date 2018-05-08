@@ -11,8 +11,8 @@ class Gift
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="GUID")
+     * @ORM\Column(type="guid")
      */
     private $id;
 
@@ -22,21 +22,40 @@ class Gift
     private $userId;
 
     /**
-     * @ORM\Column(type="string", length=254)
+     * @ORM\Column(type="string")
      */
-    private $gift;
+    private $title;
 
     /**
-     * @ORM\Column(type="smallint", options={"default" : 1})
+     * @ORM\Column(type="string")
      */
-    private $active;
+    private $description;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $reservedAt;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $reservationToken;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GiftList", inversedBy="gifts")
-     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id", nullable=false)
      */
-    protected $giftList;
+    private $giftListId;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId()
     {

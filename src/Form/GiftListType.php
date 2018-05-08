@@ -24,28 +24,28 @@ class GiftListType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Uuid', HiddenType::class)
-            ->add('UuidAdmin', HiddenType::class)
-            ->add('FirstName', TextType::class,
+//            ->add('uuid', TextType::class, ['disabled' => true])
+//            ->add('uuidAdmin', HiddenType::class)
+            ->add('firstname', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new NotBlank())
+                    'constraints' => array(new NotBlank(), new Length(['max' => 100]))
                 ))
-            ->add('Email', EmailType::class, array(
+            ->add('email', EmailType::class, array(
                 'required' => true,
                 'constraints' => array(new Email(), new NotBlank())
             ))
-            ->add('Title', TextType::class,
+            ->add('title', TextType::class,
                 array(
                 'required' => true,
                 'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
-            ->add('Description', TextareaType::class,
+            ->add('description', TextareaType::class,
                 array(
                     'required' => true,
                     'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
-            ->add('Gifts', CollectionType::class, [
+            ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => GiftType::class,
@@ -58,7 +58,7 @@ class GiftListType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => GiftList::class,
-            "allow_extra_fields" => true
+//            "allow_extra_fields" => true
         ));
     }
 }

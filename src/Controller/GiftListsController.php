@@ -32,15 +32,13 @@ class GiftListsController extends Controller
             ->getRepository(GiftList::class)
             ->findByUuidAdmin($uuidadmin);
 
-        $httpHostadmin = $request->getHttpHost();
-
         if (!$giftListEntity) {
-            return $this->redirectToRoute('home');
+            throw $this->createNotFoundException();
+//            return $this->redirectToRoute('home');
         }
         return $this->render('giftlist/admin.html.twig',
             array(
                 'data' => $giftListEntity,
-                'httpHost' => $httpHostadmin
             ));
     }
 
@@ -63,7 +61,7 @@ class GiftListsController extends Controller
         return $this->render('giftlist/user.html.twig',
             array(
                 'data' => $giftListEntity,
-                'httpHost' => $httpHostuser
+//                'httpHost' => $httpHostuser
 
             ));
     }

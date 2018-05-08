@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="uuid" value="{{ httpHost }}/giftlist/user/{{ data.uuid }}"/>
+                                        <input type="text" class="form-control" name="uuid" value="{{ path('giftlist-user', ['uuiduser' => data.uuid], true) }} "/>
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-xl bg-dark border-dark" onclick="">Copy</button>
                                         </div>
