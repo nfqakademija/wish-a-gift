@@ -12,72 +12,77 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WishaGiftController extends Controller
 {
-    private $uuid;
-
     /**
      * @Route("/create", name="create")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-
     public function create(Request $request)
     {
-        $giftlist = new GiftList();
+        // build the form
+        $giftList = new GiftList();
+        $form = $this->createForm(GiftListType::class);
 
-        $form = $this->createForm(GiftListType::class, $giftlist);
+        // handle the submit (will only happen on POST)
         $form->handleRequest($request);
-
-        ////$errors = $form->getErrors();
-        //var_dump($errors);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $giftList = $form->getData();
+            $giftList->setUuid(Uuid::uuid4()->toString());
+            $giftList->setUuidAdmin(Uuid::uuid4()->toString());
 
-
-
-            $giftlist->setUuid(Uuid::uuid4()->toString());
-            $giftlist->setUuidAdmin(Uuid::uuid4()->toString());
-
+        // save data
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($giftlist);
+            $entityManager->persist($giftList);
             $entityManager->flush();
-//
-//            $lastGiftListId = $giftlist->getId();
-//            $lastUuidAdmin = $giftlist->getUuidAdmin();
-
-//            $data = $request->request->all();
-//            $giftNames = $data['gift_list']['Gifts'];
-//            $giftNames = '';
-//            if (!isset($giftNames) || empty($giftNames)) {
-//                $giftNames = $data['gift_list']['Gift']['Gift'];
-//            }else {
-//                $giftNames = "no gift";
-//
-//            }
-
-//            foreach ($giftNames as $key => $giftName) {
-//
-//                $gift = new Gift();
-//                $entityManager1 = $this->getDoctrine()->getManager();
-//                $gift->setUserId($lastGiftListId);
-//                $gift->setGift($giftName);
-//                $entityManager1->persist($gift);
-//                $entityManager1->flush();
-//            }
 
             return $this->redirectToRoute('giftlist-admin',
                 array(
-                    'uuidadmin' => $giftlist->getUuidAdmin(),
+                    'uuidadmin' => $giftList->getUuidAdmin(),
                 ));
         }
 
-
         return $this->render('create/index.html.twig',
             ['form' => $form->createView(),
-//                'uuid' => $uuid,
-//                'uuidadmin' => $uuidAdmin
-        ]
+            ]
+        );
+    }
 
+    /**
+     * @Route("/edit/{uuidadmin}", name="edit")
+     * @param Request $request
+     * @param string $uuidadmin
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function edit(Request $request, string $uuidadmin)
+    {
+
+        $giftListEntity = $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findOneBy(['uuidAdmin' => $uuidadmin]);
+
+        // build the form
+        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => false]); // TODO: allow only if not reservedAt flags are set in gifts collection
+
+        // handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $giftListEntity = $form->getData();
+            $giftListEntity->setUuid(Uuid::uuid4()->toString());
+            $giftListEntity->setUuidAdmin(Uuid::uuid4()->toString());
+
+        // save data
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($giftListEntity);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('giftlist-admin',
+                array(
+                    'uuidadmin' => $giftListEntity->getUuidAdmin(),
+                ));
+        }
+
+        return $this->render('create/index.html.twig',
+            ['form' => $form->createView()]
         );
     }
 }

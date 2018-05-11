@@ -13,11 +13,11 @@ class GiftListsController extends Controller
 {
     public function uuidUser(string $uuiduser)
     {
-        $getuuiduser = $this->getDoctrine()
+        $getUuidUser = $this->getDoctrine()
             ->getRepository(GiftList::class)
             ->findOneBy(['uuid' => $uuiduser]);
-//        var_dump($getuuiduser);
-        return $getuuiduser;
+//        var_dump($getUuidUser);
+        return $getUuidUser;
     }
 
     /**
@@ -30,7 +30,7 @@ class GiftListsController extends Controller
     {
         $giftListEntity = $this->getDoctrine()
             ->getRepository(GiftList::class)
-            ->findByUuidAdmin($uuidadmin);
+            ->findOneBy(['uuidAdmin' => $uuidadmin]);
 
         if (!$giftListEntity) {
             throw $this->createNotFoundException();
@@ -52,7 +52,7 @@ class GiftListsController extends Controller
     {
         $giftListEntity = $this->uuidUser($uuiduser);
         if (!$giftListEntity) {
-            $this->addFlash('danger', 'Wishlist does not exist! Please, check the URL and try again, if you believe in yourself.');
+            $this->addFlash('danger', 'Wishlist does not exist! Please, check the URL and try again, if you believe the URL has a valid format.');
             return $this->redirectToRoute('home');
         }
 
