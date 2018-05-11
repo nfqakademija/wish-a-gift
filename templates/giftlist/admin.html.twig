@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="d-inline-block">
                                     {#<h4 class="service-heading">Gifts</h4>#}
-                                    <p class="text-muted">{{ gift.gift|capitalize }}</p>
+                                    <p class="text-muted">{{ gift.title|capitalize }}</p>
                                 </div>
                             </div>
                         {% endif %}
@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="uuid" value="{{ path('giftlist-user', ['uuiduser' => data.uuid], true) }} "/>
+                                        <input type="text" class="form-control" name="uuid" value="{{ path('giftlist-user', {'uuiduser': data.uuid}, true) }} "/>
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-xl bg-dark border-dark" onclick="">Copy</button>
                                         </div>

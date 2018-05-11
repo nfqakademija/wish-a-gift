@@ -1,19 +1,36 @@
 //the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
-@import "~font-awesome/scss/font-awesome";
-@import "~startbootstrap-agency/scss/agency";
-//@import "~shards-ui/dist/css/shards";
-//@import "~shards-ui/src/extras/scss/shards-extras";
-//@import "~shards-ui/dist/css/shards-extras";
-//@import "~shards-ui/src/extras/scss/agency-landing";
-//@import "~bootstrap/scss/variables";
+/*@import "~font-awesome/scss/font-awesome";*/
 
-.shards-landing-page--1 {
-  // Welcome section
-  // Sets up the background cover image and the overlay gradient.
+
+//media query breakpoints
+/* Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+
+}*/
+
+// Medium devices (tablets, 768px and up)
+/*@media (min-width: 768px) {
+  padding: 50px 0;
+}*/
+
+/* Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
 }
-@media(min-width:768px) {
-  section {
-    padding: 50px 0;
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}*/
+
+//styles for page errors
+ul {
+  list-style-type: none;
+}
+
+ul {
+  &.gifts, &.error {
+    padding: 0;
   }
 }
