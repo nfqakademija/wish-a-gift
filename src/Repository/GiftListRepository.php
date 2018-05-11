@@ -20,27 +20,6 @@ class GiftListRepository extends ServiceEntityRepository
         parent::__construct($registry, GiftList::class);
     }
 
-//    /**
-//     * @return GiftList[] Returns an array of GiftList objects
-//     */
-
-    public function findByUuidAdmin($value)
-    {
-
-        return $this->findOneBy(['uuidadmin' => $value]);
-
-        return $this->createQueryBuilder('gl')
-            ->select('gl.uuid')
-            ->from('App:GiftList', 'gl')
-            ->innerJoin('gl.gifts', 'gifts')
-            ->andWhere('gl.uuidadmin = :uuidadmin')
-            ->setParameter('uuidadmin', $value)
-            ->getQuery()
-            ->getFirstResult()
-            ;
-        //var_dump($t);
-    }
-
     public function findByUuidUser($value)
     {
 

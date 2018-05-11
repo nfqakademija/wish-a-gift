@@ -20,12 +20,12 @@ class GiftType extends AbstractType
             ->add('title', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new NotBlank())
-                ))
-            ->add('description', TextareaType::class,
-                array(
-                    'required' => true,
-                    'constraints' => array(new NotBlank())
+                    'constraints' => array(new NotBlank()),
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Enter gift...',
+                        'class' => 'form-control'
+                    ]
                 ));
 
     }

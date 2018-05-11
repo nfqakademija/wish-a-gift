@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\GiftList;
 use App\Entity\Gift;
+use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,7 +27,7 @@ class GiftListType extends AbstractType
         $builder
 //            ->add('uuid', TextType::class, ['disabled' => true])
 //            ->add('uuidAdmin', HiddenType::class)
-            ->add('firstname', TextType::class,
+            ->add('firstName', TextType::class,
                 array(
                     'required' => true,
                     'constraints' => array(new NotBlank(), new Length(['max' => 100]))
@@ -37,8 +38,8 @@ class GiftListType extends AbstractType
             ))
             ->add('title', TextType::class,
                 array(
-                'required' => true,
-                'constraints' => array(new Length(array('min' => 3)), new NotBlank())
+                    'required' => true,
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
             ->add('description', TextareaType::class,
                 array(
@@ -48,8 +49,19 @@ class GiftListType extends AbstractType
             ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
+                // each entry in the array will be a "gift" field
                 'entry_type' => GiftType::class,
-                'prototype' => GiftType::class])
+                // manage a collection of similar items in a form
+                'entry_options' => array(
+                    'attr' => ['class' => 'form-group'],
+                    ),
+                // allows to define specific data for the prototype
+                //https://symfony.com/doc/current/reference/forms/types/collection.html#prototype-data
+                'prototype' => true,
+                'delete_empty' => true,
+                'disabled' => !$options['allow_gift_editing'],
+//                'prototype_data' => 'New Tag Placeholder'
+            ])
             ->add('Save', SubmitType::class);
 
     }
@@ -58,6 +70,7 @@ class GiftListType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => GiftList::class,
+            'allow_gift_editing' => true,
 //            "allow_extra_fields" => true
         ));
     }
