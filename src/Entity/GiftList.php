@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,41 +14,45 @@ class GiftList
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="GUID")
+     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="guid")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=101)
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=101)
      */
     private $email;
+
     /**
      * @ORM\Column(type="string", length=200)
      */
     private $title;
+
     /**
      * @ORM\Column(type="text")
      */
     private $description;
+
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $uuid;
+
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $uuidadmin;
+    private $uuidAdmin;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList")
-//     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"})
      */
-    protected $gifts;
+    private $gifts;
 
     /**
      * @ORM\Column(type="datetime")
@@ -61,20 +66,19 @@ class GiftList
         $this->gifts = new ArrayCollection();
     }
 
-
     public function getId()
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -129,17 +133,17 @@ class GiftList
 
     public function getUuidAdmin(): ?string
     {
-        return $this->uuidadmin;
+        return $this->uuidAdmin;
     }
 
-    public function setUuidAdmin(string $uuidadmin): self
+    public function setUuidAdmin(string $uuidAdmin): self
     {
-        $this->uuidadmin = $uuidadmin;
+        $this->uuidAdmin = $uuidAdmin;
 
         return $this;
     }
 
-    public function getGifts(): ArrayCollection
+    public function getGifts(): Collection
     {
         return $this->gifts;
     }
@@ -148,6 +152,7 @@ class GiftList
     {
         if (!$this->gifts->contains($gift)) {
             $this->gifts->add($gift);
+            $gift->setGiftList($this);
         }
     }
 
@@ -155,6 +160,7 @@ class GiftList
     {
         if ($this->gifts->contains($gift)) {
             $this->gifts->removeElement($gift);
+            $gift->setGiftList(null);
         }
     }
 }

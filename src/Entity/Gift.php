@@ -11,13 +11,13 @@ class Gift
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="GUID")
+     * @ORM\GeneratedValue(strategy="UUID")
      * @ORM\Column(type="guid")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $userId;
 
@@ -25,11 +25,6 @@ class Gift
      * @ORM\Column(type="string")
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $description;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -50,7 +45,22 @@ class Gift
      * @ORM\ManyToOne(targetEntity="App\Entity\GiftList", inversedBy="gifts")
      * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id", nullable=false)
      */
-    private $giftListId;
+    private $giftList;
+
+    /**
+     * @return mixed
+     */
+    public function getGiftList()
+    {
+        return $this->giftList;
+    }
+
+    public function setGiftList(GiftList $giftList): self
+    {
+        $this->giftList = $giftList;
+
+        return $this;
+    }
 
     public function __construct()
     {
@@ -74,46 +84,78 @@ class Gift
         return $this;
     }
 
-    public function getGift(): ?string
+    /**
+     * @return mixed
+     */
+    public function getTitle()
     {
-        return $this->gift;
+        return $this->title;
     }
 
-    public function setGift(string $gift): self
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
     {
-        $this->gift = $gift;
-
-        return $this;
-    }
-
-    public function getActive(): ?int
-    {
-        return $this->active;
-    }
-
-    public function setActive(int $active): self
-    {
-        $this->active = $active;
-
-        return $this;
+        $this->title = $title;
     }
 
     /**
      * @return mixed
      */
-    public function getGiftListId()
+    public function getReservedAt()
     {
-        return $this->giftListId;
+        return $this->reservedAt;
     }
 
     /**
-     * @param mixed $giftListId
-     * @return self
+     * @param mixed $reservedAt
      */
-    public function setGiftListId($giftListId): self
+    public function setReservedAt($reservedAt): void
     {
-        $this->giftListId = $giftListId;
-
-        return $this;
+        $this->reservedAt = $reservedAt;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getReservationToken()
+    {
+        return $this->reservationToken;
+    }
+
+    /**
+     * @param mixed $reservationToken
+     */
+    public function setReservationToken($reservationToken): void
+    {
+        $this->reservationToken = $reservationToken;
+    }
+
+
+//    public function getGift(): ?string
+//    {
+//        return $this->gift;
+//    }
+//
+//    public function setGift(string $gift): self
+//    {
+//        $this->gift = $gift;
+//
+//        return $this;
+//    }
+//
+//    public function getActive(): ?int
+//    {
+//        return $this->active;
+//    }
+//
+//    public function setActive(int $active): self
+//    {
+//        $this->active = $active;
+//
+//        return $this;
+//    }
+
+
 }
