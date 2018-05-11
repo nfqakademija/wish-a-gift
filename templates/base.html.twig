@@ -11,6 +11,7 @@
     {#<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>#}
     {#<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>#}
     <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/css/startbootstrap-agency.css') }}">
     {#<link rel="stylesheet" href="{{ asset('build/scss/agency.css') }}">#}
   {% endblock %}
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -19,8 +20,9 @@
 </head>
 
 <body id="page-top">
-
 {% block header %}{% endblock %}
+
+{# add flash message to all pages#}
 {% for label, messages in app.flashes %}
   {% for message in messages %}
     <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
@@ -31,6 +33,7 @@
     </div>
   {% endfor %}
 {% endfor %}
+
 {% block body %}{% endblock %}
 {% block footer %}{% endblock %}
 
