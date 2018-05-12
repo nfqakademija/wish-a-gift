@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Form\GiftListType;
@@ -21,7 +22,8 @@ class WishaGiftController extends Controller
     {
         // build the form
         $giftList = new GiftList();
-        $form = $this->createForm(GiftListType::class);
+        $giftList->addGift(new Gift());
+        $form = $this->createForm(GiftListType::class, $giftList);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
@@ -30,7 +32,7 @@ class WishaGiftController extends Controller
             $giftList->setUuid(Uuid::uuid4()->toString());
             $giftList->setUuidAdmin(Uuid::uuid4()->toString());
 
-        // save data
+            // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
@@ -70,7 +72,7 @@ class WishaGiftController extends Controller
             $giftListEntity->setUuid(Uuid::uuid4()->toString());
             $giftListEntity->setUuidAdmin(Uuid::uuid4()->toString());
 
-        // save data
+            // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
