@@ -31,7 +31,9 @@
 
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
-        let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, ''));
+        let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name') ?
+          $collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, '') : 0
+        );
 
         $collectionHolder.data('index', ++lastIndex);
 
@@ -221,16 +223,6 @@
                         </li>
                     </ul>
                 </div>
-                {#<div class="col-md-4">#}
-                {#<ul class="list-inline quicklinks">#}
-                {#<li class="list-inline-item">#}
-                {#<a href="#">Privacy Policy</a>#}
-                {#</li>#}
-                {#<li class="list-inline-item">#}
-                {#<a href="#">Terms of Use</a>#}
-                {#</li>#}
-                {#</ul>#}
-                {#</div>#}
             </div>
         </div>
     </footer>
