@@ -7,6 +7,69 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+      $(document).ready(function () {
+        console.log("All resources finished loading");
+
+        let counter = 0;
+        // add click handler to "Add" button
+        $('#addButton').click(function () {
+          addEmail($('.newEmail'), counter++, $('#emailList'));
+        });
+
+
+        function addEmail(emailItem, counter, emailList) {
+          // console.log(emailItem, counter, emailList);
+          console.log(emailList, counter);
+
+          const emailVal = emailItem.val().trim();
+
+          if (!emailVal) {
+            return;
+          }
+
+          $('div#emailList').append(`<div class="input-group mb-3" id="emailItem${counter}">\n` +
+            `<input type="text" class="form-control" value="${escapeHtml(emailVal)}" />\n` +
+            '<div class="input-group-append">\n' +
+            `<button type="button" class="btn btn-xl bg-danger border-danger" id="deleteButton${counter}">\n` +
+            '<i class="fa fa-times mr-2"></i>\n' +
+            '</button>\n' +
+            '</div>\n' +
+            '</div>');
+
+          console.log(`emailItem${counter}`);
+
+          emailItem.val('').focus();
+
+          $(`#deleteButton${counter}`).click(function() {
+            $(`#emailItem${counter}`).remove();
+          });
+
+        }
+
+        function escapeHtml(string) {
+          return (string.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;"));
+        }
+        
+        // deleteEmail = function deleteEmail(emailItem) {
+        //   emailItem.remove($('#emailItem${counter}'));
+        // };
+        
+        $('#copyToClipboard').click(function() {
+          let copyLink = document.getElementById("link");
+          copyLink.select();
+          document.execCommand("copy");
+          alert("You just copied the link to the clipboard!");
+        })
+
+      })
+
+    </script>
+
 {% endblock %}
 
 {% block body %}
@@ -22,49 +85,20 @@
             </div>
             <div class="row text-center">
                 <div class="col-md-6 text-left">
-                    {#<div class="row">#}
-                    {#<div class="col-md-12">#}
-                    {#<span class="d-inline-block fa-stack fa-4x">#}
-                    {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
-                    {#<i class="fa fa-user fa-stack-1x fa-inverse"></i>#}
-                    {#</span>#}
-                    {#<div class="d-inline-block">#}
-                    {#<h4 class="service-heading">Name</h4>#}
-                    {#<p class="text-muted">{{ data.0.firstname }}</p>#}
-                    {#</div>#}
-                    {#</div>#}
-                    {#<div class="col-md-12">#}
-                    {#<span class="d-inline-block fa-stack fa-4x">#}
-                    {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
-                    {#<i class="fa fa-envelope fa-stack-1x fa-inverse"></i>#}
-                    {#</span>#}
-                    {#<div class="d-inline-block">#}
-                    {#<h4 class="service-heading">Email</h4>#}
-                    {#<p class="text-muted">{{ data.0.email }}</p>#}
-                    {#</div>#}
-                    {#</div>#}
-                    {#</div>#}
                     <div class="row">
-                        {#<div class="col-md-12">#}
-                            {#<span class="d-inline-block fa-stack fa-4x">#}
-                                {#<i class="fa fa-circle fa-stack-2x text-primary"></i>#}
-                                {#<i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>#}
-                            {#</span>#}
-                            {#<div class="d-inline-block">#}
-                                {#<h4 class="service-heading">Title</h4>#}
-                                {#<p class="text-muted">{{ data.0.title|capitalize }}</p>#}
-                            {#</div>#}
-                        {#</div>#}
-
                         <div class="col-md-12">
-                            <span class="d-inline-block fa-stack fa-4x">
-                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
-                            </span>
-                            <div class="col-md-12">
-                                <h4 class="service-heading">{{ data.title|capitalize }}</h4>
-                                <p class="text-muted">{{ data.description }}</p>
+                            <div class="d-inline-block">
+                <span class="d-inline-block fa-stack fa-4x">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
+                </span>
                             </div>
+                            <div class="d-inline-block text-center data-title">
+                                <h4 class="service-heading">{{ data.title|capitalize }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <p class="text-muted">{{ data.description }}</p>
                         </div>
                     </div>
                 </div>
@@ -72,7 +106,6 @@
                     {% for gift in data.gifts %}
                         {% if gift is not null %}
                             <div class="col-md-12">
-
                                 <div class="d-inline-block fa-stack fa-4x">
                                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                     <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
@@ -88,7 +121,9 @@
             </div>
             <div class="col-lg-12 text-center">
                 <button type="submit" class="btn btn-block btn-xl bg-dark border-dark text-uppercase">Edit</button>
-                <button type="button" class="btn btn-block btn-xl text-uppercase" data-toggle="modal" data-target="#modal">
+                {# Modal Trigger #}
+                <button type="button" class="btn btn-block btn-xl text-uppercase" data-toggle="modal"
+                        data-target="#modal">
                     Share with Friends
                 </button>
             </div>
@@ -100,45 +135,60 @@
         </div>
     </div>
 
+    {# Modal #}
     <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog p-5">
             <div class="modal-content">
-                <div class="close-modal" data-dismiss="modal">
-                    <div class="lr">
-                        <div class="rl"></div>
-                    </div>
-                </div>
-                {#<section class="contact">#}
+                <button type="button" class="btn btn-light close-modal" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
+
                             <div class="modal-body">
                                 <h2 class="text-uppercase">Share With Friends</h2>
                                 <p class="item-intro text-muted"></p>
                                 <div class="form-group">
-                                    <textarea class="form-control" title="description" id="description" rows="10"></textarea>
+                                    {#<textarea class="form-control" title="description" id="description"#}
+                                              {#rows="10">{{ data.description }}</textarea>#}
+                                    {#<p class="text-muted">{{ data.description }}</p>#}
                                 </div>
 
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name="email" placeholder="Type your friend's email here."/>
+                                <div class="input-group mb-3 modal-input">
+                                    <input type="text" class="form-control newEmail"
+                                           placeholder="Type your friend's email here."/>
                                     <div class="input-group-append">
-                                        <button class="btn btn-xl bg-dark border-dark" id="addButton" type="button">Add Email</button>
+                                        <button class="btn btn-xl bg-dark border-dark" id="addButton" type="button">Add
+                                            Email
+                                        </button>
                                     </div>
                                 </div>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" name="uuid" value="{{ path('giftlist-user', {'uuiduser': data.uuid}, true) }} "/>
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-xl bg-dark border-dark" onclick="">Copy</button>
-                                        </div>
+                                <div class="input-group mb-3" id="emailList"></div>
+
+
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="uuid" id="link"
+                                           value="{{ url('giftlist-user', {'uuiduser': data.uuid}) }}"/>
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-xl bg-dark border-dark"
+                                                id="copyToClipboard">Copy
+                                        </button>
                                     </div>
+                                </div>
+                                {#onclick="copyToClipboard('#link')"#}
                                 <div class="form-group">
-                                    <button id="sendMessageButton" class="btn btn-block btn-xl text-uppercase" type="submit">Send</button>
+                                    <button id="sendMessageButton" class="btn btn-block btn-xl text-uppercase"
+                                            type="submit">Send
+                                    </button>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                {#</section>#}
+
             </div>
         </div>
     </div>
