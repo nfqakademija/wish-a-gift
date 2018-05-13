@@ -51,14 +51,14 @@ Extractinat turinį į savo mėgstamą projektų direktoriją.
 Einate į šią direktoriją su terminalu. Paprastai bus komanda `cd <path>`.
 
 * Susikuriate projekto viduje `.env` failą. Failą užpildote turiniu pateiktu iš `env.dist`:
-  ```
-  cp .env.dist .env
-  ```
+```
+cp .env.dist .env
+```
 
 * Pasiruoškite infrastruktūrą:
-  ```
-  docker-compose up -d
-  ```
+```
+docker-compose up -d
+```
   
 #### Pasruošiame frontend aplinką
 
@@ -66,31 +66,40 @@ Einate į šią direktoriją su terminalu. Paprastai bus komanda `cd <path>`.
 ```
 docker-compose run --rm frontend.symfony
 ```
-  * Pirmą kartą (įsirašome JavaScript bilbiotekas)
-  ```
-  npm install --no-save
-  ```
-  * Jei pakeitimai neatsinaujina (arba klaidos dėl `build/css` ar `build/js`):
-  ```
-  yarn run encore dev --watch
-  ```
+
+* Pirmą kartą (įsirašome JavaScript bilbiotekas)
+```
+npm install --no-save
+```
+
+* Jei pakeitimai neatsinaujina (arba klaidos dėl `build/css` ar `build/js`):
+```
+yarn run encore dev --watch
+```
 
 #### Pasruošiame backend aplinką
-
 
 * PHP įrankiams (**atsidaryti atskirame lange**)
 ```
 docker exec -it php.symfony bash
 ```
-  * Pirmą kartą paleidus (įsirašome PHP biliotekas):
-  ```
-  composer install
-  ```
-  * Jei pakeitimai neatsinaujina:
-  ```
-  bin/console cache:clear
-  bin/console assets:install
-  ```
+
+* Pirmą kartą paleidus (įsirašome PHP biliotekas):
+```
+composer install
+```
+
+* Sukurti duomenų bazę ir jos struktūrą:
+```
+bin/console doctrine:database:create
+bin/console doctrine:schema:update --force
+```
+
+* Jei pakeitimai neatsinaujina:
+```
+bin/console cache:clear
+bin/console assets:install
+```
 
 #### Pasižiūrime rezultatą
 
@@ -105,9 +114,9 @@ Jei nematote užrašo "NFQ Akademija", reiškia, kažkur susimovėte,
 ### Projekto paleidimas (palyginimui kaip atrodytų produkcinėje)
 
 * Pasiruoškite infrastruktūrą (jei prieš tai leidote šią komandą, jos kartoti nereikia):
-  ```
-  docker-compose up -d
-  ```
+```
+docker-compose up -d
+```
 
 #### Pasruošiame frontend aplinką
 
@@ -115,14 +124,16 @@ Jei nematote užrašo "NFQ Akademija", reiškia, kažkur susimovėte,
 ```
 docker-compose run --rm frontend.symfony
 ```
-  * Pirmą kartą (įsirašome JavaScript bilbiotekas)
-  ```
-  npm install --no-save
-  ```
-  * Jei pakeitimai neatsinaujina (**skirasi nuo dev aplinkos**):
-  ```
-  yarn run encore production
-  ```
+
+* Pirmą kartą (įsirašome JavaScript bilbiotekas)
+```
+npm install --no-save
+```
+
+* Jei pakeitimai neatsinaujina (**skirasi nuo dev aplinkos**):
+```
+yarn run encore production
+```
   
 #### Pasruošiame backend aplinką
 
@@ -130,15 +141,23 @@ docker-compose run --rm frontend.symfony
 ```
 docker exec -it prod.php.symfony bash
 ```
-  * Pirmą kartą paleidus (įsirašome PHP biliotekas):
-  ```
-  composer install
-  ```
-  * Jei pakeitimai neatsinaujina (**skiriasi nuo dev aplinkos**):
-  ```
-  bin/console cache:clear
-  bin/console assets:install
-  ```
+
+* Pirmą kartą paleidus (įsirašome PHP biliotekas):
+```
+composer install
+```
+
+* Sukurti duomenų bazę ir jos struktūrą:
+```
+bin/console doctrine:database:create
+bin/console doctrine:schema:update --force
+```
+
+* Jei pakeitimai neatsinaujina (**skiriasi nuo dev aplinkos**):
+```
+bin/console cache:clear
+bin/console assets:install
+```
 
 #### Pasižiūrime rezultatą
 
@@ -178,13 +197,11 @@ Slaptažodžiui naudoti `p9iijKcfgENjBWDYgSH7`
 ### Troubleshooting'as
 
 Jeigu kažkas nutiko ne taip, na, atsirado raudona eilutė, ar tiesiog nutrūko ir nieko nerodo, neatsidaro naršyklėje svetainė, tai pirmas žingsnis būtų paleisti komandą:
-
 ```
 docker-compose logs 
 ```
 
 Nepamirškite, kad galima nurodyti norimą procesą ar filtruoti eilutes:
-
 ```
 docker-compose logs mysql.symfony | grep Warning
 ```
