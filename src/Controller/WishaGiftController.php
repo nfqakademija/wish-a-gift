@@ -23,14 +23,15 @@ class WishaGiftController extends Controller
         // build the form
         $giftList = new GiftList();
         $giftList->addGift(new Gift());
-        $form = $this->createForm(GiftListType::class, $giftList);
+        $form = $this->createForm(GiftListType::class/*, $giftList*/);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var $giftList GiftList
+             */
             $giftList = $form->getData();
-            $giftList->setUuid(Uuid::uuid4()->toString());
-            $giftList->setUuidAdmin(Uuid::uuid4()->toString());
 
             // save data
             $entityManager = $this->getDoctrine()->getManager();
