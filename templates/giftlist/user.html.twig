@@ -80,11 +80,24 @@
                         </div>
                         <div class="d-inline-block">
                             {#<h4 class="service-heading">Gifts</h4>#}
-                            <p class="text-muted">{{ gift.gift|capitalize }}</p>
+                            {#{{ dump(gift) }}#}
+                            <p class="text-muted">{{ gift.title|capitalize }}</p>
                         </div>
+                        {% if gift.reservationToken is null %}
                         <div class="float-right">
-                            <button id="active" class="btn btn-xl bg-dark border-dark" type="submit" value="{{ gift.id }}">reserve</button>
+                            <a href="{{ path('gift-reserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"class="btn btn-xl bg-dark border-dark">reserve</a>
                         </div>
+                        {% endif %}
+                        {% if gift.reservationToken is not null %}
+                            <div class="float-right">
+                                <div class="btn-group">
+                                        <div class="btn-xl bg-danger border-danger">Reserved</div>
+                                    {% if app.request.cookies.has(gift.id) %}
+                                        <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}" class="btn btn-xl bg-dark border-dark">Undo</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
                 </div>
