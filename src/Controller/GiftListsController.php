@@ -4,10 +4,17 @@ namespace App\Controller;
 
 use App\Entity\GiftList;
 use App\Entity\Gift;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
+use Ramsey\Uuid\Uuid;
+
+//use Symfony\Component\BrowserKit\Cookie;
+//use Symfony\Component\BrowserKit\CookieJar;
+//use Symfony\Component\BrowserKit\Response;
 
 class GiftListsController extends Controller
 {
@@ -67,12 +74,12 @@ class GiftListsController extends Controller
     }
 
     /**
-     * @Route("/giftlist/user/{uuiduser}/edit/{id}")
+     * @Route("/giftlist/{uuiduser}/reserve/{id}", name="gift-reserve")
      * @param $id
      * @param $uuiduser
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function update($id, $uuiduser)
+    public function reserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
             return $this->redirectToRoute('home');
@@ -84,18 +91,65 @@ class GiftListsController extends Controller
 
         $entityManager = $this->getDoctrine()->getManager();
         $active = $entityManager->getRepository(Gift::class)->find($id);
-
         if (!$active) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $id
             );
         }
-        $active->setActive(0);
+        $reservationToken = Uuid::uuid4()->toString();
+        $response = new Response();
+        $json = '{
+            "'.$id.'": [ {
+              "reservationToken":"'.$reservationToken.'"
+            }]
+        }';
+
+        $cookie = new Cookie($id, $json, strtotime('now + 10 minutes'), '', null, false, false);
+        $response->headers->setCookie($cookie);
+        $response->sendHeaders();
+        $active->setReservedAt(new \DateTime());
+        $active->setReservationToken(Uuid::uuid4()->toString());
         $entityManager->flush();
 
-        return $this->redirectToRoute('product_show', [
-            //'id' => $active ->getId()
-        ]);
+        return $this->redirectToRoute('giftlist-user',
+            array(
+                'uuiduser' => $uuiduser,
+               // 'cookie' => json_decode($request->cookies->get($id), true)
+            ));
+    }
+
+    /**
+     * @Route("/giftlist/{uuiduser}/unreserve/{id}", name="gift-unreserve")
+     * @param $id
+     * @param $uuiduser
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function unreserve($id, $uuiduser)
+    {
+        if (!$this->uuidUser($uuiduser)) {
+            return $this->redirectToRoute('home');
+        }
+
+        $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findOneBy(['uuid' => $uuiduser]);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $active = $entityManager->getRepository(Gift::class)->find($id);
+        if (!$active) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
+            );
+        }
+
+        $active->setReservedAt(Null);
+        $active->setReservationToken(Null);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('giftlist-user',
+            array(
+                'uuiduser' => $uuiduser
+            ));
     }
 
 }

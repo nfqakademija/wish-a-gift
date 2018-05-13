@@ -20,11 +20,6 @@ class Gift
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $userId;
-
-    /**
      * @ORM\Column(type="string")
      */
     private $title;
@@ -73,18 +68,6 @@ class Gift
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    public function setUserId(int $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
     }
 
     /**
