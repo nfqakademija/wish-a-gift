@@ -9,6 +9,12 @@
   {{ parent() }}
 
   <script>
+      let $collectionHolder;
+
+                // setup an "add a gift" link
+                    let $addTagLink = $('<a href="#" class="btn btn-primary btn-xl btn-block add_gift_link">Add a Gift</a><br />');
+            let $newLinkLi = $('<li></li>').append($addTagLink);
+
       $(document).ready(function () {
           console.log("All resources finished loading");
 

@@ -152,4 +152,33 @@ class GiftListsController extends Controller
             ));
     }
 
+    /**
+     * @Route("/send", name="gift-send")
+     * @param \Swift_Mailer $mailer
+     * @return void
+     */
+    public function shareWithFriends(\Swift_Mailer $mailer)
+    {
+        //var_dump($mailer);
+        //var_dump($mailer);
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('nejuras@gmail.com')
+            ->setTo('nerusha@gmail.com')
+            ->setBody(
+                $this->renderView(
+                // templates/emails/registration.html.twig
+                    'emails/sharewithfriends.html.twig',
+                    array('name' => 'ford')
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+        //var_dump($mailer);
+
+       // return $this->render();
+        //return $this->redirectToRoute('home'
+        //    );
+    }
+
 }

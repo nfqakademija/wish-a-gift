@@ -54,13 +54,13 @@ class GiftListType extends AbstractType
                 // manage a collection of similar items in a form
                 'entry_options' => array(
                     'attr' => ['class' => 'form-group'],
-                    ),
+                ),
                 // allows to define specific data for the prototype
-                //https://symfony.com/doc/current/reference/forms/types/collection.html#prototype-data
                 'prototype' => true,
-                'delete_empty' => true,
+                'delete_empty' => function (Gift $gift = null) {
+                return null === $gift || empty($gift->getTitle());
+                },
                 'disabled' => !$options['allow_gift_editing'],
-//                'prototype_data' => 'New Tag Placeholder'
             ])
             ->add('Save', SubmitType::class);
 

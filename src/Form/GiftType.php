@@ -34,7 +34,6 @@ class GiftType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Gift::class,
-//            "allow_extra_fields" => true
         ));
     }
 }
