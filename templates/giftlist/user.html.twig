@@ -2,14 +2,60 @@
 
 {% block title %}{{ parent() }}{% endblock %}
 {% block stylesheets %}
-    {{ parent() }}
+  {{ parent() }}
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}
+  {{ include('navigation/navigation.html.twig') }}
+  <br><br><br><br>
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
+          <h3 class="section-subheading text-muted">{{ data.email }}</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-6 text-left">
+          <div class="row">
+            <div class="col-md-12">
+              <span class="d-inline-block fa-stack fa-4x">
+                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                  <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
+              </span>
+              <div class="col-md-12">
+                <h4 class="service-heading">{{ data.title|capitalize }}</h4>
+                <p class="text-muted">{{ data.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          {% for gift in data.gifts %}
+            <div class="col-md-12 d-inline-block">
+              <div class="float-left fa-stack fa-4x">
+                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+              </div>
+              <div class="d-inline-block">
+                {#<h4 class="service-heading">Gifts</h4>#}
+                <p class="text-muted">{{ gift.title|capitalize }}</p>
+              </div>
+              <div class="float-right">
+                <button id="active" class="btn btn-xl bg-dark border-dark" type="submit" value="{{ gift.id }}">reserve
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
     {{ include('navigation/navigation.html.twig') }}
     <br><br><br><br>
     <section id="services">
@@ -105,9 +151,9 @@
         </div>
     </section>
 
-    <div class="footer">
-        <div class="container-fluid">
+  <div class="footer">
+    <div class="container-fluid">
 
-        </div>
     </div>
+  </div>
 {% endblock %}

@@ -25,8 +25,6 @@ class GiftListType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('uuid', TextType::class, ['disabled' => true])
-//            ->add('uuidAdmin', HiddenType::class)
             ->add('firstName', TextType::class,
                 array(
                     'required' => true,
@@ -51,14 +49,16 @@ class GiftListType extends AbstractType
                 'allow_delete' => true,
                 // each entry in the array will be a "gift" field
                 'entry_type' => GiftType::class,
+                'required' => true,
                 // manage a collection of similar items in a form
                 'entry_options' => array(
                     'attr' => ['class' => 'form-group'],
                 ),
                 // allows to define specific data for the prototype
                 'prototype' => true,
+                // describe empty condition
                 'delete_empty' => function (Gift $gift = null) {
-                return null === $gift || empty($gift->getTitle());
+                    return null === $gift || empty($gift->getTitle());
                 },
                 'disabled' => !$options['allow_gift_editing'],
             ])
@@ -71,7 +71,6 @@ class GiftListType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => GiftList::class,
             'allow_gift_editing' => true,
-//            "allow_extra_fields" => true
         ));
     }
 }
