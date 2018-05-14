@@ -92,7 +92,7 @@
                             <div class="float-right">
                                 <div class="btn-group">
                                         <div class="btn-xl bg-danger border-danger">Reserved</div>
-                                    {% if app.request.cookies.has(gift.id) %}
+                                    {% if app.request.cookies.has(gift.id|trim) %}
                                         <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}" class="btn btn-xl bg-dark border-dark">Undo</a>
                                     {% endif %}
                                 </div>
