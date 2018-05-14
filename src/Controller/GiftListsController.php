@@ -79,7 +79,7 @@ class GiftListsController extends Controller
      * @param $uuiduser
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function reserve(Request $request, $id, $uuiduser)
+    public function reserve(string $id, string $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
             return $this->redirectToRoute('home');
@@ -99,8 +99,8 @@ class GiftListsController extends Controller
         $reservationToken = Uuid::uuid4()->toString();
         $response = new Response();
         $json = '{
-            "'.$id.'": [ {
-              "reservationToken":"'.$reservationToken.'"
+            '.$id.': [ {
+              "reservationToken":'.$reservationToken.'
             }]
         }';
 
@@ -145,6 +145,7 @@ class GiftListsController extends Controller
         $active->setReservedAt(Null);
         $active->setReservationToken(Null);
         $entityManager->flush();
+
 
         return $this->redirectToRoute('giftlist-user',
             array(
