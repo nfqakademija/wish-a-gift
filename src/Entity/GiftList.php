@@ -61,7 +61,7 @@ class GiftList
     private $uuidAdmin;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"}, orphanRemoval=true)
      */
     private $gifts;
 
@@ -149,6 +149,9 @@ class GiftList
     }
 
 
+    /**
+     * @return Collection|Gift[]
+     */
     public function getGifts(): Collection
     {
         return $this->gifts;

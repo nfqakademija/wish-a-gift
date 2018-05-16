@@ -43,7 +43,7 @@ class WishaGiftController extends Controller
                 ));
         }
 
-        return $this->render('create/index.html.twig',
+        return $this->render('giftlist/create.html.twig',
             ['form' => $form->createView(),
             ]
         );
@@ -63,14 +63,12 @@ class WishaGiftController extends Controller
             ->findOneBy(['uuidAdmin' => $uuidadmin]);
 
         // build the form
-        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => false]); // TODO: allow only if not reservedAt flags are set in gifts collection
+        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $giftListEntity = $form->getData();
-            $giftListEntity->setUuid(Uuid::uuid4()->toString());
-            $giftListEntity->setUuidAdmin(Uuid::uuid4()->toString());
 
             // save data
             $entityManager = $this->getDoctrine()->getManager();
@@ -83,8 +81,19 @@ class WishaGiftController extends Controller
                 ));
         }
 
-        return $this->render('create/index.html.twig',
+        return $this->render('giftlist/edit.html.twig',
             ['form' => $form->createView()]
         );
+    }
+
+    private function isEditingAllowed(GiftList $giftList): bool
+    {
+        foreach ($giftList->getGifts() as $gift) {
+            if (null !== $gift->getReservedAt()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

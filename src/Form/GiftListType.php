@@ -47,6 +47,7 @@ class GiftListType extends AbstractType
             ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
                 // each entry in the array will be a "gift" field
                 'entry_type' => GiftType::class,
                 'required' => true,

@@ -46,14 +46,18 @@ class Gift
     private $giftList;
 
     /**
-     * @return mixed
+     * @return GiftList|null
      */
-    public function getGiftList()
+    public function getGiftList(): ?GiftList
     {
         return $this->giftList;
     }
 
-    public function setGiftList(GiftList $giftList): self
+    /**
+     * @param GiftList|null $giftList
+     * @return Gift
+     */
+    public function setGiftList(?GiftList $giftList): self
     {
         $this->giftList = $giftList;
 
