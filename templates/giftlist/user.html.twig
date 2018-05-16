@@ -14,53 +14,65 @@
     <section id="services">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
-                    <h3 class="section-subheading text-muted">{{ data.email }}</h3>
+                <div class="col-lg-12 text-center user-giftlist">
+                    <h2 class="section-heading text-uppercase">Gift List for {{ data.firstname }}</h2>
+                    {#<h3 class="section-subheading text-muted">{{ data.email }}</h3>#}
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-md-6 text-left">
                     <div class="row">
                         <div class="col-md-12">
-                          <span class="d-inline-block fa-stack fa-4x">
-                              <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                              <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
-                          </span>
-                        <div class="col-md-12">
-                            <h4 class="service-heading">{{ data.title|capitalize }}</h4>
-                            <p class="text-muted">{{ data.description }}</p>
-                        </div>
+                            <div class="d-inline-block">
+                                <span class="d-inline-block fa-stack fa-4x inline-icon mr-2">
+                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                    <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
+                                </span>
+                                <h2>{{ data.title|capitalize }}</h2>
+                                <p class="text-muted">{{ data.description }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 text-left">
                     {% for gift in data.gifts %}
                     <div class="col-md-12">
-                        <div class="d-inline-block float-right">
-                            <button id="active" class="btn btn-lg btn-dark border-dark float-right" type="submit"
-                                    value="{{ gift.id }}">reserve
-                            </button>
-                        </div>
 
                         <div class="d-inline-block fa-stack fa-2x">
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                             <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
                         </div>
+
                         <div class="d-inline-block">
-                            {#<h4 class="service-heading">Gifts</h4>#}
                             <p class="text-muted">{{ gift.title|capitalize }}</p>
                         </div>
+
+                        {% if gift.reservationToken is null %}
+                        <div class="d-inline-block float-right">
+                            <a href="{{ path('gift-reserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
+                               class="btn btn-lg btn-dark border-dark">Reserve
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        {% if gift.reservationToken is not null %}
+                        <div class="float-right">
+                            <label class="form-check-label" for="reserved">Reserved</label>
+                            {% if app.request.cookies.has(gift.id|trim) %}
+                                <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
+                                   class="btn btn-lg btn-dark border-dark">Undo</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                     </div>
-                </div>
                     {% endfor %}
                 </div>
             </div>
-    </section>
-
-    <div class="footer">
-        <div class="container-fluid">
-
         </div>
-    </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    {# Footer #}
+    {{ include('footer/footer.html.twig') }}
 {% endblock %}

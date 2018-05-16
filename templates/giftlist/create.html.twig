@@ -12,7 +12,7 @@
       let $collectionHolder;
 
       // setup an "add a gift" link
-      let $addTagLink = $('<a href="#" class="btn btn-primary btn-xl btn-block add_gift_link">Add a Gift</a><br />');
+      let $addTagLink = $('<a href="#" class="btn btn-warning btn-xl btn-block add_gift_link">Add a Gift</a><br />');
       let $newLinkLi = $('<li></li>').append($addTagLink);
 
       $(document).ready(function () {
@@ -82,7 +82,7 @@
 
       function addTagFormDeleteLink($tagFormLi) {
         let $removeFormA = $('<div class="input-group-append">\n' +
-          '<button class="btn btn-danger" type="button"><i class="fa fa-times"></i></button>\n' +
+          '<button class="btn btn-danger btn-lg" type="button"><i class="fa fa-times"></i></button>\n' +
           '</div>');
         $tagFormLi.find('.input-group').append($removeFormA);
 
@@ -94,7 +94,6 @@
           $tagFormLi.remove();
         });
       }
-
 
     </script>
 {% endblock %}
@@ -115,7 +114,6 @@
                         'method': 'POST',
                         'attr': {
                             'id': 'createForm',
-                            'action': 'create',
                             'novalidate': 'novalidate'
                         }}) }}
                     <div class="row">
@@ -157,11 +155,6 @@
                         </div>
 
                         <div class="col-md-6">
-                            {#<a href="#" class="btn btn-primary btn-xl btn-block add_gift_link"#}
-                            {#data-list="#gift-fields-list">Add a Gift#}
-                            {#</a>#}
-                            {#<br />#}
-
                             <ul class="gifts"
                                 data-prototype="{{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
@@ -172,7 +165,6 @@
                                     </li>
                                 {% endfor %}
                             </ul>
-
                         </div>
 
                         <div class="clearfix"></div>
@@ -183,7 +175,7 @@
                             <div class="form-group">
                                 {{ form_widget(form.Save, {
                                     'attr': {
-                                        'class': 'btn btn-primary  btn-block btn-xl text-uppercase',
+                                        'class': 'btn btn-warning btn-block btn-xl text-uppercase',
                                     }}) }}
                             </div>
                         </div>
@@ -197,33 +189,6 @@
 {% endblock %}
 
 {% block footer %}
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="copyright">Copyright &copy; Wish a gift 2018</span>
-                </div>
-                <div class="col-md-4">
-                    <ul class="list-inline social-buttons">
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-linkedin"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {# Footer #}
+    {{ include('footer/footer.html.twig') }}
 {% endblock %}
