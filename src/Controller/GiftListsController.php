@@ -12,10 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Ramsey\Uuid\Uuid;
 
-//use Symfony\Component\BrowserKit\Cookie;
-//use Symfony\Component\BrowserKit\CookieJar;
-//use Symfony\Component\BrowserKit\Response;
-
 class GiftListsController extends Controller
 {
     public function uuidUser(string $uuiduser)
