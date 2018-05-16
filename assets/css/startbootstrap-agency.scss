@@ -2,3 +2,19 @@
 @import "~font-awesome/scss/font-awesome";
 @import "~startbootstrap-agency/scss/agency";
 
+// override default selection color
+input::selection {
+  background: lightskyblue;
+}
+
+input::-moz-selection {
+  background: lightskyblue;
+}
+
+#modal_p {
+  margin-bottom: 10px;
+}
+
+.inline-icon {
+  float: left;
+}
