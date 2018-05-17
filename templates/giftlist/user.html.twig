@@ -16,7 +16,7 @@
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="alert alert-{{ label }} flash-{{ label }} alert-dismissible fade show text-center" role="alert">
-                        <strong> {{ message }} </strong>
+                        <strong> {{ message }} </strong> &#x1F609;
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -39,7 +39,7 @@
                                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                     <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
                                 </span>
-                                <h2>{{ data.title|capitalize }}</h2>
+                                <h2 class="d-inline">{{ data.title|capitalize }}</h2>
                                 <p class="text-muted">{{ data.description }}</p>
                             </div>
                         </div>
