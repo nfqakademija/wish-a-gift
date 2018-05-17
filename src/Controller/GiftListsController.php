@@ -115,6 +115,11 @@ class GiftListsController extends Controller
                 'No product found for id ' . $id
             );
         }
+        if ($active) {
+            $this->addFlash(
+                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation'
+            );
+        }
         $reservationToken = Uuid::uuid4()->toString();
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 

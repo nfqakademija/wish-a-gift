@@ -10,9 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Gift
 {
     /**
+     * @var \Ramsey\Uuid\UuidInterface
+     *
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
@@ -43,14 +46,18 @@ class Gift
     private $giftList;
 
     /**
-     * @return mixed
+     * @return GiftList|null
      */
-    public function getGiftList()
+    public function getGiftList(): ?GiftList
     {
         return $this->giftList;
     }
 
-    public function setGiftList(GiftList $giftList): self
+    /**
+     * @param GiftList|null $giftList
+     * @return Gift
+     */
+    public function setGiftList(?GiftList $giftList): self
     {
         $this->giftList = $giftList;
 

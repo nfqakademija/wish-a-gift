@@ -13,9 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class GiftList
 {
     /**
+     * @var \Ramsey\Uuid\UuidInterface
+     *
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="guid")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
@@ -40,17 +43,25 @@ class GiftList
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $uuid;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $uuidAdmin;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"}, orphanRemoval=true)
      */
     private $gifts;
 
@@ -64,6 +75,8 @@ class GiftList
     {
         $this->createdAt = new \DateTime();
         $this->gifts = new ArrayCollection();
+        $this->uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $this->uuidAdmin = \Ramsey\Uuid\Uuid::uuid4();
     }
 
     public function getId()
@@ -119,30 +132,26 @@ class GiftList
         return $this;
     }
 
-    public function getUuid(): ?string
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getUuid(): \Ramsey\Uuid\UuidInterface
     {
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
-    {
-        $this->uuid = $uuid;
-
-        return $this;
-    }
-
-    public function getUuidAdmin(): ?string
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getUuidAdmin(): \Ramsey\Uuid\UuidInterface
     {
         return $this->uuidAdmin;
     }
 
-    public function setUuidAdmin(string $uuidAdmin): self
-    {
-        $this->uuidAdmin = $uuidAdmin;
 
-        return $this;
-    }
-
+    /**
+     * @return Collection|Gift[]
+     */
     public function getGifts(): Collection
     {
         return $this->gifts;

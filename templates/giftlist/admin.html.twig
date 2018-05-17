@@ -119,65 +119,58 @@
 
 {% block body %}
     {{ include('navigation/navigation.html.twig') }}
-    <br><br><br><br>
-    <section id="services">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
-                    <h3 class="section-subheading text-muted">{{ data.email }}</h3>
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col-md-6 text-left">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="d-inline-block">
-                <span class="d-inline-block fa-stack fa-4x">
-                  <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                  <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
-                </span>
-                            </div>
-                            <div class="d-inline-block text-center data-title">
-                                <h4 class="service-heading">{{ data.title|capitalize }}</h4>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <p class="text-muted">{{ data.description }}</p>
-                        </div>
+    <div class="container">
+        <section id="services">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center mb-5">
+                        <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
+                        {#<h3 class="section-subheading text-muted">{{ data.email }}</h3>#}
                     </div>
                 </div>
-                <div class="col-md-6 text-left">
-                    {% for gift in data.gifts %}
-                        {% if gift is not null %}
+                <div class="row text-center">
+                    <div class="col-md-6 text-left">
+                        <div class="row">
                             <div class="col-md-12">
-                                <div class="d-inline-block fa-stack fa-4x">
-                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                    <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
-                                </div>
                                 <div class="d-inline-block">
-                                    {#<h4 class="service-heading">Gifts</h4>#}
-                                    <p class="text-muted">{{ gift.title|capitalize }}</p>
+                                    <span class="d-inline-block fa-stack fa-4x inline-icon mr-2">
+                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                        <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                    <h2>{{ data.title|capitalize }}</h2>
+                                    <p class="text-muted">{{ data.description }}</p>
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-left">
+                        {% for gift in data.gifts %}
+                            {% if gift is not null %}
+                                <div class="col-md-12">
+                                    <div class="d-inline-block fa-stack fa-2x">
+                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                        <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        {#<h4 class="service-heading">Gifts</h4>#}
+                                        <p class="text-muted">{{ gift.title|capitalize }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center edit-margin">
+                    <a href="{{ path('edit', {'uuidadmin': data.uuidAdmin}) }}" type="submit"
+                       class="btn btn-block btn-xl bg-dark border-dark text-uppercase">Edit</a>
+                    {# Modal Trigger #}
+                    <button type="button" class="btn btn-warning btn-block btn-xl text-uppercase" data-toggle="modal"
+                            data-target="#modal">
+                        Share with Friends
+                    </button>
                 </div>
             </div>
-            <div class="col-lg-12 text-center">
-                <button type="submit" class="btn btn-block btn-xl bg-dark border-dark text-uppercase">Edit</button>
-                {# Modal Trigger #}
-                <button type="button" class="btn btn-block btn-xl text-uppercase" data-toggle="modal"
-                        data-target="#modal">
-                    Share with Friends
-                </button>
-            </div>
-        </div>
-    </section>
-    <div class="footer">
-        <div class="container-fluid">
-
-        </div>
+        </section>
     </div>
 
     {# Modal #}
@@ -185,12 +178,13 @@
         <div class="modal-dialog p-5">
             <div class="modal-content">
                 <button type="button" class="btn btn-light close-modal" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><i class="fa fa-times mr-2"></i></span>
                 </button>
 
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
+
                             <div class="modal-body">
                                 <h2 class="text-uppercase">Share With Friends</h2>
                                 {{ form_start(form, {
@@ -206,6 +200,14 @@
                                     {#<p class="text-muted">{{ data.description }}</p>#}
                                 {#</div>#}
 
+                                <div class="input-group mb-3 modal-input">
+                                    <input type="text" class="form-control newEmail"
+                                           placeholder="Type your friend's email here."/>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-xl bg-dark border-dark" id="addButton" type="button">Add
+                                            Email
+                                        </button>
+                                    </div>
                                 <ul class="emails form-group" id="email-fields-list"
                                     data-prototype="{{ form_widget(form.emails.vars.prototype)|e }}"
                                     data-widget-tags="{{ '<li></li>'|e }}">
@@ -224,6 +226,20 @@
                                        data-list="#email-fields-list">Add an Email
                                     </a>
                                 </div>
+                                <div class="input-group mb-3" id="emailList"></div>
+
+                                <div class="text-left"><p id="modal_p">And here is the link to your Gift List:</p></div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="uuid" id="link"
+                                           value="{{ url('giftlist-user', {'uuiduser': data.uuid}) }}"/>
+                                    <div class="input-group-append">
+                                        <a tabindex="0" type="button" class="btn btn-xl bg-dark border-dark"
+                                                data-toggle="popover" data-trigger="click" data-content="Copied to clipboard!"
+                                                id="copyToClipboard">Copy
+                                        </a>
+                                    </div>
+                                </div>
                                 <div class="input-group mb-3">
                                     {{ form_widget(form.url, {
                                         'value': url('giftlist-user', {'uuiduser': data.uuid}),
@@ -238,6 +254,9 @@
                                 </div>
                                 {#onclick="copyToClipboard('#emails_url')"#}
                                 <div class="form-group">
+                                    <button id="sendMessageButton" class="btn btn-warning btn-block btn-xl text-uppercase"
+                                            type="submit">Send
+                                    </button>
                                     {{ form_widget(form.send, {
                                         'attr': {
                                             'class': 'btn btn-primary  btn-block btn-xl text-uppercase',
@@ -250,8 +269,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block footer %}
+    {# Footer #}
+    {{ include('footer/footer.html.twig') }}
 {% endblock %}
