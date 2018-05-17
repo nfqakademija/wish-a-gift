@@ -56,7 +56,6 @@ class GiftListsController extends Controller
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
 
-
             foreach ($form['emails']->getData() as $email) {
                // var_dump($email);
                 $this->shareWithFriends($email, $data);
@@ -188,11 +187,6 @@ class GiftListsController extends Controller
             );
 
         $this->get('mailer')->send($message);
-        //var_dump($mailer);
-
-        // return $this->render();
-        //return $this->redirectToRoute('home'
-        //    );
     }
 
 }
