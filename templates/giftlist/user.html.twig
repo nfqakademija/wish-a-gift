@@ -72,6 +72,7 @@
                 </div>
                 <div class="col-md-6">
                 {% for gift in data.gifts %}
+                    {#{{ dump(isGiftReservedByMe(app.request.cookies.get('reserved_gifts')))}}#}
                     <div class="col-md-12 d-inline-block">
 
                         <div class="float-left fa-stack fa-4x">
@@ -92,7 +93,7 @@
                             <div class="float-right">
                                 <div class="btn-group">
                                         <div class="btn-xl bg-danger border-danger">Reserved</div>
-                                    {% if app.request.cookies.has(gift.id|trim) %}
+                                    {% if isGiftReservedByMe(gift, app.request.cookies.get('reserved_gifts')) %}
                                         <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}" class="btn btn-xl bg-dark border-dark">Undo</a>
                                     {% endif %}
                                 </div>

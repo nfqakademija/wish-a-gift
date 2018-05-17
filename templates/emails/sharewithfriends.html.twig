@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
-  <h3>You did it! You registered!</h3>
 
-  Hi {{ name }}! You're successfully registered.j
+  <h3>You Link </h3>
+  <div>{{ data.admin.firstname }}</div>
+  <div>{{ data.admin.email }}</div>
+  <div>{{ data.admin.title }}</div>
+  <div>{{ data.admin.description }}</div>
+  <div>{{ data.url }}</div>
 
-    {# example, assuming you have a route named "login" #}
-  {#To login, go to: <a href="{{ url('login') }}">...</a>.#}
+    {% for gift in data.admin.gifts %}
 
-  Thanks!
+      <div>{{ gift.title }}</div>
 
-    {# Makes an absolute URL to the /images/logo.png file #}
-  {#<img src="{{ absolute_url(asset('images/logo.png')) }}">#}
+    {% endfor %}
+
 {% endblock %}
