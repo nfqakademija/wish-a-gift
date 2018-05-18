@@ -12,7 +12,7 @@ class ReservedGiftCookieResolver
         $expireTime = time() + (365 * 24 * 60 * 60);
 
         if (null === $cookieValue) {
-            $value = [base64_encode($id) => $reserveToken];
+            $value = [$id => $reserveToken];
 
             return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value), $expireTime);
         }
@@ -20,13 +20,13 @@ class ReservedGiftCookieResolver
         $value = json_decode($cookieValue, true);
 
         if (!is_array($value)) {
-            $value = [base64_encode($id) => $reserveToken];
+            $value = [$id => $reserveToken];
 
             return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value), $expireTime);
         }
 
         //var_dump($value);
-        $value[base64_encode($id)] = $reserveToken;
+        $value[$id] = $reserveToken;
 
         return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value), $expireTime);
     }
@@ -46,6 +46,6 @@ class ReservedGiftCookieResolver
         $value = json_decode($cookie, true);
 
 
-        return isset($value[base64_encode($id)]) && $value[base64_encode($id)] === $reserveToken;
+        return isset($value[$id]) && $value[$id] === $reserveToken;
     }
 }
