@@ -2,8 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\GiftList;
-use App\Entity\Gift;
 use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,25 +32,23 @@ class EmailsType extends AbstractType
                 'allow_delete' => true,
                 'entry_type' => EmailType::class,
                 'entry_options' => array(
-                    'attr' => ['class' => 'form-group'],
+                    'attr' => ['class' => 'form-control'],
                 ),
                 'prototype' => true,
                 'label' => false,
-//                'delete_empty' => function (Gift $gift = null) {
-//                return null === $gift || empty($gift->getTitle());
+//                 describe empty condition
+//                'delete_empty' => function (Email $email = null) {
+//                return null === $email || empty($email->getEmail());
 //                },
-//                'disabled' => !$options['allow_gift_editing'],
             ])
             ->add('send', SubmitType::class);
 
     }
-//
+
 //    public function configureOptions(OptionsResolver $resolver)
 //    {
 //        $resolver->setDefaults(array(
-//            'data_class' => GiftList::class,
-//            'allow_gift_editing' => true,
-//            "allow_extra_fields" => true
+//            'data_class' => Email::class
 //        ));
 //    }
 }
