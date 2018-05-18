@@ -23,17 +23,17 @@ class GiftList
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string")
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=101)
+     * @ORM\Column(type="string")
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string")
      */
     private $title;
 
