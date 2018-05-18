@@ -154,6 +154,10 @@ class GiftListsController extends Controller
         $active->setReservationToken(null);
         $entityManager->flush();
 
+        $this->addFlash(
+            'success', 'Your reservation has been canceled! Pick another gift!'
+        );
+
         return $this->redirectToRoute('giftlist-user',
             array(
                 'uuiduser' => $uuiduser

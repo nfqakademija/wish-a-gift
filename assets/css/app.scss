@@ -1,5 +1,6 @@
 //the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+//@import "~amazon-autocomplete";
 /*@import "~font-awesome/scss/font-awesome";*/
 
 
@@ -45,5 +46,10 @@ ul {
 
 .user-giftlist {
   margin-bottom: 80px;
+}
+
+.btn-danger, .delete-button.focus, .delete-button:focus {
+  border-color: #FF0000 !important;
+  background-color: #FF0000 !important;
 }
 

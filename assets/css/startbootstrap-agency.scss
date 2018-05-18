@@ -12,9 +12,33 @@ input::-moz-selection {
 }
 
 #modal_p {
+  margin-top: 30px;
   margin-bottom: 10px;
+}
+
+div.emailList {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.emails {
+  padding-left: 0;
 }
 
 .inline-icon {
   float: left;
+}
+
+a, a.active, a:active, a:focus, a:hover {
+  color: #FFFFFF;
+}
+
+.btn-danger, .delete-button.focus, .delete-button:focus {
+  border-color: #FF0000 !important;
+  background-color: #FF0000 !important;
+}
+
+section#contact {
+  background: #222222 url(~startbootstrap-agency/img/header-bg.jpg) no-repeat fixed center;
+  background-size: cover;
 }

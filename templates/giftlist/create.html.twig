@@ -82,7 +82,7 @@
 
       function addTagFormDeleteLink($tagFormLi) {
         let $removeFormA = $('<div class="input-group-append">\n' +
-          '<button class="btn btn-danger btn-lg" type="button"><i class="fa fa-times"></i></button>\n' +
+          '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
           '</div>');
         $tagFormLi.find('.input-group').append($removeFormA);
 
@@ -157,6 +157,11 @@
                         <div class="col-md-6">
                             <ul class="gifts"
                                 data-prototype="{{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
+                                {% if form.gifts.count == 0 %}
+                                    {{ form_widget(form.gifts, {
+                                        'label': false
+                                    }) }}
+                                {% endif %}
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
                                         <div class="input-group">
