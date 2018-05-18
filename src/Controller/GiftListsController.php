@@ -47,7 +47,6 @@ class GiftListsController extends Controller
         }
 
         $form = $this->createForm(EmailsType::class);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -85,12 +84,9 @@ class GiftListsController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        $httpHostuser = $request->getHttpHost();
-
         return $this->render('giftlist/user.html.twig',
             array(
-                'data' => $giftListEntity,
-//                'httpHost' => $httpHostuser
+                'data' => $giftListEntity
 
             ));
     }
@@ -123,16 +119,8 @@ class GiftListsController extends Controller
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
-
-        //return false already reserved one gift;
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
-//        var_dump($cookie);
-
-//        $cookie = new Cookie(self::RESERVED_GIFTS_COOKIE, $json, strtotime('now + 10 minutes'), '', null, false, false);
-
-//        $response->setExpires(\DateTimeInterface::COOKIE);
         $response->headers->setCookie($cookie);
-//        $response->sendHeaders();
         $active->setReservedAt(new \DateTime());
         $active->setReservationToken($reservationToken);
         $entityManager->flush();
