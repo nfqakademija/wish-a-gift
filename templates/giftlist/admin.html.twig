@@ -59,36 +59,25 @@
         // add a delete link to the new form
         addTagFormDeleteLink($newFormLi);
       }
-
       function addTagFormDeleteLink($tagFormLi) {
-        let $removeFormA = $('<div class="input-group-append">\n' +
-          '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
-          '</div>');
-        $tagFormLi.find('.input-group').append($removeFormA);
-        $removeFormA.on('click', function (e) {
-          // prevent the link from creating a "#" on the URL
-          e.preventDefault();
-          // remove the li for the tag form
-          $tagFormLi.remove();
-        });
-      }
+              let $removeFormA = $('<div class="input-group-append">\n' +
+                  '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
+                  '</div>');
+              $tagFormLi.find('.input-group').append($removeFormA);
+              $removeFormA.on('click', function (e) {
+                  // prevent the link from creating a "#" on the URL
+                  e.preventDefault();
+                  // remove the li for the tag form
+                  $tagFormLi.remove();
+              });
+          }
 
       $('#copyToClipboard').click(function () {
         let copyLink = document.getElementById("emails_url");
         copyLink.select();
         document.execCommand("copy");
       });
-      // initialize popovers
-      $('[data-toggle="popover"]').popover();
-                // create a new list element and add it to the list
-                let newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-                newElem.prependTo(list);
 
-
-            });
-        });
-        {# in case of moving js in separate file #}
-        {#<script src="add-collection-widget.js"></script>#}
     </script>
     {% if app.request.get('open_share') %}
         <script>
@@ -106,6 +95,7 @@
                 document.execCommand("copy");
                 alert("You just copied the link to the clipboard!");
             })
+        })
 
 
     </script>
@@ -192,18 +182,13 @@
                                 <div class="col-md-12 emailList">
                                     <ul class="emails"
                                         data-prototype="{{ form_widget(form.emails.vars.prototype)|e('html_attr') }}">
-                                        {% if form.emails.count == 0 %}
-                                            {{ form_widget(form.emails, {
-                                                'label': false
-                                            }) }}
-                                        {% endif %}
                                         {% for email in form.emails %}
                                             <li class="form-group">
                                                 <div class="form-control">
                                                     {{ form_widget(email) }}
                                                 </div>
-                                                <p class="help-block text-danger">{{ form_errors(emailField) }}</p>
                                             </li>
+                                            <li class="help-block text-danger">{{ form_errors(email) }}</li>
                                         {% endfor %}
                                     </ul>
                                 </div>
