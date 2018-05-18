@@ -60,6 +60,7 @@ class GiftListsController extends Controller
                 $this->shareWithFriends($email, $data);
 
             }
+            return $this->redirectToRoute('giftlist-admin', ['uuidadmin'=>$uuidadmin]);
 
         }
 
