@@ -7,6 +7,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+
     <script>
         let $collectionHolder;
 
@@ -48,8 +50,16 @@
         {# in case of moving js in separate file #}
         {#<script src="add-collection-widget.js"></script>#}
     </script>
+    {% if app.request.get('open_share') %}
+        <script>
+            $(document).ready(function () {
+                $('#modal').modal('show');
+            })
+        </script>
+    {% endif %}
     <script>
         $(document).ready(function () {
+
             $('#copyToClipboard').click(function () {
                 let copyLink = document.getElementById("emails_url");
                 copyLink.select();
@@ -120,7 +130,7 @@
     </div>
 
     {# Modal #}
-    <div class="portfolio-modal modal fade {% if app.request.get('open_share') %}modal-open{% endif %}" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" >
         <div class="modal-dialog p-5">
             <div class="modal-content">
                 <button type="button" class="btn btn-light close-modal" data-dismiss="modal">
@@ -157,10 +167,12 @@
                                     data-widget-tags="{{ '<li></li>'|e }}">
                                     {% for emailField in form.emails %}
 
+
                                         <li class="form-group">
                                             <div class="input-group">
                                                 {{ form_widget(emailField) }}
                                             </div>
+                                            <p class="help-block text-danger">{{ form_errors(emailField) }}</p>
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -175,6 +187,7 @@
                                         'attr': {
                                             'class': 'form-control'
                                         }}) }}
+                                    <p class="help-block text-danger">{{ form_errors(form.url) }}</p>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-xl bg-dark border-dark"
                                                 id="copyToClipboard">Copy
