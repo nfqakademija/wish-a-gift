@@ -2,17 +2,31 @@
 
 {% block body %}
 
-  <h3>You Link </h3>
-  <div>{{ data.admin.firstname }}</div>
-  <div>{{ data.admin.email }}</div>
-  <div>{{ data.admin.title }}</div>
-  <div>{{ data.admin.description }}</div>
-  <div>{{ data.url }}</div>
+    <div>
+        <h2>Congratulation! You were invited to the party "{{ data.admin.title }}", which was created by your friend, {{ data.admin.firstname }}.</h2>
+    </div>
+    <br />
+    <h3>To open your friend's WishList and reserve the gift, please, follow the link: {{ data.url }} </h3>
+    <div>
+        <p>Here is some description, which may help you:
+            {{ data.admin.description }}
+        </p>
 
-    {% for gift in data.admin.gifts %}
+    </div>
 
-      <div>{{ gift.title }}</div>
-
-    {% endfor %}
+    <div>
+        <h3>Your friend wants to be surprised!</h3>
+        <p>Take a look at the preliminary list of gifts, that {{ data.admin.firstname }} craves so much:</p>
+        {% for gift in data.admin.gifts %}
+            <ul>
+                <li>{{ gift.title }}</li>
+            </ul>
+        {% endfor %}
+        <p>*<i>Bring to notice, that the list of gifts may be changed until you'll reserve some one.</i></p>
+    </div>
+    <div>
+        <p>Do not hesitate to send any questions to the party owner using direct email address: {{ data.admin.email }}</p>
+        <h3>Have fun!</h3>
+    </div>
 
 {% endblock %}
