@@ -2,8 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\GiftList;
-use App\Entity\Gift;
 use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
@@ -26,10 +25,10 @@ class EmailsType extends AbstractType
             ->add('url', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new NotBlank(), new Length(['max' => 100]))
+                    'constraints' => [new NotBlank(), new Length(['max' => 100])]
                 ))
             ->add('emails', CollectionType::class, [
-//                'constraints' => array(new Email(), new NotBlank()),
+                'constraints' => [new All(new Email()), new All(new NotBlank()), new All(new Length(['max' => 100]))],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => EmailType::class,
