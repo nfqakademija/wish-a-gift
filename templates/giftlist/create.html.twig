@@ -168,6 +168,7 @@
                                             {{ form_widget(gift.title) }}
                                         </div>
                                     </li>
+                                    <p class="help-block text-danger">{{ form_errors(gift.title) }}</p>
                                 {% endfor %}
                             </ul>
                         </div>
