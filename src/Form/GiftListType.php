@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
@@ -28,7 +29,7 @@ class GiftListType extends AbstractType
             ->add('firstName', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new NotBlank(), new Length(['max' => 100]))
+                    'constraints' => array(new NotBlank(), new Length(['max' => 255]))
                 ))
             ->add('email', EmailType::class, array(
                 'required' => true,
@@ -37,31 +38,28 @@ class GiftListType extends AbstractType
             ->add('title', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255]))
                 ))
             ->add('description', TextareaType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255]))
                 ))
             ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
                 // each entry in the array will be a "gift" field
                 'entry_type' => GiftType::class,
-                'required' => true,
                 // manage a collection of similar items in a form
                 'entry_options' => array(
                     'attr' => ['class' => 'form-group'],
-                ),
+                    ),
                 // allows to define specific data for the prototype
+                //https://symfony.com/doc/current/reference/forms/types/collection.html#prototype-data
                 'prototype' => true,
-                // describe empty condition
-                'delete_empty' => function (Gift $gift = null) {
-                    return null === $gift || empty($gift->getTitle());
-                },
+                'delete_empty' => true,
                 'disabled' => !$options['allow_gift_editing'],
+//                'prototype_data' => 'New Tag Placeholder'
             ])
             ->add('Save', SubmitType::class);
 
@@ -72,6 +70,7 @@ class GiftListType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => GiftList::class,
             'allow_gift_editing' => true,
+//            "allow_extra_fields" => true
         ));
     }
 }

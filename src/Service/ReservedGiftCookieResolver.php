@@ -33,11 +33,13 @@ class ReservedGiftCookieResolver
 
     public static function removeGift(?string $cookieValue, $id): Cookie
     {
-        // TODO
+        $value = json_decode($cookieValue, true);
+        unset($value[trim($id)]);
+
         return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value));
     }
 
-    public static function isReserved(?string $cookie, $id, string $reserveToken): bool
+    public static function isReserved(?string $cookie, $id, string $reserveToken, \DateTime $reservedAt): bool
     {
         if (null === $cookie) {
             return false;
@@ -45,7 +47,11 @@ class ReservedGiftCookieResolver
 
         $value = json_decode($cookie, true);
 
+        $dateTimeNow = new \DateTime();
+        $reservedAtPlus10Min = $reservedAt->modify("+10 minutes")->getTimestamp();
 
-        return isset($value[$id]) && $value[$id] === $reserveToken;
+        return isset($value[trim($id)]) && !($dateTimeNow->getTimestamp() >= $reservedAtPlus10Min) && ($value[trim($id)] === $reserveToken) ? true : false;
+
+
     }
 }

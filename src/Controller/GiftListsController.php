@@ -56,11 +56,11 @@ class GiftListsController extends Controller
             $data['admin'] = $giftListEntity;
 
             foreach ($form['emails']->getData() as $email) {
-               // var_dump($email);
+                // var_dump($email);
                 $this->shareWithFriends($email, $data);
 
             }
-            return $this->redirectToRoute('giftlist-admin', ['uuidadmin'=>$uuidadmin]);
+            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
 
         }
 
@@ -120,8 +120,16 @@ class GiftListsController extends Controller
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
+        $countReservedGifts = count(json_decode($cookie, true));
+
+        if ($countReservedGifts > 1) {
+            $this->addFlash(
+                'warning', 'You have already reserved ' . $countReservedGifts . ' gifts. Leave some for others'
+            );
+        }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
         $response->headers->setCookie($cookie);
+
         $active->setReservedAt(new \DateTime());
         $active->setReservationToken($reservationToken);
         $entityManager->flush();
@@ -135,7 +143,7 @@ class GiftListsController extends Controller
      * @param $uuiduser
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function unreserve($id, $uuiduser)
+    public function unreserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
             return $this->redirectToRoute('home');
@@ -150,7 +158,12 @@ class GiftListsController extends Controller
         }
 
         //todo check isReservedByMe
+        $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
+        $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
+        $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
+
+        $response->headers->setCookie($cookie);
         $active->setReservedAt(null);
         $active->setReservationToken(null);
         $entityManager->flush();
@@ -159,10 +172,7 @@ class GiftListsController extends Controller
             'success', 'Your reservation has been canceled! Pick another gift!'
         );
 
-        return $this->redirectToRoute('giftlist-user',
-            array(
-                'uuiduser' => $uuiduser
-            ));
+        return $response;
     }
 
     public function shareWithFriends($emails, $data)
