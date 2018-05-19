@@ -33,10 +33,10 @@ a, a.active, a:active, a:focus, a:hover {
   color: #FFFFFF;
 }
 
-//.btn-danger, .delete-button.focus, .delete-button:focus {
-//  border-color: #FF0000 !important;
-//  background-color: #FF0000 !important;
-//}
+.btn-danger, .delete-button.focus, .delete-button:focus {
+  border-color: #dc3545 !important;
+  background-color: #dc3545 !important;
+}
 
 section#contact {
   background: #222222 url(~startbootstrap-agency/img/header-bg.jpg) no-repeat fixed center;
