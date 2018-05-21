@@ -28,6 +28,9 @@ class GiftType extends AbstractType
             ->add('reservable', CheckboxType::class,
                 array(
                     'label' => false,
+                    'attr' => [
+                        'checked' => 'checked'
+                    ]
                 ));
 
     }
