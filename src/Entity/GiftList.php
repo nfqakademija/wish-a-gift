@@ -70,6 +70,10 @@ class GiftList
      */
     private $createdAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublic;
 
     public function __construct()
     {
@@ -77,6 +81,7 @@ class GiftList
         $this->gifts = new ArrayCollection();
         $this->uuid = \Ramsey\Uuid\Uuid::uuid4();
         $this->uuidAdmin = \Ramsey\Uuid\Uuid::uuid4();
+        $this->isPublic = false;
     }
 
     public function getId()
@@ -120,6 +125,9 @@ class GiftList
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -171,5 +179,21 @@ class GiftList
             $this->gifts->removeElement($gift);
             $gift->setGiftList(null);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsPublic()
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * @param mixed $isPublic
+     */
+    public function setIsPublic($isPublic): void
+    {
+        $this->isPublic = $isPublic;
     }
 }

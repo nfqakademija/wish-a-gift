@@ -62,6 +62,10 @@ class WishaGiftController extends Controller
             ->getRepository(GiftList::class)
             ->findOneBy(['uuidAdmin' => $uuidadmin]);
 
+        if (null === $giftListEntity) {
+            throw $this->createNotFoundException();
+        }
+
         // build the form
         $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]);
 
