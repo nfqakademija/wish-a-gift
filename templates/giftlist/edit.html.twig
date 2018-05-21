@@ -31,7 +31,7 @@
 
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
-        let lastIndex = $collectionHolder.find(':input').toArray()
+        let lastIndex = $collectionHolder.find(':input[type="text"]').toArray()
           .map(i => $(i).prop('name') ? parseInt($(i).prop('name').replace(/[^0-9]+/, '')) : 0)
           .reduce((a, b) => Math.max(a, b));
 
@@ -73,10 +73,16 @@
 
         // Display the form in the page in an li, before the "Add a tag" link li
         let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
-        $newLinkLi.after($newFormLi);
 
         // add a delete link to the new form
         addTagFormDeleteLink($newFormLi);
+
+        $newLinkLi.after($newFormLi);
+
+
+        // call this after the new form element has been added to DOM,
+        // because AmazonAutocomplete searches for CSS selector inside document
+        addAutocomplete($newFormLi);
 
       }
 
@@ -93,6 +99,33 @@
           // remove the li for the tag form
           $tagFormLi.remove();
         });
+      }
+
+      // add Autocomplete
+      function addAutocomplete($newLinkLi) {
+        console.log($newLinkLi);
+        let id = `#${$newLinkLi.find(':input[type="text"]').prop('id').toString()}`;
+        console.log(id);
+
+        // Default AmazonAutocomplete configuration
+        let autoCompleteConfig = {
+          'selector': id,
+          delay: 150,
+          showWords: true,
+          hideOnblur: true,
+        };
+
+        let searchInput = new AmazonAutocomplete(autoCompleteConfig);
+        searchInput.onSelectedWord(word => {
+          searchInput._input.value = word;
+
+          // Log the selected word to the console
+          console.log(`selected choice: ${word}...`, searchInput);
+
+          // loose focus to close/hide autocomplete
+          $(searchInput._input).parent().find('.ac__container').toggle();
+        });
+
       }
 
     </script>
