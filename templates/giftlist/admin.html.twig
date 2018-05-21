@@ -8,101 +8,91 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-      let $collectionHolder;
-      // setup an "add a gift" link
-      let $addTagLink = $('<a href="#" class="btn bg-dark btn-xl btn-block border-dark add_email_link"">Add an Email</a><br />');
-      let $newLinkLi = $('<li></li>').append($addTagLink);
-      $(document).ready(function () {
-        console.log("All resources finished loading");
-        // Get the ul that holds the collection of gifts
-        $collectionHolder = $('ul.emails');
-        // add a delete link to all of the existing tag form li elements
-        $collectionHolder.find('li').each(function () {
-          addTagFormDeleteLink($(this));
-        });
-        // add the "add a tag" anchor and li to the gifts ul
-        $collectionHolder.prepend($newLinkLi);
-        // count the current form inputs we have (e.g. 2), use that as the new
-        // index when inserting a new item (e.g. 2)
-        let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name') ?
-          $collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, '') : 0
-        );
-        $collectionHolder.data('index', ++lastIndex);
-        $addTagLink.on('click', function (e) {
-          // prevent the link from creating a "#" on the URL
-          e.preventDefault();
-          // add a new tag form (see next code block)
-          addTagForm($collectionHolder, $newLinkLi);
-        });
-      });
-
-      function addTagForm($collectionHolder, $newLinkLi) {
-        // Get the data-prototype explained earlier
-        let prototype = $collectionHolder.data('prototype');
-        // get the new index
-        let index = $collectionHolder.data('index');
-        let newForm = prototype;
-        // You need this only if you didn't set 'label' => false in your tags field in TaskType
-        // Replace '__name__label__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        // newForm = newForm.replace(/__name__label__/g, index);
-        // Replace '__name__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        newForm = newForm.replace(/__name__/g, index);
-        // increase the index with one for the next item
-        $collectionHolder.data('index', index + 1);
-        // create form input from prototype (inside our <div>)
-        let $newForm = $('<div class="input-group"></div>').prepend(newForm);
-        // Display the form in the page in an li, before the "Add a tag" link li
-        let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
-        $newLinkLi.after($newFormLi);
-        // add a delete link to the new form
-        addTagFormDeleteLink($newFormLi);
-      }
-      function addTagFormDeleteLink($tagFormLi) {
-              let $removeFormA = $('<div class="input-group-append">\n' +
-                  '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
-                  '</div>');
-              $tagFormLi.find('.input-group').append($removeFormA);
-              $removeFormA.on('click', function (e) {
-                  // prevent the link from creating a "#" on the URL
-                  e.preventDefault();
-                  // remove the li for the tag form
-                  $tagFormLi.remove();
-              });
-          }
-
-      $('#copyToClipboard').click(function () {
-        let copyLink = document.getElementById("emails_url");
-        copyLink.select();
-        document.execCommand("copy");
-      });
-
-    </script>
-    {% if app.request.get('open_share') %}
-        <script>
-            $(document).ready(function () {
-                $('#modal').modal('show');
-            })
-        </script>
-    {% endif %}
-    <script>
+        let $collectionHolder;
+        // setup an "add a gift" link
+        let $addTagLink = $('<a href="#" class="btn bg-dark btn-xl btn-block border-dark add_email_link"">Add an Email</a><br />');
+        let $newLinkLi = $('<li></li>').append($addTagLink);
         $(document).ready(function () {
+            console.log("All resources finished loading");
+            // Get the ul that holds the collection of gifts
+            $collectionHolder = $('ul.emails');
+            // add a delete link to all of the existing tag form li elements
+            $collectionHolder.find('li').each(function () {
+                addTagFormDeleteLink($(this));
+            });
+            // add the "add a tag" anchor and li to the gifts ul
+            $collectionHolder.prepend($newLinkLi);
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name') ?
+                $collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, '') : 0
+            );
+            $collectionHolder.data('index', ++lastIndex);
+            $addTagLink.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+                // add a new tag form (see next code block)
+                addTagForm($collectionHolder, $newLinkLi);
+            });
+        });
 
-            $('#copyToClipboard').click(function () {
-                let copyLink = document.getElementById("emails_url");
-                copyLink.select();
-                document.execCommand("copy");
-                alert("You just copied the link to the clipboard!");
-            })
-        })
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            let prototype = $collectionHolder.data('prototype');
+            // get the new index
+            let index = $collectionHolder.data('index');
+            let newForm = prototype;
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            // newForm = newForm.replace(/__name__label__/g, index);
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, index);
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+            // create form input from prototype (inside our <div>)
+            let $newForm = $('<div class="input-group"></div>').prepend(newForm);
+            // Display the form in the page in an li, before the "Add a tag" link li
+            let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
+            $newLinkLi.after($newFormLi);
+            // add a delete link to the new form
+            addTagFormDeleteLink($newFormLi);
+        }
 
+        function addTagFormDeleteLink($tagFormLi) {
+            let $removeFormA = $('<div class="input-group-append">\n' +
+                '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
+                '</div>');
+            $tagFormLi.find('.input-group').append($removeFormA);
+            $removeFormA.on('click', function (e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+                // remove the li for the tag form
+                $tagFormLi.remove();
+            });
+        }
+
+        $('#copyToClipboard').click(function () {
+            let copyLink = document.getElementById("emails_url");
+            copyLink.select();
+            document.execCommand("copy");
+        });
+        // initialize popovers
+        $('[data-toggle="popover"]').popover();
+
+        {% if app.request.get('open_share') %}
+        // $(document).ready(function () {
+            $('#modal').modal('show');
+        // });
+        {% endif %}
 
     </script>
 
 {% endblock %}
 
 {% block body %}
+
     {{ include('navigation/navigation.html.twig') }}
     <div class="container">
         <section id="services">
@@ -159,7 +149,7 @@
     </div>
 
     {# Modal #}
-    <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" >
+    <div class="portfolio-modal modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog p-5">
             <div class="modal-content">
                 <button type="button" class="btn btn-light close-modal" data-dismiss="modal">
