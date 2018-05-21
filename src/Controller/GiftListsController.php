@@ -113,18 +113,19 @@ class GiftListsController extends Controller
         }
         if ($active) {
             $this->addFlash(
-                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation'
+                'success', 'Be careful and think twice! You have 10 minutes to undo your reservation'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
-        $countReservedGifts = count(json_decode($cookie, true));
 
-        if ($countReservedGifts > 1) {
+        $giftList = $active->getGiftList();
+
+        if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
-                'warning', 'You have already reserved ' . $countReservedGifts . ' gifts. Leave some for others'
+                'warning', 'You have already reserved more than one gift. Leave some for others! :)'
             );
         }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
