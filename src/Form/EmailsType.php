@@ -25,10 +25,10 @@ class EmailsType extends AbstractType
             ->add('url', TextType::class,
                 array(
                     'required' => true,
-                    'constraints' => [new NotBlank(), new Length(['max' => 100])]
+                    'constraints' => [new NotBlank(), new Length(['max' => 255])]
                 ))
             ->add('emails', CollectionType::class, [
-                'constraints' => [new All(new Email()), new All(new NotBlank()), new All(new Length(['max' => 100]))],
+                'constraints' => [new All(new Email()), new All(new NotBlank()), new All(new Length(['max' => 255]))],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'entry_type' => EmailType::class,

@@ -24,14 +24,10 @@ class GiftType extends AbstractType
                     'attr' => [
                         'placeholder' => 'Enter gift...',
                         'class' => 'form-control'
-                    ]
-                ))
+                    ]                ))
             ->add('reservable', CheckboxType::class,
                 array(
                     'label' => false,
-                    'attr' => [
-                        'checked' => 'checked'
-                    ]
                 ));
 
     }

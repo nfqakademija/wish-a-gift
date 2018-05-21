@@ -22,6 +22,8 @@ class WishaGiftController extends Controller
         // build the form
         $giftList = new GiftList();
         $giftList->addGift(new Gift());
+
+
         $form = $this->createForm(GiftListType::class, $giftList);
 
         // handle the submit (will only happen on POST)
@@ -31,7 +33,6 @@ class WishaGiftController extends Controller
              * @var $giftList GiftList
              */
             $giftList = $form->getData();
-
             // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
