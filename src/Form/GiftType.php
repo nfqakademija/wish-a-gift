@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Gift;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,6 +24,13 @@ class GiftType extends AbstractType
                     'attr' => [
                         'placeholder' => 'Enter gift...',
                         'class' => 'form-control'
+                    ]
+                ))
+            ->add('reservable', CheckboxType::class,
+                array(
+                    'label' => false,
+                    'attr' => [
+                        'checked' => 'checked'
                     ]
                 ));
 

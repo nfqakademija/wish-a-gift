@@ -6,14 +6,12 @@ use App\Entity\GiftList;
 use App\Entity\Gift;
 use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
@@ -48,29 +46,29 @@ class GiftListType extends AbstractType
             ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
                 'allow_delete' => true,
+                'by_reference' => false,
                 // each entry in the array will be a "gift" field
                 'entry_type' => GiftType::class,
+                'required' => true,
                 // manage a collection of similar items in a form
                 'entry_options' => array(
                     'attr' => ['class' => 'form-group'],
-                    ),
+                ),
                 // allows to define specific data for the prototype
-                //https://symfony.com/doc/current/reference/forms/types/collection.html#prototype-data
                 'prototype' => true,
-                'delete_empty' => true,
+                // describe empty condition
+//                'delete_empty' => function (Gift $gift = null) {
+//                    return null === $gift || empty($gift->getTitle());
+//                },
                 'disabled' => !$options['allow_gift_editing'],
-//                'prototype_data' => 'New Tag Placeholder'
             ])
             ->add('Save', SubmitType::class);
-
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => GiftList::class,
             'allow_gift_editing' => true,
-//            "allow_extra_fields" => true
         ));
     }
 }

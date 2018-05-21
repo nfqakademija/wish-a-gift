@@ -59,22 +59,23 @@
                             <div class="d-inline-block">
                                 <p class="text-muted">{{ gift.title|capitalize }}</p>
                             </div>
+                            {% if gift.reservable %}
+                                {% if gift.reservationToken is null %}
+                                    <div class="d-inline-block float-right">
+                                        <a href="{{ path('gift-reserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
+                                           class="btn btn-lg btn-dark border-dark">Reserve</a>
+                                    </div>
+                                {% endif %}
 
-                            {% if gift.reservationToken is null %}
-                                <div class="d-inline-block float-right">
-                                    <a href="{{ path('gift-reserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
-                                       class="btn btn-lg btn-dark border-dark">Reserve</a>
-                                </div>
-                            {% endif %}
-
-                            {% if gift.reservationToken is not null %}
-                                <div class="float-right">
-                                    <label class="form-check-label" for="reserved">Reserved</label>
-                                    {% if isGiftReservedByMe(gift, app.request.cookies.get('reserved_gifts')) %}
-                                        <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
-                                           class="btn btn-lg bg-dark border-dark undo-button">Undo</a>
-                                    {% endif %}
-                                </div>
+                                {% if gift.reservationToken is not null %}
+                                    <div class="float-right">
+                                        <label class="form-check-label" for="reserved">Reserved</label>
+                                        {% if isGiftReservedByMe(gift, app.request.cookies.get('reserved_gifts')) %}
+                                            <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
+                                               class="btn btn-lg bg-dark border-dark undo-button">Undo</a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     {% endfor %}
