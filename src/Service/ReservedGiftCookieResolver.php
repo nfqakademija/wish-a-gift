@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Controller\GiftListsController;
+use App\Entity\GiftList;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class ReservedGiftCookieResolver
@@ -39,7 +40,7 @@ class ReservedGiftCookieResolver
         return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value));
     }
 
-    public static function isReserved(?string $cookie, $id, string $reserveToken, \DateTime $reservedAt): bool
+    public static function isReserved(?string $cookie, $id, string $reserveToken, ?\DateTime $reservedAt): bool
     {
         if (null === $cookie) {
             return false;
@@ -47,11 +48,33 @@ class ReservedGiftCookieResolver
 
         $value = json_decode($cookie, true);
 
-        $dateTimeNow = new \DateTime();
-        $reservedAtPlus10Min = $reservedAt->modify("+10 minutes")->getTimestamp();
+        if (!isset($value[trim($id)])) {
+            return false;
+        }
 
-        return isset($value[trim($id)]) && !($dateTimeNow->getTimestamp() >= $reservedAtPlus10Min) && ($value[trim($id)] === $reserveToken) ? true : false;
+        if ($value[trim($id)] !== $reserveToken) {
+            return false;
+        }
 
+        if (null === $reservedAt) {
+            return true;
+        }
 
+        return new \DateTime('- 10 minutes') < $reservedAt;
+    }
+
+    public static function hasReservedGifts(?string $cookie, GiftList $giftList): bool
+    {
+        foreach ($giftList->getGifts() as $gift) {
+            if (null === $gift->getReservationToken()) {
+                continue;
+            }
+
+            if (self::isReserved($cookie, $gift->getId(), $gift->getReservationToken(), null)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
