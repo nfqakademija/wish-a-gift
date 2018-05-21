@@ -40,9 +40,9 @@ class Gift
     private $createdAt;
 
     /**
-     * @ORM\Column(type="smallint", options={"default" : 1})
+     * @ORM\Column(type="boolean")
      */
-    private $reservable;
+    private $reservable = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GiftList", inversedBy="gifts")
