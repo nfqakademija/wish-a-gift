@@ -63,7 +63,7 @@ class PublicGiftsFixtures extends Fixture
         'Dance Till ya Drop',
         'Easter',
         'FIESTA!!!',
-        'Fun,Fun,Fun',
+        'Fun, Fun, Fun',
         'It Ain\'t Over Til It\'s Over!',
         'Let The Good Times Roll',
         'Let\'s get 2gether',
@@ -73,9 +73,9 @@ class PublicGiftsFixtures extends Fixture
         'School Holiday',
         'Secret Santa Party',
         'Sleepover Hangover',
-        'Snooze-a Palooza',
+        'Snooze-a-Palooza',
         'Super-Duper-Party-Hard!',
-        'We Gonna Party Like It\'s Your Birthday',
+        'We Gonna Party Like It\'s Your Birthday!',
         'Winter Wonderland',
         'Work Anniversary',
         'You\'re Here for the Party!'
@@ -83,6 +83,7 @@ class PublicGiftsFixtures extends Fixture
 
     /**
      * Returns random gift title (using pre-defined hardcoded array of values)
+     * @param array $alreadyUsed
      * @return string
      */
     private function getGiftTitle(array $alreadyUsed)
