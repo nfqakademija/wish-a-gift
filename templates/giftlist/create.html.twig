@@ -11,7 +11,7 @@
     <script>
       let $collectionHolder;
 
-      // setup an "add a gift" link
+      // Setup an "add a gift" link
       let $addTagLink = $('<a href="#" class="btn btn-warning btn-xl btn-block add_gift_link">Add a Gift</a><br />');
       let $newLinkLi = $('<li></li>').append($addTagLink);
 
@@ -21,13 +21,13 @@
         // Get the ul that holds the collection of gifts
         $collectionHolder = $('ul.gifts');
 
-        // add a delete link to all of the existing tag form li elements
+        // Add a delete link to all of the existing gift form li elements
         $collectionHolder.find('li').each(function () {
           addTagFormDeleteLink($(this));
           addAutocomplete($(this));
         });
 
-        // add the "add a tag" anchor and li to the gifts ul
+        // Add the "add a tag" anchor and li to the gifts ul
         $collectionHolder.prepend($newLinkLi);
 
         // count the current form inputs we have (e.g. 2), use that as the new
@@ -42,7 +42,7 @@
           // prevent the link from creating a "#" on the URL
           e.preventDefault();
 
-          // add a new tag form (see next code block)
+          // Add a new gift form (see next code block)
           addTagForm($collectionHolder, $newLinkLi);
 
         });
@@ -52,15 +52,11 @@
         // Get the data-prototype explained earlier
         let prototype = $collectionHolder.data('prototype');
 
-        // get the new index
+        // Get the new index
         let index = $collectionHolder.data('index');
 
         let newForm = prototype;
-        // You need this only if you didn't set 'label' => false in your tags field in TaskType
-        // Replace '__name__label__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        // newForm = newForm.replace(/__name__label__/g, index);
-
+        // Need this because we set 'label' => false in GiftType
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
         newForm = newForm.replace(/__name__/g, index);
@@ -91,15 +87,15 @@
         $tagFormLi.find('.input-group').append($removeFormA);
 
         $removeFormA.on('click', function (e) {
-          // prevent the link from creating a "#" on the URL
+          // Prevent the link from creating a "#" on the URL
           e.preventDefault();
 
-          // remove the li for the tag form
+          // Remove the li for the tag form
           $tagFormLi.remove();
         });
       }
 
-      // add Autocomplete
+      // Add Autocomplete to input for gift
       function addAutocomplete($newLinkLi) {
         let id = `#${$newLinkLi.find(':input[type="text"]').prop('id').toString()}`;
 
@@ -118,7 +114,7 @@
           // Log the selected word to the console
           console.log(`selected choice: ${word}...`, searchInput);
 
-          // loose focus to close/hide autocomplete
+          // Loose focus to close/hide autocomplete
           $(searchInput._input).parent().find('.ac__container').toggle();
         });
 
@@ -186,7 +182,9 @@
 
                         <div class="col-md-6">
                             <ul class="gifts"
-                                data-prototype="{{ form_widget(form.gifts.vars.prototype)|e('html_attr') }}">
+                                data-prototype="
+                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
                                         <div class="input-group">
@@ -194,7 +192,7 @@
                                             {{ form_widget(gift.title) }}
                                         </div>
                                     </li>
-                                    <p class="help-block text-danger">{{ form_errors(gift.title) }}</p>
+                                    {#<p class="help-block text-danger">{{ form_errors(gift.title) }}</p>#}
                                 {% endfor %}
                             </ul>
                         </div>
