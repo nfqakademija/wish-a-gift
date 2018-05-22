@@ -41,7 +41,7 @@ class GiftListType extends AbstractType
             ->add('description', TextareaType::class,
                 array(
                     'required' => true,
-                    'constraints' => array(new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255]))
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
             ->add('gifts', CollectionType::class, [
                 'allow_add' => true,
