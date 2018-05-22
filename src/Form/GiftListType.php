@@ -57,9 +57,9 @@ class GiftListType extends AbstractType
                 // allows to define specific data for the prototype
                 'prototype' => true,
                 // describe empty condition
-//                'delete_empty' => function (Gift $gift = null) {
-//                    return null === $gift || empty($gift->getTitle());
-//                },
+                'delete_empty' => function (Gift $gift = null) {
+                    return null === $gift || empty($gift->getTitle());
+                },
                 'disabled' => !$options['allow_gift_editing'],
             ])
             ->add('Save', SubmitType::class);
