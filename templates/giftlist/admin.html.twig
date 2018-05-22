@@ -8,91 +8,87 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        let $collectionHolder;
-        // setup an "add a gift" link
-        let $addTagLink = $('<a href="#" class="btn bg-dark btn-xl btn-block border-dark add_email_link"">Add an Email</a><br />');
-        let $newLinkLi = $('<li></li>').append($addTagLink);
-        $(document).ready(function () {
-            console.log("All resources finished loading");
-            // Get the ul that holds the collection of gifts
-            $collectionHolder = $('ul.emails');
-            // add a delete link to all of the existing tag form li elements
-            $collectionHolder.find('li').each(function () {
-                addTagFormDeleteLink($(this));
-            });
-            // add the "add a tag" anchor and li to the gifts ul
-            $collectionHolder.prepend($newLinkLi);
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name') ?
-                $collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, '') : 0
-            );
-            $collectionHolder.data('index', ++lastIndex);
-            $addTagLink.on('click', function (e) {
-                // prevent the link from creating a "#" on the URL
-                e.preventDefault();
-                // add a new tag form (see next code block)
-                addTagForm($collectionHolder, $newLinkLi);
-            });
+      let $collectionHolder;
+      // setup an "add an email" link
+      let $addTagLink = $('<a href="#" class="btn bg-dark btn-xl btn-block border-dark add_email_link">Add an Email</a><br />');
+      let $newLinkLi = $('<li></li>').append($addTagLink);
+      $(document).ready(function () {
+        console.log("All resources finished loading");
+        // Get the ul that holds the collection of emails
+        $collectionHolder = $('ul.emails');
+        // add a delete link to all of the existing email form li elements
+        $collectionHolder.find('li').each(function () {
+          addTagFormDeleteLink($(this));
         });
-
-        function addTagForm($collectionHolder, $newLinkLi) {
-            // Get the data-prototype explained earlier
-            let prototype = $collectionHolder.data('prototype');
-            // get the new index
-            let index = $collectionHolder.data('index');
-            let newForm = prototype;
-            // You need this only if you didn't set 'label' => false in your tags field in TaskType
-            // Replace '__name__label__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            // newForm = newForm.replace(/__name__label__/g, index);
-            // Replace '__name__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            newForm = newForm.replace(/__name__/g, index);
-            // increase the index with one for the next item
-            $collectionHolder.data('index', index + 1);
-            // create form input from prototype (inside our <div>)
-            let $newForm = $('<div class="input-group"></div>').prepend(newForm);
-            // Display the form in the page in an li, before the "Add a tag" link li
-            let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
-            $newLinkLi.after($newFormLi);
-            // add a delete link to the new form
-            addTagFormDeleteLink($newFormLi);
-        }
-
-        function addTagFormDeleteLink($tagFormLi) {
-            let $removeFormA = $('<div class="input-group-append">\n' +
-                '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
-                '</div>');
-            $tagFormLi.find('.input-group').append($removeFormA);
-            $removeFormA.on('click', function (e) {
-                // prevent the link from creating a "#" on the URL
-                e.preventDefault();
-                // remove the li for the tag form
-                $tagFormLi.remove();
-            });
-        }
-
-        $('#copyToClipboard').click(function () {
-            let copyLink = document.getElementById("emails_url");
-            copyLink.select();
-            document.execCommand("copy");
+        // add the "add an email" anchor and li to the emails ul
+        $collectionHolder.prepend($newLinkLi);
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        let lastIndex = parseInt($collectionHolder.find(':input:first').prop('name') ?
+          $collectionHolder.find(':input:first').prop('name').replace(/[^0-9]+/, '') : 0
+        );
+        $collectionHolder.data('index', ++lastIndex); // data( key, value )
+        $addTagLink.on('click', function (e) {
+          // prevent the link from creating a "#" on the URL
+          e.preventDefault();
+          // add a new tag form (see next code block)
+          addTagForm($collectionHolder, $newLinkLi);
         });
-        // initialize popovers
-        $('[data-toggle="popover"]').popover();
+      });
 
-        {% if app.request.get('open_share') %}
-        // $(document).ready(function () {
-            $('#modal').modal('show');
-        // });
-        {% endif %}
+      function addTagForm($collectionHolder, $newLinkLi) {
+        // Get the data-prototype explained earlier
+        let prototype = $collectionHolder.data('prototype');
+        // get the new index
+        let index = $collectionHolder.data('index');
+        let newForm = prototype;
+        // Need this because we set 'label' => false in EmailsType
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        newForm = newForm.replace(/__name__/g, index);
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+        // create form input from prototype (inside our <div>)
+        let $newForm = $('<div class="input-group"></div>').prepend(newForm);
+        // Display the form in the page in an li, before the "Add an email" link li
+        let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
+        $newLinkLi.after($newFormLi);
+        // add a delete link to the new form
+        addTagFormDeleteLink($newFormLi);
+      }
+
+      function addTagFormDeleteLink($tagFormLi) {
+        let $removeFormA = $('<div class="input-group-append">\n' +
+          '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
+          '</div>');
+        $tagFormLi.find('.input-group').append($removeFormA);
+        $removeFormA.on('click', function (e) {
+          // prevent the link from creating a "#" on the URL
+          e.preventDefault();
+          // remove the li for the email form
+          $tagFormLi.remove();
+        });
+      }
+
+      $('#copyToClipboard').click(function () {
+        let copyLink = document.getElementById("emails_url");
+        copyLink.select();
+        document.execCommand("copy");
+      });
+      // initialize popovers
+      $('[data-toggle="popover"]').popover();
+
+      {% if app.request.get('open_share') %}
+      $(document).ready(function () {
+        $('#modal').modal('show');
+      });
+      {% endif %}
 
     </script>
 
 {% endblock %}
 
 {% block body %}
-
     {{ include('navigation/navigation.html.twig') }}
     <div class="container">
         <section id="services">
@@ -100,7 +96,6 @@
                 <div class="row">
                     <div class="col-lg-12 text-center mb-5">
                         <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
-                        {#<h3 class="section-subheading text-muted">{{ data.email }}</h3>#}
                     </div>
                 </div>
                 <div class="row text-center">
@@ -127,7 +122,6 @@
                                         <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
                                     </div>
                                     <div class="d-inline-block">
-                                        {#<h4 class="service-heading">Gifts</h4>#}
                                         <p class="text-muted">{{ gift.title|capitalize }}</p>
                                     </div>
                                 </div>
@@ -138,6 +132,7 @@
                 <div class="col-lg-12 text-center edit-margin">
                     <a href="{{ path('edit', {'uuidadmin': data.uuidAdmin}) }}" type="submit"
                        class="btn btn-block btn-xl bg-dark border-dark text-uppercase">Edit</a>
+
                     {# Modal Trigger #}
                     <button type="button" class="btn btn-warning btn-block btn-xl text-uppercase" data-toggle="modal"
                             data-target="#modal">
@@ -172,9 +167,14 @@
                                 <div class="col-md-12 emailList">
                                     <ul class="emails"
                                         data-prototype="{{ form_widget(form.emails.vars.prototype)|e('html_attr') }}">
+                                        {% if form.emails.count == 0 %}
+                                            {{ form_widget(form.emails, {
+                                                'label': false
+                                            }) }}
+                                        {% endif %}
                                         {% for email in form.emails %}
                                             <li class="form-group">
-                                                <div class="form-control">
+                                                <div class="input-group">
                                                     {{ form_widget(email) }}
                                                 </div>
                                             </li>
