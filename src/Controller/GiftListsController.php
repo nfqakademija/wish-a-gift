@@ -54,8 +54,15 @@ class GiftListsController extends Controller
             $data['url'] = $form['url']->getData();
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
+            $data['emails'] = $form['emails']->getData();
+//            var_dump($giftListEntity->getEmail()); die;
 
-            foreach ($form['emails']->getData() as $email) {
+            if ($giftListEntity->getEmail())
+            {
+                $this->shareWithFriendsAdmin($giftListEntity->getEmail(), $data);
+            }
+
+            foreach ($data['emails'] as $email) {
                 // var_dump($email);
                 $this->shareWithFriends($email, $data);
 
@@ -185,6 +192,22 @@ class GiftListsController extends Controller
                 $this->renderView(
                 // templates/emails/registration.html.twig
                     'emails/sharewithfriends.html.twig',
+                    array('data' => $data)
+                ),
+                'text/html'
+            );
+
+        $this->get('mailer')->send($message);
+    }
+
+    public function shareWithFriendsAdmin($emails, $data)
+    {
+        $message = (new \Swift_Message($data['subject']))
+            ->setFrom('nejuras@gmail.com')
+            ->setTo($emails)
+            ->setBody(
+                $this->renderView(
+                    'emails/sharewithfriendsadmin.html.twig',
                     array('data' => $data)
                 ),
                 'text/html'

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h3>To open your friend's WishList and reserve the gift, please, follow the link: {{ data.url }} </h3>
+    <h3>To open Admin WishList and edit the gifts, please, follow the link: {{ url('giftlist-admin', {'uuidadmin': data.admin.uuidadmin}) }} </h3>
+
+    <div>
+        <h3>Your friends' emails:</h3>
+        {% for email in data.emails %}
+            <ul>
+                <li>{{ email }}</li>
+            </ul>
+        {% endfor %}
+        <h3>Your Gifts!</h3>
+        {% for gift in data.admin.gifts %}
+            <ul>
+                <li>{{ gift.title }}</li>
+            </ul>
+        {% endfor %}
+    </div>
+
+{% endblock %}
