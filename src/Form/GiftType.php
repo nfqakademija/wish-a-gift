@@ -17,21 +17,20 @@ class GiftType extends AbstractType
     {
         $builder
             ->add('title', TextType::class,
-                [
+                array(
                     'constraints' => array(new Length(array('min' => 3)), new Length(['max' => 255])),
                     'label' => false,
                     'attr' => [
                         'placeholder' => 'Enter gift...',
                         'class' => 'form-control'
-                    ]
-                ])
+                    ]                ))
             ->add('reservable', CheckboxType::class,
-                [
+                array(
                     'label' => false,
                     'attr' => [
                         'checked' => 'checked'
                     ]
-                ]);
+                ));
 
     }
 

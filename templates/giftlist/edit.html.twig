@@ -56,11 +56,7 @@
         let index = $collectionHolder.data('index');
 
         let newForm = prototype;
-        // You need this only if you didn't set 'label' => false in your tags field in TaskType
-        // Replace '__name__label__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        // newForm = newForm.replace(/__name__label__/g, index);
-
+        // Need this because we set 'label' => false in GiftType
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
         newForm = newForm.replace(/__name__/g, index);
@@ -122,7 +118,7 @@
           // Log the selected word to the console
           console.log(`selected choice: ${word}...`, searchInput);
 
-          // loose focus to close/hide autocomplete
+          // Loose focus to close/hide autocomplete
           $(searchInput._input).parent().find('.ac__container').toggle();
         });
 
@@ -186,19 +182,20 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <ul class="gifts"
-                                data-prototype="{{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
+                                data-prototype="
+                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
                                         <div class="input-group">
+                                            {{ form_widget(gift.reservable) }}
                                             {{ form_widget(gift.title) }}
                                         </div>
                                     </li>
                                 {% endfor %}
                             </ul>
-
                         </div>
 
                         <div class="clearfix"></div>

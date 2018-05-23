@@ -9,120 +9,116 @@
     {{ parent() }}
 
     <script>
-        let $collectionHolder;
+      let $collectionHolder;
 
-        // setup an "add a gift" link
-        let $addTagLink = $('<a href="#" class="btn btn-warning btn-xl btn-block add_gift_link">Add a Gift</a><br />');
-        let $newLinkLi = $('<li></li>').append($addTagLink);
+      // Setup an "add a gift" link
+      let $addTagLink = $('<a href="#" class="btn btn-warning btn-xl btn-block add_gift_link">Add a Gift</a><br />');
+      let $newLinkLi = $('<li></li>').append($addTagLink);
 
-        $(document).ready(function () {
-            console.log("All resources finished loading");
+      $(document).ready(function () {
+        console.log("All resources finished loading");
 
-            // Get the ul that holds the collection of gifts
-            $collectionHolder = $('ul.gifts');
+        // Get the ul that holds the collection of gifts
+        $collectionHolder = $('ul.gifts');
 
-            // add a delete link to all of the existing tag form li elements
-            $collectionHolder.find('li').each(function () {
-                addTagFormDeleteLink($(this));
-                addAutocomplete($(this));
-            });
-
-            // add the "add a tag" anchor and li to the gifts ul
-            $collectionHolder.prepend($newLinkLi);
-
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
-            let lastIndex = $collectionHolder.find(':input[type="text"]').toArray()
-                .map(i => $(i).prop('name') ? parseInt($(i).prop('name').replace(/[^0-9]+/, '')) : 0)
-                .reduce((a, b) => Math.max(a, b));
-
-            $collectionHolder.data('index', ++lastIndex);
-
-            $addTagLink.on('click', function (e) {
-                // prevent the link from creating a "#" on the URL
-                e.preventDefault();
-
-                // add a new tag form (see next code block)
-                addTagForm($collectionHolder, $newLinkLi);
-
-            });
+        // Add a delete link to all of the existing gift form li elements
+        $collectionHolder.find('li').each(function () {
+          addTagFormDeleteLink($(this));
+          addAutocomplete($(this));
         });
 
-        function addTagForm($collectionHolder, $newLinkLi) {
-            // Get the data-prototype explained earlier
-            let prototype = $collectionHolder.data('prototype');
+        // Add the "add a tag" anchor and li to the gifts ul
+        $collectionHolder.prepend($newLinkLi);
 
-            // get the new index
-            let index = $collectionHolder.data('index');
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        let lastIndex = $collectionHolder.find(':input[type="text"]').toArray()
+          .map(i => $(i).prop('name') ? parseInt($(i).prop('name').replace(/[^0-9]+/, '')) : 0)
+          .reduce((a, b) => Math.max(a, b));
 
-            let newForm = prototype;
-            // You need this only if you didn't set 'label' => false in your tags field in TaskType
-            // Replace '__name__label__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            // newForm = newForm.replace(/__name__label__/g, index);
+        $collectionHolder.data('index', ++lastIndex);
 
-            // Replace '__name__' in the prototype's HTML to
-            // instead be a number based on how many items we have
-            newForm = newForm.replace(/__name__/g, index);
+        $addTagLink.on('click', function (e) {
+          // prevent the link from creating a "#" on the URL
+          e.preventDefault();
 
-            // increase the index with one for the next item
-            $collectionHolder.data('index', index + 1);
+          // Add a new gift form (see next code block)
+          addTagForm($collectionHolder, $newLinkLi);
 
-            // create form input from prototype (inside our <div>)
-            let $newForm = $('<div class="input-group"></div>').prepend(newForm);
+        });
+      });
 
-            // Display the form in the page in an li, before the "Add a tag" link li
-            let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
+      function addTagForm($collectionHolder, $newLinkLi) {
+        // Get the data-prototype explained earlier
+        let prototype = $collectionHolder.data('prototype');
 
-            // add a delete link to the new form
-            addTagFormDeleteLink($newFormLi);
+        // Get the new index
+        let index = $collectionHolder.data('index');
 
-            $newLinkLi.after($newFormLi);
+        let newForm = prototype;
+        // Need this because we set 'label' => false in GiftType
+        // Replace '__name__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        newForm = newForm.replace(/__name__/g, index);
 
-            // call this after the new form element has been added to DOM,
-            // because AmazonAutocomplete searches for CSS selector inside document
-            addAutocomplete($newFormLi);
-        }
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
 
-        function addTagFormDeleteLink($tagFormLi) {
-            let $removeFormA = $('<div class="input-group-append">\n' +
-                '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
-                '</div>');
-            $tagFormLi.find('.input-group').append($removeFormA);
+        // create form input from prototype (inside our <div>)
+        let $newForm = $('<div class="input-group"></div>').prepend(newForm);
 
-            $removeFormA.on('click', function (e) {
-                // prevent the link from creating a "#" on the URL
-                e.preventDefault();
+        // Display the form in the page in an li, before the "Add a tag" link li
+        let $newFormLi = $('<li class="form-group"></li>').prepend($newForm);
 
-                // remove the li for the tag form
-                $tagFormLi.remove();
-            });
-        }
+        // add a delete link to the new form
+        addTagFormDeleteLink($newFormLi);
 
-        // add Autocomplete
-        function addAutocomplete($newLinkLi) {
-            let id = `#${$newLinkLi.find(':input[type="text"]').prop('id').toString()}`;
+        $newLinkLi.after($newFormLi);
 
-            // Default AmazonAutocomplete configuration
-            let autoCompleteConfig = {
-                'selector': id,
-                delay: 150,
-                showWords: true,
-                hideOnblur: true,
-            };
+        // call this after the new form element has been added to DOM,
+        // because AmazonAutocomplete searches for CSS selector inside document
+        addAutocomplete($newFormLi);
+      }
 
-            let searchInput = new AmazonAutocomplete(autoCompleteConfig);
-            searchInput.onSelectedWord(word => {
-                searchInput._input.value = word;
+      function addTagFormDeleteLink($tagFormLi) {
+        let $removeFormA = $('<div class="input-group-append">\n' +
+          '<button class="btn btn-danger btn-xl delete-button" type="button"><i class="fa fa-times"></i></button>\n' +
+          '</div>');
+        $tagFormLi.find('.input-group').append($removeFormA);
 
-                // Log the selected word to the console
-                console.log(`selected choice: ${word}...`, searchInput);
+        $removeFormA.on('click', function (e) {
+          // Prevent the link from creating a "#" on the URL
+          e.preventDefault();
 
-                // loose focus to close/hide autocomplete
-                $(searchInput._input).parent().find('.ac__container').toggle();
-            });
+          // Remove the li for the tag form
+          $tagFormLi.remove();
+        });
+      }
 
-        }
+      // Add Autocomplete to input for gift
+      function addAutocomplete($newLinkLi) {
+        let id = `#${$newLinkLi.find(':input[type="text"]').prop('id').toString()}`;
+
+        // Default AmazonAutocomplete configuration
+        let autoCompleteConfig = {
+          'selector': id,
+          delay: 150,
+          showWords: true,
+          hideOnblur: true,
+        };
+
+        let searchInput = new AmazonAutocomplete(autoCompleteConfig);
+        searchInput.onSelectedWord(word => {
+          searchInput._input.value = word;
+
+          // Log the selected word to the console
+          console.log(`selected choice: ${word}...`, searchInput);
+
+          // Loose focus to close/hide autocomplete
+          $(searchInput._input).parent().find('.ac__container').toggle();
+        });
+
+      }
 
 
     </script>
@@ -181,20 +177,14 @@
                                         }}) }}
                                     <p class="help-block text-danger">{{ form_errors(form.description) }}</p>
                                 </div>
-                                <div class="form-group">
-                                    <div class="checkbox">
-                                        {{ form_widget(form.isPublic) }}
-                                        {{ form_label(form.isPublic, 'Public List', {
-                                            'label_attr': {'class': 'text-white'}
-                                        }) }}
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <ul class="gifts"
-                                data-prototype="{{ form_widget(form.gifts.vars.prototype)|e('html_attr') }}">
+                                data-prototype="
+                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
                                         <div class="input-group">
@@ -202,7 +192,6 @@
                                             {{ form_widget(gift.title) }}
                                         </div>
                                     </li>
-                                    <p class="help-block text-danger">{{ form_errors(gift.title) }}</p>
                                 {% endfor %}
                             </ul>
                         </div>

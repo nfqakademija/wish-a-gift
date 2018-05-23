@@ -25,22 +25,25 @@ class GiftListType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, [
+            ->add('firstName', TextType::class,
+                array(
                     'required' => true,
-                    'constraints' => [new NotBlank(), new Length(['max' => 255])]
-                ])
-            ->add('email', EmailType::class, [
+                    'constraints' => array(new NotBlank(), new Length(['max' => 255]))
+                ))
+            ->add('email', EmailType::class, array(
                 'required' => true,
-                'constraints' => [new Email(), new NotBlank()]
-            ])
-            ->add('title', TextType::class, [
+                'constraints' => array(new Email(), new NotBlank())
+            ))
+            ->add('title', TextType::class,
+                array(
                     'required' => true,
-                    'constraints' => [new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255])]
-                ])
-            ->add('description', TextareaType::class, [
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255]))
+                ))
+            ->add('description', TextareaType::class,
+                array(
                     'required' => true,
-                    'constraints' => [new Length(array('min' => 3)), new NotBlank()]
-                ])
+                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
+                ))
             ->add('gifts', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
@@ -50,12 +53,12 @@ class GiftListType extends AbstractType
                 'entry_type' => GiftType::class,
                 'required' => true,
                 // manage a collection of similar items in a form
-                'entry_options' => [
+                'entry_options' => array(
                     'attr' => ['class' => 'form-group'],
-                ],
+                ),
                 // allows to define specific data for the prototype
                 'prototype' => true,
-                //describe empty condition
+                // describe empty condition
                 'delete_empty' => function (Gift $gift = null) {
                     return null === $gift || empty($gift->getTitle());
                 },
@@ -66,7 +69,6 @@ class GiftListType extends AbstractType
                 ])
             ->add('Save', SubmitType::class);
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
