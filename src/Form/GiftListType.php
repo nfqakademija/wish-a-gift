@@ -64,9 +64,9 @@ class GiftListType extends AbstractType
                 },
                 'disabled' => !$options['allow_gift_editing'],
                 ])
-            ->add('isPublic', CheckboxType::class, [
-                    'required' => false,
-                ])
+//            ->add('isPublic', CheckboxType::class, [
+//                    'required' => false,
+//                ])
             ->add('Save', SubmitType::class);
     }
     public function configureOptions(OptionsResolver $resolver)
