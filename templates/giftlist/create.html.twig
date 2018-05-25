@@ -177,20 +177,23 @@
                                         }}) }}
                                     <p class="help-block text-danger">{{ form_errors(form.description) }}</p>
                                 </div>
-                                {#<div class="form-group">#}
-                                    {#{{ form_widget(form.isPublic) }}#}
-                                    {#{{ form_label(form.isPublic, 'Public List', {#}
-                                        {#'label_attr': {#}
-                                            {#'class': 'text-white'#}
-                                        {#}}) }}#}
-                                {#</div>#}
+                                <div class="form-group">
+                                    {{ form_widget(form.isPublic) }}
+                                    {{ form_label(form.isPublic, 'Make your gift list public', {
+                                        'label_attr': {
+                                            'class': 'text-white'
+                                        }}) }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <ul class="gifts"
                                 data-prototype="
-                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.reservable, {
+                                    'attr': {
+                                        'checked' : 'checked'
+                                    }})|e('html_attr') }}
                                     {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
