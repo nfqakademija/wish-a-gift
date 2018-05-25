@@ -180,6 +180,13 @@
                                         }}) }}
                                     <p class="help-block text-danger">{{ form_errors(form.description) }}</p>
                                 </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.isPublic) }}
+                                    {{ form_label(form.isPublic, 'Make your gift list public', {
+                                        'label_attr': {
+                                            'class': 'text-white'
+                                        }}) }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
