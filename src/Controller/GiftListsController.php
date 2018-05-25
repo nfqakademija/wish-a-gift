@@ -11,11 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
 use Ramsey\Uuid\Uuid;
-
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class GiftListsController extends Controller
@@ -55,12 +51,9 @@ class GiftListsController extends Controller
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
             $data['emails'] = $form['emails']->getData();
-//            var_dump($giftListEntity->getEmail()); die;
 
-            if ($giftListEntity->getEmail())
-            {
-                $this->shareWithFriendsAdmin($giftListEntity->getEmail(), $data);
-            }
+            $this->sendToAdmin($giftListEntity->getEmail(), $data);
+
 
             foreach ($data['emails'] as $email) {
                 // var_dump($email);
@@ -80,11 +73,10 @@ class GiftListsController extends Controller
 
     /**
      * @Route("/giftlist/{uuiduser}", name="giftlist-user")
-     * @param Request $request
      * @param string $uuiduser
      * @return Response
      */
-    public function user(Request $request, string $uuiduser)
+    public function user(string $uuiduser)
     {
         $giftListEntity = $this->uuidUser($uuiduser);
         if (!$giftListEntity) {
@@ -165,7 +157,6 @@ class GiftListsController extends Controller
             );
         }
 
-        //todo check isReservedByMe
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
@@ -190,7 +181,6 @@ class GiftListsController extends Controller
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
-                // templates/emails/registration.html.twig
                     'emails/sharewithfriends.html.twig',
                     array('data' => $data)
                 ),
@@ -200,7 +190,7 @@ class GiftListsController extends Controller
         $this->get('mailer')->send($message);
     }
 
-    public function shareWithFriendsAdmin($emails, $data)
+    public function sendToAdmin($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
