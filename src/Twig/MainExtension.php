@@ -12,11 +12,17 @@ class MainExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('isGiftReservedByMe', array($this, 'isGiftReservedByMe')),
+            new \Twig_SimpleFunction('isGiftReservedForTime', array($this, 'isGiftReservedForTime')),
         );
     }
 
     public function isGiftReservedByMe(Gift $gift, ?string $cookie): bool
     {
-        return ReservedGiftCookieResolver::isReserved($cookie, $gift->getId(), $gift->getReservationToken(), $gift->getReservedAt());
+        return ReservedGiftCookieResolver::isReserved($cookie, $gift->getId(), $gift->getReservationToken());
+    }
+
+    public function isGiftReservedForTime(Gift $gift, ?string $cookie): bool
+    {
+        return ReservedGiftCookieResolver::isReservedForTime($cookie, $gift->getId(), $gift->getReservationToken(), $gift->getReservedAt());
     }
 }

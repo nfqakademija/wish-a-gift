@@ -192,7 +192,10 @@
                         <div class="col-md-6">
                             <ul class="gifts"
                                 data-prototype="
-                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.reservable, {
+                                    'attr': {
+                                        'checked' : 'checked'
+                                    }})|e('html_attr') }}
                                     {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">

@@ -68,6 +68,7 @@ class GiftListType extends AbstractType
                 ])
             ->add('Save', SubmitType::class);
     }
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
