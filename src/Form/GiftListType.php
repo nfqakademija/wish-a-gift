@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\GiftList;
 use App\Entity\Gift;
-use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -64,9 +63,9 @@ class GiftListType extends AbstractType
                 },
                 'disabled' => !$options['allow_gift_editing'],
                 ])
-//            ->add('isPublic', CheckboxType::class, [
-//                    'required' => false,
-//                ])
+            ->add('isPublic', CheckboxType::class, [
+                    'required' => false,
+                ])
             ->add('Save', SubmitType::class);
     }
     public function configureOptions(OptionsResolver $resolver)

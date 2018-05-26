@@ -28,7 +28,8 @@ class GiftType extends AbstractType
                 array(
                     'label' => false,
                     'attr' => [
-                        'checked' => 'checked'
+                        'checked' => 'checked',
+                        'class' => 'checkbox'
                     ]
                 ));
 
