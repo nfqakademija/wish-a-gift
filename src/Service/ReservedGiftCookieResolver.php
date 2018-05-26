@@ -40,7 +40,7 @@ class ReservedGiftCookieResolver
         return new Cookie(GiftListsController::RESERVED_GIFTS_COOKIE, json_encode($value));
     }
 
-    public static function isReserved(?string $cookie, $id, string $reserveToken, ?\DateTime $reservedAt): bool
+    public static function isReservedForTime(?string $cookie, $id, string $reserveToken, ?\DateTime $reservedAt): bool
     {
         if (null === $cookie) {
             return false;
@@ -63,6 +63,21 @@ class ReservedGiftCookieResolver
         return new \DateTime('- 10 minutes') < $reservedAt;
     }
 
+    public static function isReserved(?string $cookie, $id, string $reserveToken): bool
+    {
+        if (null === $cookie) {
+            return false;
+        }
+
+        $value = json_decode($cookie, true);
+
+        if (!isset($value[trim($id)])) {
+            return false;
+        }
+
+        return ($value[trim($id)] === $reserveToken);
+    }
+
     public static function hasReservedGifts(?string $cookie, GiftList $giftList): bool
     {
         foreach ($giftList->getGifts() as $gift) {
@@ -70,7 +85,7 @@ class ReservedGiftCookieResolver
                 continue;
             }
 
-            if (self::isReserved($cookie, $gift->getId(), $gift->getReservationToken(), null)) {
+            if (self::isReservedForTime($cookie, $gift->getId(), $gift->getReservationToken(), null)) {
                 return true;
             }
         }

@@ -69,8 +69,12 @@
 
                                 {% if gift.reservationToken is not null %}
                                     <div class="float-right">
-                                        <label class="form-check-label" for="reserved">Reserved</label>
                                         {% if isGiftReservedByMe(gift, app.request.cookies.get('reserved_gifts')) %}
+                                            <label class="form-check-label" for="reserved">Reserved By Me</label>
+                                        {% else %}
+                                            <label class="form-check-label" for="reserved">Reserved</label>
+                                        {% endif %}
+                                        {% if isGiftReservedForTime(gift, app.request.cookies.get('reserved_gifts')) %}
                                             <a href="{{ path('gift-unreserve', {'uuiduser': data.uuid, 'id':gift.id}) }}"
                                                class="btn btn-lg bg-dark border-dark undo-button">Undo</a>
                                         {% endif %}
