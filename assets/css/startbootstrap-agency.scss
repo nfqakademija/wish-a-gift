@@ -2,7 +2,7 @@
 @import "~font-awesome/scss/font-awesome";
 @import "~startbootstrap-agency/scss/agency";
 
-// override default selection color
+/* override default selection color */
 input::selection {
   background: lightskyblue;
 }
@@ -11,6 +11,7 @@ input::-moz-selection {
   background: lightskyblue;
 }
 
+/* Style for paragraph in modal */
 #modal_p {
   margin-top: 30px;
   margin-bottom: 10px;
@@ -33,12 +34,25 @@ a, a.active, a:active, a:focus, a:hover {
   color: #FFFFFF;
 }
 
+/* Override delete button */
 .btn-danger, .delete-button.focus, .delete-button:focus {
   border-color: #dc3545 !important;
   background-color: #dc3545 !important;
 }
 
+/* Override <section> background */
 section#contact {
   background: #222222 url(~startbootstrap-agency/img/header-bg.jpg) no-repeat fixed center;
   background-size: cover;
+}
+
+/* Override icons in footer section */
+#footer-icon {
+  color: #000000 !important;
+}
+
+/* Override checkbox on create, edit pages*/
+.checkbox {
+  width: 30px;
+  height: 0;
 }
