@@ -197,7 +197,7 @@ class GiftListsController extends Controller
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
-                    'emails/sharewithfriendsadmin.html.twig',
+                    'emails/sendtoadmin.html.twig',
                     array('data' => $data)
                 ),
                 'text/html'
