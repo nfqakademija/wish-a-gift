@@ -11,11 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Cookie;
 use Ramsey\Uuid\Uuid;
-
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class GiftListsController extends Controller
@@ -120,7 +116,7 @@ class GiftListsController extends Controller
         }
         if ($active) {
             $this->addFlash(
-                'success', 'Be careful and think twice! You have 10 minutes to undo your reservation'
+                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
@@ -132,7 +128,7 @@ class GiftListsController extends Controller
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
-                'warning', 'You have already reserved more than one gift. Leave some for others! :)'
+                'warning', 'You have already reserved more than one gift. Leave some for others!'
             );
         }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
@@ -190,7 +186,7 @@ class GiftListsController extends Controller
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
-                // templates/emails/registration.html.twig
+                // templates/emails/sharewithfriends.html.twig
                     'emails/sharewithfriends.html.twig',
                     array('data' => $data)
                 ),
