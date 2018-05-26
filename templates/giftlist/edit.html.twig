@@ -44,7 +44,6 @@
           // add a new tag form (see next code block)
           addTagForm($collectionHolder, $newLinkLi);
 
-
         });
       });
 
@@ -134,7 +133,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading text-uppercase">Edit your Gift List</h2>
-                    <h3 class="section-subheading text-muted"></h3>
+                    <h3 class="section-subheading text-white">On this page you can edit your gift list by adding new
+                        gifts and deleting other, in case you suddenly desire something else.<br /> But bring to notice, that
+                        you will not be able to delete the gift from the list, upon condition that your friend has already reserved
+                        it for you.</h3>
                 </div>
             </div>
             <div class="row">
@@ -207,8 +209,7 @@
                                 {{ form_widget(form.Save, {
                                     'attr': {
                                         'class': 'btn btn-warning  btn-block btn-xl text-uppercase',
-                                    }})
-                                }}
+                                    }}) }}
                             </div>
                         </div>
                     </div>
