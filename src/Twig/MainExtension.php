@@ -18,7 +18,7 @@ class MainExtension extends \Twig_Extension
 
     public function isGiftReservedByMe(Gift $gift, ?string $cookie): bool
     {
-        return ReservedGiftCookieResolver::isReserved($cookie, $gift->getId(), $gift->getReservationToken(), $gift->getReservedAt());
+        return ReservedGiftCookieResolver::isReserved($cookie, $gift->getId(), $gift->getReservationToken());
     }
 
     public function isGiftReservedForTime(Gift $gift, ?string $cookie): bool
