@@ -26,6 +26,7 @@ class EmailsType extends AbstractType
                 array(
                     'required' => true,
                     'constraints' => [new NotBlank(), new Length(['max' => 255])]
+                    // TODO: add 'disabled' => false. This is just a virtual field for showing the URL... should not be even submitted
                 ))
             ->add('emails', CollectionType::class, [
                 'constraints' => [new All(new Email()), new All(new NotBlank()), new All(new Length(['max' => 255]))],
@@ -37,6 +38,7 @@ class EmailsType extends AbstractType
                 ),
                 'prototype' => true,
                 'label' => false,
+                // TODO: allow max 5 collection elements
 //                 describe empty condition
 //                'delete_empty' => function (Email $email = null) {
 //                return null === $email || empty($email->getEmail());

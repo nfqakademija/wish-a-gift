@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
+ * TODO: delete class?
  * @method Gift|null find($id, $lockMode = null, $lockVersion = null)
  * @method Gift|null findOneBy(array $criteria, array $orderBy = null)
  * @method Gift[]    findAll()

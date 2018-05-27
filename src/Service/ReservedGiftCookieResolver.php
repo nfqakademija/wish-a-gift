@@ -6,6 +6,7 @@ use App\Controller\GiftListsController;
 use App\Entity\GiftList;
 use Symfony\Component\HttpFoundation\Cookie;
 
+// TODO: add phpunit test for this class
 class ReservedGiftCookieResolver
 {
     public static function addGift(?string $cookieValue, $id, string $reserveToken): Cookie

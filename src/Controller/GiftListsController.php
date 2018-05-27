@@ -46,13 +46,13 @@ class GiftListsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            // TODO: take URL not from request, but generate it in the controller
             $data['url'] = $form['url']->getData();
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
             $data['emails'] = $form['emails']->getData();
 
-            $this->sendToAdmin($giftListEntity->getEmail(), $data);
+            $this->sendToAdmin($giftListEntity->getEmail(), $data); // TODO: does it work? I did not get any email
 
 
             foreach ($data['emails'] as $email) {
@@ -60,6 +60,9 @@ class GiftListsController extends Controller
                 $this->shareWithFriends($email, $data);
 
             }
+
+            // TODO: add success flash message
+
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
 
         }
@@ -100,19 +103,23 @@ class GiftListsController extends Controller
     public function reserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
+            // TODO: add flash message, that giftlist was not found.
+
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
+        // TODO: find only by ID. If not found, show 404 or redirect to giftlist view page with error flash message
+        // TODO: if found - check is reserveAt === null, if not redirect to giftlist view page as show flash message that it is already reserved
         $active = $entityManager->getRepository(Gift::class)->findOneBy(['id' => $id, 'reservedAt' => null]);
         if (!$active) {
             throw $this->createNotFoundException(
                 'No product found for id ' . $id
             );
         }
-        if ($active) {
+        if ($active) { // TODO is this if necessary? Make warning -> success message type
             $this->addFlash(
-                'success', 'Be careful and think twice! You have 10 minutes to undo your reservation'
+                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
@@ -124,7 +131,7 @@ class GiftListsController extends Controller
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
-                'warning', 'You have already reserved more than one gift. Leave some for others! :)'
+                'warning', 'You have already reserved more than one gift. Leave some for others!'
             );
         }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
@@ -146,16 +153,21 @@ class GiftListsController extends Controller
     public function unreserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
+            // TODO: add flash message, that giftlist was not found.
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
         $active = $entityManager->getRepository(Gift::class)->find($id);
         if (!$active) {
+            // TODO: add flash message that gift is not found and redirect to giftlist page
             throw $this->createNotFoundException(
                 'No product found for id ' . $id
             );
         }
+
+        // TODO: check if the gift is reserved by me and can I really undo? Check reservation token from the cookie and reservationAt flag. Use ReservedGiftCookieResolver
+        // TODO: if it is not my reservation - redirect to giftlist page with flash error message
 
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
@@ -174,7 +186,7 @@ class GiftListsController extends Controller
         return $response;
     }
 
-    public function shareWithFriends($emails, $data)
+    public function shareWithFriends($emails, $data) // TODO: it should be a private method
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
@@ -190,7 +202,7 @@ class GiftListsController extends Controller
         $this->get('mailer')->send($message);
     }
 
-    public function sendToAdmin($emails, $data)
+    public function sendToAdmin($emails, $data) // TODO: it should be a private method
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')

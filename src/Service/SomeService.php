@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
+// TODO: delete class
 class SomeService extends \Controller
 {
     private $router;

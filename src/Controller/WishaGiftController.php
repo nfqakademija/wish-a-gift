@@ -37,7 +37,7 @@ class WishaGiftController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
-
+            // TODO: add success flash message
             return $this->redirectToRoute('giftlist-admin',
                 array(
                     'uuidadmin' => $giftList->getUuidAdmin(),
@@ -80,6 +80,7 @@ class WishaGiftController extends Controller
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
 
+            // TODO: add success flash message
             return $this->redirectToRoute('giftlist-admin',
                 array(
                     'uuidadmin' => $giftListEntity->getUuidAdmin(),

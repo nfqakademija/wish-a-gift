@@ -18,7 +18,7 @@ class GiftType extends AbstractType
         $builder
             ->add('title', TextType::class,
                 [
-                    'constraints' => [new Length(['min' => 3]), new Length(['max' => 255])],
+                    'constraints' => [new Length(['min' => 3]), new Length(['max' => 255])], // TODO: add NotBlank
                     'label' => false,
                     'attr' => [
                         'placeholder' => 'Enter gift...',
@@ -29,7 +29,7 @@ class GiftType extends AbstractType
                 [
                     'label' => false,
 //                    'data' => true,
-                    'value' => $this->checkedCheckbox(),
+                    'value' => $this->checkedCheckbox(), // TODO: it should automatically work, without setting value
                 ]
 
             );
@@ -46,7 +46,7 @@ class GiftType extends AbstractType
     public function checkedCheckbox()
     {
         $gift = new Gift();
-        if ($gift->getReservable()) {
+        if ($gift->getReservable()) { // TODO: will it ever be false? Redundant logic
             return true;
         }
         return false;

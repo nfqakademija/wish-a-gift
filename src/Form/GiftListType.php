@@ -43,6 +43,7 @@ class GiftListType extends AbstractType
                     'required' => true,
                     'constraints' => array(new Length(array('min' => 3)), new NotBlank())
                 ))
+            // TODO: add validation for at least one gift
             ->add('gifts', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
