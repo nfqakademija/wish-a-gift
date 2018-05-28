@@ -56,3 +56,37 @@ section#contact {
   width: 30px;
   height: 0;
 }
+
+/* Override ul on main page */
+#mainPageGiftList {
+  padding-left: 0;
+}
+
+/* Styles for placeholders */
+section#contact ::-webkit-input-placeholder {
+  font-weight: 700;
+  color: #514e4e;
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+section#contact :-moz-placeholder {
+  font-weight: 700;
+  color: #514e4e;
+  /* Firefox 18- */
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+section#contact ::-moz-placeholder {
+  font-weight: 700;
+  color: #514e4e;
+  /* Firefox 19+ */
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+section#contact :-ms-input-placeholder {
+  font-weight: 700;
+  color: #514e4e;
+}
