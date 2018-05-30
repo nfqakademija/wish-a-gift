@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Ramsey\Uuid\Uuid;
 
-
 class GiftListsController extends Controller
 {
     public const RESERVED_GIFTS_COOKIE = 'reserved_gifts';
@@ -46,7 +45,6 @@ class GiftListsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data['url'] = $this->generateUrl('giftlist-user', ['uuiduser' => $giftListEntity->getUuid()]);
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
