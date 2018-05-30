@@ -47,28 +47,26 @@ class GiftListsController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $data['url'] = $form['url']->getData();
+            $data['url'] = $this->generateUrl('giftlist-user', ['uuiduser' => $giftListEntity->getUuid()]);
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
             $data['emails'] = $form['emails']->getData();
 
-            $this->sendToAdmin($giftListEntity->getEmail(), $data);
-
-
             foreach ($data['emails'] as $email) {
-                // var_dump($email);
                 $this->shareWithFriends($email, $data);
 
             }
+            $this->sendToAdmin($giftListEntity->getEmail(), $data);
+
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
 
         }
 
         return $this->render('giftlist/admin.html.twig',
-            array(
+            [
                 'data' => $giftListEntity,
                 'form' => $form->createView()
-            ));
+            ]);
     }
 
     /**
@@ -85,10 +83,7 @@ class GiftListsController extends Controller
         }
 
         return $this->render('giftlist/user.html.twig',
-            array(
-                'data' => $giftListEntity
-
-            ));
+            ['data' => $giftListEntity]);
     }
 
     /**
@@ -174,7 +169,7 @@ class GiftListsController extends Controller
         return $response;
     }
 
-    public function shareWithFriends($emails, $data)
+    private function shareWithFriends($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
@@ -182,7 +177,7 @@ class GiftListsController extends Controller
             ->setBody(
                 $this->renderView(
                     'emails/sharewithfriends.html.twig',
-                    array('data' => $data)
+                    ['data' => $data]
                 ),
                 'text/html'
             );
@@ -190,7 +185,7 @@ class GiftListsController extends Controller
         $this->get('mailer')->send($message);
     }
 
-    public function sendToAdmin($emails, $data)
+    private function sendToAdmin($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
@@ -198,7 +193,7 @@ class GiftListsController extends Controller
             ->setBody(
                 $this->renderView(
                     'emails/sendtoadmin.html.twig',
-                    array('data' => $data)
+                    ['data' => $data]
                 ),
                 'text/html'
             );
