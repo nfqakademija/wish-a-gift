@@ -29,31 +29,16 @@ class GiftType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'checked' => 'checked',
                         'class' => 'checkbox'
                     ]
-                ));
-//                    'data' => true,
-                    'value' => $this->checkedCheckbox(),
-                ]
-
-            );
+                ]);
 
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Gift::class,
-        ));
-    }
-
-    public function checkedCheckbox()
-    {
-        $gift = new Gift();
-        if ($gift->getReservable()) {
-            return true;
-        }
-        return false;
+        ]);
     }
 }
