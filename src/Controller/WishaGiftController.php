@@ -59,7 +59,9 @@ class WishaGiftController extends Controller
         }
 
         // build the form
-        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]);
+        $form = $this->createForm(GiftListType::class, $giftListEntity, [
+            'allow_gift_editing' => $this->isEditingAllowed($giftListEntity)
+        ]);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
