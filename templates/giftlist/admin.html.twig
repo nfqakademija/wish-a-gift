@@ -94,8 +94,11 @@
         <section id="services">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center mb-5">
+                    <div class="col-lg-12 text-center mb-3">
                         <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
+                        <h3 class="section-subheading text-muted">Here is your created list of desirable gifts!
+                            On this page you have all the power to edit it, as well as share your list with your
+                            friends by pressing "Share with Friends" button.</h3>
                     </div>
                 </div>
                 <div class="row text-center">
@@ -156,7 +159,13 @@
                         <div class="col-lg-8 mx-auto">
 
                             <div class="modal-body">
-                                <h2 class="text-uppercase mb-5">Share With Friends</h2>
+                                <h2 class="text-uppercase mb-3">Share With Friends</h2>
+                                <h3 class="section-subheading text-muted" id="modal-subheading">To invite all of your
+                                    friends to the party in
+                                    on button click, just add your friends email addresses and press "Send" button!<br/>
+                                    You can save the link to the clipboard as well! Just press "Copy" button and paste the
+                                    copied link anywhere you want to save it, or share with anyone!</h3>
+
                                 {{ form_start(form, {
                                     'method': 'POST',
                                     'attr': {
