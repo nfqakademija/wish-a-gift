@@ -52,19 +52,16 @@ class GiftListsController extends Controller
 
             foreach ($data['emails'] as $email) {
                 $this->shareWithFriends($email, $data);
-
             }
             $this->sendToAdmin($giftListEntity->getEmail(), $data);
 
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
-
         }
 
-        return $this->render('giftlist/admin.html.twig',
-            [
-                'data' => $giftListEntity,
-                'form' => $form->createView()
-            ]);
+        return $this->render('giftlist/admin.html.twig', [
+            'data' => $giftListEntity,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -76,12 +73,15 @@ class GiftListsController extends Controller
     {
         $giftListEntity = $this->uuidUser($uuiduser);
         if (!$giftListEntity) {
-            $this->addFlash('danger', 'Wishlist does not exist! Please, check the URL and try again, if you believe the URL has a valid format.');
+            $this->addFlash(
+                'danger',
+                'Wishlist does not exist! Please, 
+                check the URL and try again, if you believe the URL has a valid format.'
+            );
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('giftlist/user.html.twig',
-            ['data' => $giftListEntity]);
+        return $this->render('giftlist/user.html.twig', ['data' => $giftListEntity]);
     }
 
     /**
@@ -105,7 +105,8 @@ class GiftListsController extends Controller
         }
         if ($active) {
             $this->addFlash(
-                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation.'
+                'warning',
+                'Be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
@@ -117,7 +118,8 @@ class GiftListsController extends Controller
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
-                'warning', 'You have already reserved more than one gift. Leave some for others!'
+                'warning',
+                'You have already reserved more than one gift. Leave some for others!'
             );
         }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
@@ -161,7 +163,8 @@ class GiftListsController extends Controller
         $entityManager->flush();
 
         $this->addFlash(
-            'success', 'Your reservation has been canceled! Pick another gift!'
+            'success',
+            'Your reservation has been canceled! Pick another gift!'
         );
 
         return $response;
@@ -198,5 +201,4 @@ class GiftListsController extends Controller
 
         $this->get('mailer')->send($message);
     }
-
 }

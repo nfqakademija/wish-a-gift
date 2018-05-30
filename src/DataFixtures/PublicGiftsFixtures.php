@@ -7,7 +7,6 @@ use App\Entity\GiftList;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-
 class PublicGiftsFixtures extends Fixture
 {
 
@@ -124,6 +123,4 @@ class PublicGiftsFixtures extends Fixture
 
         $manager->flush();
     }
-
-
 }

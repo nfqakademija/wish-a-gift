@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-
 use App\Entity\Gift;
 use App\Service\ReservedGiftCookieResolver;
 

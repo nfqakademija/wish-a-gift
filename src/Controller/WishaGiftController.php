@@ -23,31 +23,22 @@ class WishaGiftController extends Controller
         $giftList = new GiftList();
         $giftList->addGift(new Gift());
 
-
         $form = $this->createForm(GiftListType::class, $giftList);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var $giftList GiftList
-             */
             $giftList = $form->getData();
             // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
-                    'uuidadmin' => $giftList->getUuidAdmin(),
-                ));
+            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftList->getUuidAdmin()]);
         }
 
-        return $this->render('giftlist/create.html.twig',
-            ['form' => $form->createView(),
-            ]
-        );
+        return $this->render('giftlist/create.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -74,21 +65,14 @@ class WishaGiftController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $giftListEntity = $form->getData();
-
-            // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
-                    'uuidadmin' => $giftListEntity->getUuidAdmin(),
-                ));
+            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftListEntity->getUuidAdmin()]);
         }
 
-        return $this->render('giftlist/edit.html.twig',
-            ['form' => $form->createView()]
-        );
+        return $this->render('giftlist/edit.html.twig', ['form' => $form->createView()]);
     }
 
     private function isEditingAllowed(GiftList $giftList): bool

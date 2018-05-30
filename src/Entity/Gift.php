@@ -141,5 +141,4 @@ class Gift
     {
         $this->reservable = $reservable;
     }
-
 }

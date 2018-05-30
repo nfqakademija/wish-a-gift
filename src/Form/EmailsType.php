@@ -15,10 +15,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-
 class EmailsType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -38,19 +36,7 @@ class EmailsType extends AbstractType
                 ],
                 'prototype' => true,
                 'label' => false,
-//                 describe empty condition
-//                'delete_empty' => function (Email $email = null) {
-//                return null === $email || empty($email->getEmail());
-//                },
             ])
             ->add('send', SubmitType::class);
-
     }
-
-//    public function configureOptions(OptionsResolver $resolver)
-//    {
-//        $resolver->setDefaults(array(
-//            'data_class' => Email::class
-//        ));
-//    }
 }
