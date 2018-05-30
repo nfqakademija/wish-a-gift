@@ -193,7 +193,10 @@
                         <div class="col-md-6">
                             <ul class="gifts"
                                 data-prototype="
-                                    {{ form_widget(form.gifts.vars.prototype.reservable)|e('html_attr') }}
+                                    {{ form_widget(form.gifts.vars.prototype.reservable, {
+                                    'attr': {
+                                        'checked' : 'checked'
+                                    }})|e('html_attr') }}
                                     {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
@@ -214,14 +217,20 @@
                             <div class="form-group">
                                 {{ form_widget(form.Save, {
                                     'attr': {
-                                        'class': 'btn btn-warning  btn-block btn-xl text-uppercase',
+                                        'class': 'btn btn-warning btn-block btn-xl text-uppercase',
                                     }}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <button class="btn btn-xl bg-dark border-yellow btn-block text-uppercase">Cancel</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 {{ form_end(form) }}
-
             </div>
         </div>
     </section>
