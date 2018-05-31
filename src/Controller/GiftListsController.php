@@ -174,13 +174,13 @@ class GiftListsController extends Controller
         }
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
-        if (!ReservedGiftCookieResolver::isReservedForTime($cookie, $id, $giftById->getReservationToken(), $giftById->getReservedAt())) {
+        if (!ReservedGiftCookieResolver::
+        isReservedForTime($cookie, $id, $giftById->getReservationToken(), $giftById->getReservedAt())) {
             $this->addFlash(
                 'warning',
                 'This is not yours reservation.'
             );
             return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
-
         }
         $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
 
