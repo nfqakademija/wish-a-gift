@@ -33,7 +33,10 @@ class GiftType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'class' => 'checkbox'
+                        'class' => 'checkbox',
+                        'data-toggle' => 'tooltip',
+                        'data-placement' =>'right',
+                        'title' => 'Unchecked checkbox means to disable gift reservation'
                     ],
 
                 ]);
