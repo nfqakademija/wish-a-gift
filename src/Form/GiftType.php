@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints\Length;
 class GiftType extends AbstractType
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,16 +33,10 @@ class GiftType extends AbstractType
                 [
                     'label' => false,
                     'attr' => [
-                        'checked' => 'checked',
                         'class' => 'checkbox'
-                    ]
-                ));
-//                    'data' => true,
-                    'value' => $this->checkedCheckbox(),
-                ]
+                    ],
 
-            );
-
+                ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -48,12 +46,4 @@ class GiftType extends AbstractType
         ));
     }
 
-    public function checkedCheckbox()
-    {
-        $gift = new Gift();
-        if ($gift->getReservable()) {
-            return true;
-        }
-        return false;
-    }
 }
