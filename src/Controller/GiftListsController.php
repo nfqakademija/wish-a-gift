@@ -93,28 +93,43 @@ class GiftListsController extends Controller
     public function reserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
+            $this->addFlash(
+                'warning',
+                'Gift list was not found.'
+            );
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $active = $entityManager->getRepository(Gift::class)->findOneBy(['id' => $id, 'reservedAt' => null]);
-        if (!$active) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
-        }
-        if ($active) {
+        $giftById = $entityManager->getRepository(Gift::class)->findOneBy(['id' => $id]);
+        if (!$giftById) {
             $this->addFlash(
                 'warning',
-                'Be careful and think twice! You have 10 minutes to undo your reservation.'
+                'This gift was not found.'
             );
+            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
         }
+
+        $giftByReservedAt = $entityManager->getRepository(Gift::class)->findOneBy(['reservedAt' => null]);
+        if (!$giftByReservedAt->getReservedAt() === null) {
+            $this->addFlash(
+                'warning',
+                'This gift is already reserved.'
+            );
+            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
+        }
+
+        $this->addFlash(
+            'warning',
+            'Be careful and think twice! You have 10 minutes to undo your reservation.'
+        );
+
         $reservationToken = Uuid::uuid4()->toString();
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
 
-        $giftList = $active->getGiftList();
+        $giftList = $giftById->getGiftList();
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
@@ -125,8 +140,8 @@ class GiftListsController extends Controller
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
         $response->headers->setCookie($cookie);
 
-        $active->setReservedAt(new \DateTime());
-        $active->setReservationToken($reservationToken);
+        $giftById->setReservedAt(new \DateTime());
+        $giftById->setReservationToken($reservationToken);
         $entityManager->flush();
 
         return $response;
@@ -141,25 +156,40 @@ class GiftListsController extends Controller
     public function unreserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
+            $this->addFlash(
+                'warning',
+                'Gift list was not found.'
+            );
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $active = $entityManager->getRepository(Gift::class)->find($id);
-        if (!$active) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
+        $giftById = $entityManager->getRepository(Gift::class)->find($id);
+        if (!$giftById) {
+            $this->addFlash(
+                'warning',
+                'No gift found.'
             );
+            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
         }
+
+        $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
+        if (!ReservedGiftCookieResolver::isReservedForTime($cookie, $id, $giftById->getReservationToken(), $giftById->getReservedAt())) {
+            $this->addFlash(
+                'warning',
+                'This is not yours reservation.'
+            );
+            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
+
+        }
+        $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
+
 
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
-        $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
-        $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
-
         $response->headers->setCookie($cookie);
-        $active->setReservedAt(null);
-        $active->setReservationToken(null);
+        $giftById->setReservedAt(null);
+        $giftById->setReservationToken(null);
         $entityManager->flush();
 
         $this->addFlash(
@@ -173,7 +203,7 @@ class GiftListsController extends Controller
     private function shareWithFriends($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
-            ->setFrom('nejuras@gmail.com')
+            ->setFrom('wishagift@gmail.com')
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
@@ -189,7 +219,7 @@ class GiftListsController extends Controller
     private function sendToAdmin($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
-            ->setFrom('nejuras@gmail.com')
+            ->setFrom('wishagift@gmail.com')
             ->setTo($emails)
             ->setBody(
                 $this->renderView(

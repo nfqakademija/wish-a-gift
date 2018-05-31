@@ -35,6 +35,11 @@ class WishaGiftController extends Controller
             $entityManager->persist($giftList);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                'Your create gift list.'
+            );
+
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftList->getUuidAdmin()]);
         }
 
