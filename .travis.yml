@@ -1,47 +1,13 @@
-sudo: required
+sudo: false
 language: php
 php:
   - 7.2
 services:
   - mysql
-  - docker
-
-# Simulating local docker setup
-addons:
-  hosts:
-    - nginx.symfony
-    - selenium.symfony
-
-cache:
-  yarn: true
-  directories:
-  - $HOME/.composer/cache/files
-  - node_modules
-
-before_install:
-  - cp .env.dist .env
-  - echo "DATABASE_URL=mysql://root@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
-
-  # Starting Selenimum container:
-  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
-  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
-  - docker ps -a
-
-install:
-  - cd $TRAVIS_BUILD_DIR && composer install --no-interaction --prefer-dist
-  - cd $TRAVIS_BUILD_DIR && yarn
-  - cd $TRAVIS_BUILD_DIR/acceptance-tests && composer install
-
 before_script:
-  - cd $TRAVIS_BUILD_DIR && yarn run encore production
-  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:database:create
-  - cd $TRAVIS_BUILD_DIR && bin/console doctrine:migrations:migrate --allow-no-migration --no-interaction
-  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
-
+# Get the token from github and put it in travis repo under GITHUB_COMPOSER_AUTH ENV variable, then uncomment line below.
+#  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
+  - composer install --no-interaction --prefer-dist
 script:
-  - cd $TRAVIS_BUILD_DIR && vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
-  - cd $TRAVIS_BUILD_DIR && bin/phpunit
-  - cd $TRAVIS_BUILD_DIR/acceptance-tests && vendor/bin/codecept run --debug --env=travis
-
-after_failure:
-- tail -n 5000 $TRAVIS_BUILD_DIR//acceptance-tests/tests/_output/*
+  - vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
+  - tests/WishaGiftControllerTest.php
