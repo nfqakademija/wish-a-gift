@@ -26,10 +26,9 @@ class WhishaGiftControllerTest extends WebTestCase
         $expectedTitle = $redirectaftersubmit->filter('.d-inline-block .d-inline')->first()->text();
         $expectedGift = $redirectaftersubmit->filter('.d-inline-block p.text-muted')->last()->text();
         $expectedDescription = $redirectaftersubmit->filter('.col-md-12 .d-inline-block p.text-muted')->first()->text();
-        $this->assertEquals(strtok($expectedFirstName, ' ') , 'John', 'First Name');
-        $this->assertEquals($expectedTitle , 'Crazy on the coast', 'Title');
-        $this->assertEquals($expectedGift , 'Engraved glass', 'Gift');
-        $this->assertEquals($expectedDescription , 'Public gift list', 'Gift');
+        $this->assertEquals(strtok($expectedFirstName, ' '), 'John', 'First Name');
+        $this->assertEquals($expectedTitle, 'Crazy on the coast', 'Title');
+        $this->assertEquals($expectedGift, 'Engraved glass', 'Gift');
+        $this->assertEquals($expectedDescription, 'Public gift list', 'Gift');
     }
-
 }
