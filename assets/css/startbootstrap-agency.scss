@@ -17,6 +17,10 @@ input::-moz-selection {
   margin-bottom: 10px;
 }
 
+.modal-input {
+  margin-top: 100px;
+}
+
 div.emailList {
   padding-right: 0;
   padding-left: 0;
@@ -54,7 +58,6 @@ section#contact {
 /* Override checkbox on create, edit pages*/
 .checkbox {
   width: 30px;
-  height: 0;
 }
 
 /* Override ul on main page */
@@ -98,4 +101,26 @@ section#contact :-ms-input-placeholder {
   margin-bottom: 75px !important;
   text-transform: none !important;
   font-family: 'Droid Serif', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+}
+
+/* word-wrap for description on admin page and user page */
+#description {
+  word-wrap: break-word;
+  width: 525px;
+}
+
+/* word-wrap for gift title on admin page and user page */
+#gift-title {
+  word-wrap: break-word;
+  width: 415px;
+}
+
+/* Overriding <p> element */
+p {
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+#p-reserved {
+  font-size: 0.7em;
 }
