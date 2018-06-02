@@ -39,7 +39,7 @@ before_script:
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:migrate --no-interaction
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load --no-interaction
   - cd $TRAVIS_BUILD_DIR && yarn run encore production
-#  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
+  - (php -S 127.0.0.1:8000 -t public &> /dev/null) &
 
 script:
   - cd $TRAVIS_BUILD_DIR && vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
