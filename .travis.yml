@@ -29,10 +29,11 @@ before_install:
 #  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
   # Starting docker containers
   - echo "Starting docker containers..."
-  - docker-compose up -d frontend.symfony prod.php.symfony nginx.symfony selenium.symfony
+  - sudo docker-compose up -d frontend.symfony prod.php.symfony nginx.symfony selenium.symfony
   - docker ps -a
 
 install:
+  - docker-compose run --rm frontend.symfony bash -c "id"
   - docker-compose run --rm frontend.symfony bash -c "yarn install"
   - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
   - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
