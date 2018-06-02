@@ -10,6 +10,9 @@ addons:
   hosts:
     - nginx.symfony
     - selenium.symfony
+    - prod.php.symfony
+    - php.symfony
+    - frontend.symfony
 
 cache:
   yarn: true
@@ -21,30 +24,36 @@ before_install:
   - cp .env.dist .env
   - echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
 
-  # Starting Selenimum container:
-  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
-  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
+  # Starting Selenium container
+#  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
+#  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
+  # Starting docker containers
+  - echo "Starting docker containers..."
+  - docker-compose up -d
   - docker ps -a
 
 install:
-  - cd $TRAVIS_BUILD_DIR && composer install --no-interaction --prefer-dist
-  - cd $TRAVIS_BUILD_DIR && yarn
-  - cd $TRAVIS_BUILD_DIR/acceptance-tests && composer install
+  - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
+  - docker-compose exec frontend.symfony yarn
+  - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
 
 before_script:
 # Get the token from github and put it in travis repo under GITHUB_COMPOSER_AUTH ENV variable, then uncomment line below.
 #  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:database:create
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:diff
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:migrate --no-interaction
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load --no-interaction
-  - cd $TRAVIS_BUILD_DIR && yarn run encore production
-  - (php -S 127.0.0.1:8000 -t public &> /dev/null) &
+  - echo "Setting up database..."
+  - docker-compose exec prod.php.symfony bin/console doc:database:drop --if-exists --force
+  - docker-compose exec prod.php.symfony bin/console doctrine:database:create
+  - docker-compose exec prod.php.symfony bin/console doctrine:migration:diff
+  - docker-compose exec prod.php.symfony bin/console doctrine:migration:migrate --no-interaction
+  - echo "Loading fixtures..."
+  - docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
+  - echo "Building frontend assets..."
+  - docker-compose exec frontend.symfony yarn run encore production
 
 script:
-  - cd $TRAVIS_BUILD_DIR && vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
-  - cd $TRAVIS_BUILD_DIR && bin/phpunit
-  - cd $TRAVIS_BUILD_DIR/acceptance-tests && vendor/bin/codecept run --debug --env=travis
+  - docker-compose exec prod.php.symfony vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
+  - docker-compose exec prod.php.symfony bin/phpunit
+  - docker-compose exec prod.php.symfony cd acceptance-tests && vendor/bin/codecept run --debug --env=travis
 
 after_failure:
-  - tail -n 5000 $TRAVIS_BUILD_DIR//acceptance-tests/tests/_output/*
+  - tail -n 5000 $TRAVIS_BUILD_DIR/acceptance-tests/tests/_output/*
