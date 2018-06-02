@@ -36,8 +36,8 @@ before_script:
 #  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:database:create
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:diff
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:migrate
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load
+  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:migrate --no-interaction
+  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load --no-interaction
   - cd $TRAVIS_BUILD_DIR && yarn run encore production
 #  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
 
