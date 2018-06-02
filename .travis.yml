@@ -1,7 +1,10 @@
-sudo: required
-#language: php
-#php:
-#  - 7.2
+sudo: false
+
+language: php
+
+php:
+  - 7.2
+
 services:
   - mysql
   - docker
