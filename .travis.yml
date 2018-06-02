@@ -19,7 +19,7 @@ cache:
 
 before_install:
   - cp .env.dist .env
-  - echo "DATABASE_URL=mysql://root:@mysql.symfony:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
+  - echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
 
   # Starting Selenimum container:
   - docker pull selenium/standalone-chrome:3.11.0-dysprosium
@@ -39,7 +39,7 @@ before_script:
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load
   - cd $TRAVIS_BUILD_DIR && yarn run encore production
 #  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
-  
+
 script:
   - cd $TRAVIS_BUILD_DIR && vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
   - cd $TRAVIS_BUILD_DIR && bin/phpunit
