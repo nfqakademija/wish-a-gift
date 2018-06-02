@@ -35,7 +35,7 @@ before_install:
   - docker ps -a
 
 install:
-  - docker-compose exec frontend.symfony yarn
+  - docker-compose run --rm frontend.symfony bash -c "yarn install"
   - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
   - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
 
@@ -50,7 +50,7 @@ before_script:
   - echo "Loading fixtures..."
   - docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
   - echo "Building frontend assets..."
-  - docker-compose exec frontend.symfony yarn run encore production
+  - docker-compose run --rm frontend.symfony bash -c "yarn run encore production"
 
 script:
   - docker-compose exec prod.php.symfony vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
