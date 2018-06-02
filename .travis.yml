@@ -18,7 +18,7 @@ cache:
   yarn: true
   directories:
   - $HOME/.composer/cache/files
-  - node_modules
+#  - node_modules
 
 before_install:
   - cp .env.dist .env
