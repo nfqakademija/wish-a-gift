@@ -35,7 +35,8 @@ before_script:
 # Get the token from github and put it in travis repo under GITHUB_COMPOSER_AUTH ENV variable, then uncomment line below.
 #  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:database:create
-  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:schema:update
+  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:diff
+  - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:migration:migrate
   - cd $TRAVIS_BUILD_DIR && php bin/console doctrine:fixtures:load
   - cd $TRAVIS_BUILD_DIR && yarn run encore production
 #  - (php -S 172.17.0.1:8000 -t public &> /dev/null) &
