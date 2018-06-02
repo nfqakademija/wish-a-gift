@@ -28,33 +28,22 @@ before_install:
 #  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
 #  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
   # Starting docker containers
-  - echo "Starting docker containers..."
-  - sudo docker-compose up -d frontend.symfony prod.php.symfony nginx.symfony selenium.symfony
-  - docker ps -a
+  - ./start-containers.sh
 
 install:
-  - sudo docker-compose run --rm frontend.symfony bash -c "id"
-  - sudo docker-compose run --rm frontend.symfony bash -c "sudo yarn install"
-  - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
-  - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
+  - ./install-dependencies.sh
 
 before_script:
 # Get the token from github and put it in travis repo under GITHUB_COMPOSER_AUTH ENV variable, then uncomment line below.
 #  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
-  - echo "Setting up database..."
-  - docker-compose exec prod.php.symfony bin/console doc:database:drop --if-exists --force
-  - docker-compose exec prod.php.symfony bin/console doctrine:database:create
-  - docker-compose exec prod.php.symfony bin/console doctrine:migration:diff
-  - docker-compose exec prod.php.symfony bin/console doctrine:migration:migrate --no-interaction
-  - echo "Loading fixtures..."
-  - docker-compose exec prod.php.symfony bin/console doctrine:fixtures:load --no-interaction
-  - echo "Building frontend assets..."
-  - sudo docker-compose run --rm frontend.symfony bash -c "sudo yarn run encore production"
+  - ./setup-database.sh
+  - ./load-fixtures.sh
+  - ./build-frontend.sh
 
 script:
-  - docker-compose exec prod.php.symfony vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
-  - docker-compose exec prod.php.symfony bin/phpunit
-  - docker-compose exec prod.php.symfony cd acceptance-tests && vendor/bin/codecept run --debug --env=travis
+  - docker-compose exec -T prod.php.symfony vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
+  - docker-compose exec -T prod.php.symfony bin/phpunit
+  - docker-compose exec -T prod.php.symfony cd acceptance-tests && vendor/bin/codecept run --debug --env=travis
 
 after_failure:
   - tail -n 5000 $TRAVIS_BUILD_DIR/acceptance-tests/tests/_output/*
