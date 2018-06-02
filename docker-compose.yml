@@ -14,7 +14,6 @@ services:
   php.symfony:
     container_name: php.symfony
     build: .docker/php/
-    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     environment: # Passing to environment same configuration as in .env file
       - APP_ENV=$APP_ENV
       - APP_SECRET=$APP_SECRET
@@ -25,7 +24,6 @@ services:
   prod.php.symfony:
     container_name: prod.php.symfony
     build: .docker/php/
-    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     environment: # Production environment should not use parameters from .env, but get them via nginx/apache
       - APP_ENV=prod # bin/console use APP_ENV value from environment
     volumes:
@@ -55,7 +53,6 @@ services:
   frontend.symfony:
     container_name: frontend.symfony
     build: .docker/frontend/
-    user: "$LOCAL_USER_ID:$LOCAL_GROUP_ID"
     volumes:
       - .:/code # Mount your code, so javaScript tools could see it
     ports:
