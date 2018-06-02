@@ -1,7 +1,7 @@
 sudo: required
-language: php
-php:
-  - 7.2
+#language: php
+#php:
+#  - 7.2
 services:
   - mysql
   - docker
@@ -23,6 +23,8 @@ cache:
 before_install:
   - cp .env.dist .env
   - echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
+  - echo "LOCAL_USER_ID=$(id -u)" >> .env
+  - echo "LOCAL_GROUP_ID=$(id -g)" >> .env
 
   # Starting Selenium container
 #  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
@@ -33,8 +35,8 @@ before_install:
   - docker ps -a
 
 install:
-  - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
   - docker-compose exec frontend.symfony yarn
+  - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
   - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
 
 before_script:
