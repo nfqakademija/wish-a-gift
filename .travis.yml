@@ -35,7 +35,7 @@ before_install:
   - docker ps -a
 
 install:
-  - docker-compose exec prod.php.symfony composer install --no-interaction --prefer-dist
+  - docker-compose exec prod.php.symfony sudo composer install --no-interaction --prefer-dist
   - docker-compose exec frontend.symfony yarn
   - docker-compose exec prod.php.symfony cd acceptance-tests && composer install --no-interaction --prefer-dist
 
