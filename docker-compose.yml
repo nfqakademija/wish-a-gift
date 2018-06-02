@@ -8,8 +8,8 @@ services:
       - .:/code # Mount your code, so nginx/phpcould see it
       - .docker/nginx/site.conf:/etc/nginx/conf.d/site.conf # Use custom virtual hosts
     ports:
-      - 127.0.0.1:8000:8000 # For development. Open in browser 127.0.0.1:8000
-      - 127.0.0.1:8888:80 # To simulate production. Open in browser 127.0.0.1:8888
+      - 127.0.0.1:$LOCAL_NGINX_DEV_PORT:8000 # For development. Open in browser 127.0.0.1:8000
+      - 127.0.0.1:$LOCAL_NGINX_PROD_PORT:80 # To simulate production. Open in browser 127.0.0.1:8888
 
   php.symfony:
     container_name: php.symfony
