@@ -53,7 +53,10 @@ class GiftListsController extends Controller
             foreach ($data['emails'] as $email) {
                 $this->shareWithFriends($email, $data);
             }
-            $this->sendToAdmin($giftListEntity->getEmail(), $data);
+
+            if ($data['emails']) {
+                $this->sendToAdmin($giftListEntity->getEmail(), $data);
+            }
 
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
         }
