@@ -23,34 +23,22 @@ class GiftListType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'firstName',
-                TextType::class,
-                array(
-                    'required' => true,
-                    'constraints' => array(new NotBlank(), new Length(['max' => 255]))
-                )
-            )
-            ->add('email', EmailType::class, array(
+            ->add('firstName', TextType::class, [
                 'required' => true,
-                'constraints' => array(new Email(), new NotBlank())
-            ))
-            ->add(
-                'title',
-                TextType::class,
-                array(
-                    'required' => true,
-                    'constraints' => array(new Length(array('min' => 3)), new NotBlank(), new Length(['max' => 255]))
-                )
-            )
-            ->add(
-                'description',
-                TextareaType::class,
-                array(
-                    'required' => true,
-                    'constraints' => array(new Length(array('min' => 3)), new NotBlank())
-                )
-            )
+                'constraints' => [new NotBlank(), new Length(['max' => 255])]
+            ])
+            ->add('email', EmailType::class, [
+                'required' => true,
+                'constraints' => [new Email(), new NotBlank()]
+            ])
+            ->add('title', TextType::class, [
+                'required' => true,
+                'constraints' => [new Length(['min' => 3]), new NotBlank(), new Length(['max' => 255])]
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => true,
+                'constraints' => [new Length(['min' => 3]), new NotBlank()]
+            ])
             ->add('gifts', CollectionType::class, [
                 'label' => false,
                 'allow_add' => true,
@@ -70,18 +58,18 @@ class GiftListType extends AbstractType
                     return null === $gift || empty($gift->getTitle());
                 },
                 'disabled' => !$options['allow_gift_editing'],
-                ])
+            ])
             ->add('isPublic', CheckboxType::class, [
                 'required' => false,
-                ])
+            ])
             ->add('Save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => GiftList::class,
             'allow_gift_editing' => true,
-        ));
+        ]);
     }
 }

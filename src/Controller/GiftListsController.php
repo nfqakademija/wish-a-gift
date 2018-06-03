@@ -49,28 +49,23 @@ class GiftListsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data['url'] = $form['url']->getData();
+            $data['url'] = $this->generateUrl('giftlist-user', ['uuiduser' => $giftListEntity->getUuid()]);
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
             $data['emails'] = $form['emails']->getData();
 
-            $this->sendToAdmin($giftListEntity->getEmail(), $data);
-
             foreach ($data['emails'] as $email) {
-                // var_dump($email);
                 $this->shareWithFriends($email, $data);
             }
+            $this->sendToAdmin($giftListEntity->getEmail(), $data);
 
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
         }
 
-        return $this->render(
-            'giftlist/admin.html.twig',
-            array(
-                'data' => $giftListEntity,
-                'form' => $form->createView()
-            )
-        );
+        return $this->render('giftlist/admin.html.twig', [
+            'data' => $giftListEntity,
+            'form' => $form->createView()
+        ]);
     }
 
     /**
@@ -84,19 +79,16 @@ class GiftListsController extends Controller
         if (!$giftListEntity) {
             $this->addFlash(
                 'danger',
-                'Wishlist does not exist! '
-                . 'Please, check the URL and try again, if you believe the URL has a valid format.'
+                'Wishlist does not exist! Please, 
+                check the URL and try again, if you believe the URL has a valid format.'
             );
             return $this->redirectToRoute('home');
         }
 
-        return $this->render(
-            'giftlist/user.html.twig',
-            array(
+        return $this->render('giftlist/user.html.twig',
+            [
                 'data' => $giftListEntity
-
-            )
-        );
+            ]);
     }
 
     /**
@@ -122,8 +114,7 @@ class GiftListsController extends Controller
         if ($active) {
             $this->addFlash(
                 'warning',
-                'You have successfully reserved the gift, '
-                . 'but be careful and think twice! You have 10 minutes to undo your reservation.'
+                'Be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
@@ -188,7 +179,7 @@ class GiftListsController extends Controller
         return $response;
     }
 
-    public function shareWithFriends($emails, $data)
+    private function shareWithFriends($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
@@ -196,7 +187,7 @@ class GiftListsController extends Controller
             ->setBody(
                 $this->renderView(
                     'emails/sharewithfriends.html.twig',
-                    array('data' => $data)
+                    ['data' => $data]
                 ),
                 'text/html'
             );
@@ -204,7 +195,7 @@ class GiftListsController extends Controller
         $this->get('mailer')->send($message);
     }
 
-    public function sendToAdmin($emails, $data)
+    private function sendToAdmin($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
             ->setFrom('nejuras@gmail.com')
@@ -212,7 +203,7 @@ class GiftListsController extends Controller
             ->setBody(
                 $this->renderView(
                     'emails/sendtoadmin.html.twig',
-                    array('data' => $data)
+                    ['data' => $data]
                 ),
                 'text/html'
             );
@@ -237,7 +228,7 @@ class GiftListsController extends Controller
 
         return $this->render(
             'emails/sharewithfriends.html.twig',
-            array('data' => $data)
+            ['data' => $data]
         );
     }
 
@@ -259,7 +250,8 @@ class GiftListsController extends Controller
 
         return $this->render(
             'emails/sendtoadmin.html.twig',
-            array('data' => $data)
+            ['data' => $data]
         );
     }
 }
+

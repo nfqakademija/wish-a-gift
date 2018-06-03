@@ -39,9 +39,9 @@ class WishaGiftController extends Controller
 
             return $this->redirectToRoute(
                 'giftlist-admin',
-                array(
+                [
                     'uuidadmin' => $giftList->getUuidAdmin(),
-                )
+                ]
             );
         }
 
@@ -89,9 +89,9 @@ class WishaGiftController extends Controller
 
             return $this->redirectToRoute(
                 'giftlist-admin',
-                array(
+                [
                     'uuidadmin' => $giftListEntity->getUuidAdmin(),
-                )
+                ]
             );
         }
 
