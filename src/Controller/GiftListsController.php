@@ -13,11 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Ramsey\Uuid\Uuid;
 
-
 class GiftListsController extends Controller
 {
     public const RESERVED_GIFTS_COOKIE = 'reserved_gifts';
 
+    /**
+     * @param string $uuiduser
+     * @return GiftList|null|object
+     */
     public function uuidUser(string $uuiduser)
     {
         $getUuidUser = $this->getDoctrine()
@@ -46,7 +49,6 @@ class GiftListsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data['url'] = $form['url']->getData();
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
@@ -54,21 +56,21 @@ class GiftListsController extends Controller
 
             $this->sendToAdmin($giftListEntity->getEmail(), $data);
 
-
             foreach ($data['emails'] as $email) {
                 // var_dump($email);
                 $this->shareWithFriends($email, $data);
-
             }
-            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
 
+            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
         }
 
-        return $this->render('giftlist/admin.html.twig',
+        return $this->render(
+            'giftlist/admin.html.twig',
             array(
                 'data' => $giftListEntity,
                 'form' => $form->createView()
-            ));
+            )
+        );
     }
 
     /**
@@ -80,19 +82,23 @@ class GiftListsController extends Controller
     {
         $giftListEntity = $this->uuidUser($uuiduser);
         if (!$giftListEntity) {
-            $this->addFlash('danger', 'Wishlist does not exist! Please, check the URL and try again, if you believe the URL has a valid format.');
+            $this->addFlash('danger',
+                'Wishlist does not exist! Please, check the URL and try again, if you believe the URL has a valid format.');
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('giftlist/user.html.twig',
+        return $this->render(
+            'giftlist/user.html.twig',
             array(
                 'data' => $giftListEntity
 
-            ));
+            )
+        );
     }
 
     /**
      * @Route("/giftlist/{uuiduser}/reserve/{id}", name="gift-reserve")
+     * @param Request $request
      * @param $id
      * @param $uuiduser
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -112,7 +118,8 @@ class GiftListsController extends Controller
         }
         if ($active) {
             $this->addFlash(
-                'warning', 'Be careful and think twice! You have 10 minutes to undo your reservation.'
+                'warning',
+                'You have successfully reserved the gift, but be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
@@ -124,7 +131,8 @@ class GiftListsController extends Controller
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
-                'warning', 'You have already reserved more than one gift. Leave some for others!'
+                'warning',
+                'You have already reserved more than one gift. Leave some for others!'
             );
         }
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
@@ -139,6 +147,7 @@ class GiftListsController extends Controller
 
     /**
      * @Route("/giftlist/{uuiduser}/unreserve/{id}", name="gift-unreserve")
+     * @param Request $request
      * @param $id
      * @param $uuiduser
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -168,7 +177,8 @@ class GiftListsController extends Controller
         $entityManager->flush();
 
         $this->addFlash(
-            'success', 'Your reservation has been canceled! Pick another gift!'
+            'success',
+            'Your reservation has been canceled! Pick another gift!'
         );
 
         return $response;
@@ -206,4 +216,46 @@ class GiftListsController extends Controller
         $this->get('mailer')->send($message);
     }
 
+    /**
+     * @Route("/user-email-preview/{uuidAdmin}", name="userEmailPreview")
+     * @param string $uuidAdmin
+     * @return Response
+     */
+    public function showUserEmailPage(string $uuidAdmin)
+    {
+        $giftListEntity = $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findOneBy(['uuidAdmin' => $uuidAdmin]);
+
+        $data['url'] = 'https://www.fake.com';
+        $data['subject'] = 'Gifts';
+        $data['admin'] = $giftListEntity;
+
+        return $this->render(
+            'emails/sharewithfriends.html.twig',
+            array('data' => $data)
+        );
+    }
+
+    /**
+     * @Route("/admin-email-preview/{uuidAdmin}", name="adminEmailPreview")
+     * @param string $uuidAdmin
+     * @return Response
+     */
+    public function showAdminEmailPage(string $uuidAdmin)
+    {
+        $giftListEntity = $this->getDoctrine()
+            ->getRepository(GiftList::class)
+            ->findOneBy(['uuidAdmin' => $uuidAdmin]);
+
+        $data['url'] = 'https://www.link-example.com';
+        $data['subject'] = 'Gifts';
+        $data['admin'] = $giftListEntity;
+        $data['emails'] = 'example@fakemail.com';
+
+        return $this->render(
+            'emails/sendtoadmin.html.twig',
+            array('data' => $data)
+        );
+    }
 }

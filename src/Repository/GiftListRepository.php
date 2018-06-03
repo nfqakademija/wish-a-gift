@@ -34,6 +34,4 @@ class GiftListRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
-
 }

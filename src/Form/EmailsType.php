@@ -15,18 +15,20 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-
 class EmailsType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('url', TextType::class,
+            ->add(
+                'url',
+                TextType::class,
                 array(
                     'required' => true,
                     'constraints' => [new NotBlank(), new Length(['max' => 255])]
-                ))
+                )
+            )
             ->add('emails', CollectionType::class, [
                 'constraints' => [new All(new Email()), new All(new NotBlank()), new All(new Length(['max' => 255]))],
                 'allow_add' => true,
@@ -43,7 +45,6 @@ class EmailsType extends AbstractType
 //                },
             ])
             ->add('send', SubmitType::class);
-
     }
 
 //    public function configureOptions(OptionsResolver $resolver)

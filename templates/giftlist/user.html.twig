@@ -31,9 +31,9 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-sm-6 text-left">
+                <div class="col-md-6 text-left">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-md-12">
                             <div class="d-inline-block">
                                 <span class="d-inline-block fa-stack fa-4x inline-icon mr-2">
                                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
@@ -45,18 +45,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 text-left">
+                <div class="col-md-6 text-left">
                     {% for gift in data.gifts %}
                         {#{{ dump(isGiftReservedByMe(app.request.cookies.get('reserved_gifts')))}}#}
                         <div class="row mb-3">
-                            <div class="col-sm-9">
+                            <div class="col-md-9">
                                 <div class="fa-stack fa-2x inline-icon mr-2">
                                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                     <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
                                 </div>
                                 <p class="text-muted text-left" id="gift-title">{{ gift.title|capitalize }}</p>
                             </div>
-                            <div class="col-sm-3 align-self-center">
+                            <div class="col-md-3 align-self-center">
                                 {% if gift.reservable %}
                                     {% if gift.reservationToken is not null %}
                                         <div class="d-inline-block float-right">

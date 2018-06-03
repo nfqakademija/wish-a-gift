@@ -20,7 +20,9 @@ class GiftType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class,
+            ->add(
+                'title',
+                TextType::class,
                 [
                     'constraints' => [new Length(['min' => 3]), new Length(['max' => 255])],
                     'label' => false,
@@ -28,8 +30,11 @@ class GiftType extends AbstractType
                         'placeholder' => 'Enter gift...',
                         'class' => 'form-control'
                     ]
-                ])
-            ->add('reservable', CheckboxType::class,
+                ]
+            )
+            ->add(
+                'reservable',
+                CheckboxType::class,
                 [
                     'label' => false,
                     'attr' => [
@@ -39,7 +44,8 @@ class GiftType extends AbstractType
                         'title' => 'Unchecked checkbox means to disable gift reservation'
                     ],
 
-                ]);
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -48,5 +54,4 @@ class GiftType extends AbstractType
             'data_class' => Gift::class,
         ));
     }
-
 }

@@ -93,10 +93,21 @@
     <div class="container">
         <section id="services">
             <div class="container">
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} flash-{{ label }} alert-dismissible fade show text-center"
+                             role="alert">
+                            <strong> {{ message }} </strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 <div class="row">
                     <div class="col-lg-12 text-center mb-3">
                         <h2 class="section-heading text-uppercase">{{ data.firstname }} Gift List</h2>
-                        <h3 class="section-subheading text-muted">Here is your created list of desirable gifts!
+                        <h3 class="section-subheading text-muted">Here is your created list of desirable gifts together with your party details!
                             On this page you have all the power to edit it, as well as share your list with your
                             friends by pressing "Share with Friends" button.</h3>
                     </div>
@@ -111,7 +122,7 @@
                                         <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
                                     </span>
                                     <h2 class="d-inline">{{ data.title|capitalize }}</h2>
-                                    <p class="text-muted">{{ data.description }}</p>
+                                    <p class="text-muted" id="description">{{ data.description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -119,14 +130,17 @@
                     <div class="col-md-6 text-left">
                         {% for gift in data.gifts %}
                             {% if gift is not null %}
-                                <div class="col-md-12">
-                                    <div class="d-inline-block fa-stack fa-2x">
-                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                        <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                                <div class="row">
+                                    <div class="col-md-2 pr-0">
+                                        <div class="fa-stack fa-2x">
+                                            <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                            <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
+                                        </div>
                                     </div>
-                                    <div class="d-inline-block">
-                                        <p class="text-muted">{{ gift.title|capitalize }}</p>
+                                    <div class="col-md-10 p-0">
+                                        <p class="text-muted text-left" id="gift-title">{{ gift.title|capitalize }}</p>
                                     </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             {% endif %}
                         {% endfor %}
