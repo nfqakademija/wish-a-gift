@@ -13,8 +13,6 @@ Encore
     // uncomment to define the assets of the project
     .addEntry('js/app', './assets/js/app.js')
 
-    // .addEntry('js/app', './assets/js/addButton.js')
-
     .addStyleEntry('css/app', './assets/css/app.scss')
     .addStyleEntry('css/startbootstrap-agency', './assets/css/startbootstrap-agency.scss')
 
@@ -23,6 +21,11 @@ Encore
 
     // uncomment for legacy applications that require $/jQuery as a global variable
     .autoProvidejQuery()
+
+    .configureBabel(function(babelConfig) {
+      // add additional presets
+      babelConfig.presets.push('env');
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();

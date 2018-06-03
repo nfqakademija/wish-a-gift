@@ -27,8 +27,10 @@ class WishaGiftController extends Controller
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var $giftList GiftList
+             */
             $giftList = $form->getData();
             // save data
             $entityManager = $this->getDoctrine()->getManager();
@@ -37,13 +39,16 @@ class WishaGiftController extends Controller
 
             $this->addFlash(
                 'success',
-                'Your create gift list.'
+                'Congratulation! You just created your Giftlist!'
             );
 
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftList->getUuidAdmin()]);
         }
 
-        return $this->render('giftlist/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('giftlist/create.html.twig',
+            ['form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -64,9 +69,11 @@ class WishaGiftController extends Controller
         }
 
         // build the form
-        $form = $this->createForm(GiftListType::class, $giftListEntity, [
-            'allow_gift_editing' => $this->isEditingAllowed($giftListEntity)
-        ]);
+        $form = $this->createForm(
+            GiftListType::class,
+            $giftListEntity,
+            ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]
+        );
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);

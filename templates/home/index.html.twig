@@ -40,11 +40,13 @@
                             <i class="fa fa-birthday-cake fa-stack-1x fa-inverse"></i>
                         </span>
                         <h4 class="service-heading">{{ giftList.title }}</h4>
-                        <ul>
-                            {% for gift in giftList.gifts %}
-                                <li>{{ gift.title }}</li>
-                            {% endfor %}
-                        </ul>
+                        <div class="text-center">
+                            <ul id="mainPageGiftList">
+                                {% for gift in giftList.gifts %}
+                                    <li>{{ gift.title }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
