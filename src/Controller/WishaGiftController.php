@@ -45,7 +45,8 @@ class WishaGiftController extends Controller
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftList->getUuidAdmin()]);
         }
 
-        return $this->render('giftlist/create.html.twig',
+        return $this->render(
+            'giftlist/create.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -87,11 +88,13 @@ class WishaGiftController extends Controller
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftListEntity->getUuidAdmin()]);
         }
 
-        return $this->render('giftlist/edit.html.twig',
+        return $this->render(
+            'giftlist/edit.html.twig',
             [
                 'form' => $form->createView(),
                 'uuidAdmin' => $giftListEntity->getUuidAdmin()
-            ]);
+            ]
+        );
     }
 
     private function isEditingAllowed(GiftList $giftList): bool

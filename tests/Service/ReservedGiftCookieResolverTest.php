@@ -39,7 +39,6 @@ class ReservedGiftCookieResolverTest extends TestCase
         $this->assertEquals('reserved_gifts', GiftListsController::RESERVED_GIFTS_COOKIE);
 //        $this->assertEquals([$id => $reserveToken], json_decode($result->getValue(), true));
         $this->assertInternalType("array", json_decode($result->getValue(), true));
-
     }
 
     /**

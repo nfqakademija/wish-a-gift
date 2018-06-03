@@ -95,7 +95,8 @@ class GiftListsController extends Controller
             'giftlist/user.html.twig',
             [
                 'data' => $giftListEntity
-            ]);
+            ]
+        );
     }
 
     /**
