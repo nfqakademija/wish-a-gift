@@ -41,8 +41,8 @@ before_script:
 
 script:
   - docker-compose exec -T prod.php.symfony vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
-  - docker-compose exec -T prod.php.symfony bin/phpunit
-  - docker-compose exec -T prod.php.symfony cd acceptance-tests && vendor/bin/codecept run --debug --env=travis
+  - docker-compose exec -T prod.php.symfony vendor/bin/phpunit
+  - docker-compose exec -T prod.php.symfony acceptance-tests/vendor/bin/codecept run --debug --env=travis --config=acceptance-tests
 
 after_failure:
   - tail -n 5000 $TRAVIS_BUILD_DIR/acceptance-tests/tests/_output/*
