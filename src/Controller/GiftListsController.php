@@ -68,13 +68,6 @@ class GiftListsController extends Controller
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
         }
 
-        return $this->render(
-            'giftlist/admin.html.twig',
-            array(
-                'data' => $giftListEntity,
-                'form' => $form->createView()
-            )
-        );
         return $this->render('giftlist/admin.html.twig', [
             'data' => $giftListEntity,
             'form' => $form->createView()
@@ -102,7 +95,7 @@ class GiftListsController extends Controller
             'giftlist/user.html.twig',
             [
                 'data' => $giftListEntity
-            ];
+            ]);
     }
 
     /**
