@@ -128,6 +128,7 @@ class GiftListsController extends Controller
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
+//        var_dump($cookie); die;
 
         $giftList = $giftById->getGiftList();
 
