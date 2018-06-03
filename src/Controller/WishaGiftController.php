@@ -22,7 +22,8 @@ class WishaGiftController extends Controller
         // build the form
         $giftList = new GiftList();
         $giftList->addGift(new Gift());
-        $form = $this->createForm(GiftListType::class/*, $giftList*/);
+
+        $form = $this->createForm(GiftListType::class, $giftList);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
@@ -31,20 +32,23 @@ class WishaGiftController extends Controller
              * @var $giftList GiftList
              */
             $giftList = $form->getData();
-
             // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
                     'uuidadmin' => $giftList->getUuidAdmin(),
-                ));
+                ]
+            );
         }
 
-        return $this->render('giftlist/create.html.twig',
-            ['form' => $form->createView(),
+        return $this->render(
+            'giftlist/create.html.twig',
+            [
+                'form' => $form->createView(),
             ]
         );
     }
@@ -62,8 +66,16 @@ class WishaGiftController extends Controller
             ->getRepository(GiftList::class)
             ->findOneBy(['uuidAdmin' => $uuidadmin]);
 
+        if (null === $giftListEntity) {
+            throw $this->createNotFoundException();
+        }
+
         // build the form
-        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]);
+        $form = $this->createForm(
+            GiftListType::class,
+            $giftListEntity,
+            ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]
+        );
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
@@ -75,14 +87,20 @@ class WishaGiftController extends Controller
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
                     'uuidadmin' => $giftListEntity->getUuidAdmin(),
-                ));
+                ]
+            );
         }
 
-        return $this->render('giftlist/edit.html.twig',
-            ['form' => $form->createView()]
+        return $this->render(
+            'giftlist/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'uuidAdmin' => $giftListEntity->getUuidAdmin()
+            ]
         );
     }
 
