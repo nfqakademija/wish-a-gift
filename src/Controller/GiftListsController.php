@@ -82,8 +82,11 @@ class GiftListsController extends Controller
     {
         $giftListEntity = $this->uuidUser($uuiduser);
         if (!$giftListEntity) {
-            $this->addFlash('danger',
-                'Wishlist does not exist! Please, check the URL and try again, if you believe the URL has a valid format.');
+            $this->addFlash(
+                'danger',
+                'Wishlist does not exist! '
+                . 'Please, check the URL and try again, if you believe the URL has a valid format.'
+            );
             return $this->redirectToRoute('home');
         }
 
@@ -119,7 +122,8 @@ class GiftListsController extends Controller
         if ($active) {
             $this->addFlash(
                 'warning',
-                'You have successfully reserved the gift, but be careful and think twice! You have 10 minutes to undo your reservation.'
+                'You have successfully reserved the gift, '
+                . 'but be careful and think twice! You have 10 minutes to undo your reservation.'
             );
         }
         $reservationToken = Uuid::uuid4()->toString();
