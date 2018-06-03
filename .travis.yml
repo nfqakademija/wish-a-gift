@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 
 language: php
 
@@ -21,15 +21,12 @@ cache:
   yarn: true
   directories:
   - $HOME/.composer/cache/files
-#  - node_modules
+  - node_modules
 
 before_install:
   - cp .env.dist .env
   - echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
-
-  # Starting Selenium container
-#  - docker pull selenium/standalone-chrome:3.11.0-dysprosium
-#  - docker run -d -p 127.0.0.1:4444:4444 selenium/standalone-chrome:3.11.0-dysprosium
+  - chmod -R 0777 ./
   # Starting docker containers
   - ./start-containers.sh
 
