@@ -26,6 +26,8 @@ services:
     build: .docker/php/
     environment: # Production environment should not use parameters from .env, but get them via nginx/apache
       - APP_ENV=prod # bin/console use APP_ENV value from environment
+      - APP_SECRET=$APP_SECRET
+      - DATABASE_URL=$DATABASE_URL
     volumes:
       - .:/code # Mount your code, so nginx/phpcould see it
 
