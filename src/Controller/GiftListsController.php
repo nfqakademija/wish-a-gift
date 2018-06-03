@@ -85,10 +85,12 @@ class GiftListsController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('giftlist/user.html.twig',
+        return $this->render(
+            'giftlist/user.html.twig',
             [
                 'data' => $giftListEntity
-            ]);
+            ]
+        );
     }
 
     /**
@@ -254,4 +256,3 @@ class GiftListsController extends Controller
         );
     }
 }
-
