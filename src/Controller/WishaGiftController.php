@@ -37,6 +37,14 @@ class WishaGiftController extends Controller
             $entityManager->persist($giftList);
             $entityManager->flush();
 
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
+                    'uuidadmin' => $giftList->getUuidAdmin(),
+                ]
+            );
+        }
+
             $this->addFlash(
                 'success',
                 'Congratulation! You just created your Giftlist!'
@@ -81,11 +89,18 @@ class WishaGiftController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $giftListEntity = $form->getData();
+
+            // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $giftListEntity->getUuidAdmin()]);
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
+                    'uuidadmin' => $giftListEntity->getUuidAdmin(),
+                ]
+            );
         }
 
         return $this->render(

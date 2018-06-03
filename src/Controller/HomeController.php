@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
     const DEFAULT_PAGE_GIFTLIST_COUNT = 9;
-
     /**
      * @Route("/", name="home")
      * @return Response
@@ -21,9 +20,9 @@ class HomeController extends Controller
             ->getRepository(GiftList::class)
             ->getPublicGiftLists(self::DEFAULT_PAGE_GIFTLIST_COUNT);
 
-        return $this->render(
-            'home/index.html.twig',
-            ['data' => $giftLists]
-        );
+         return $this->render(
+             'home/index.html.twig',
+             ['data' => $giftLists]
+         );
     }
 }

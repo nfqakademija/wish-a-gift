@@ -49,21 +49,15 @@ class GiftListsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data['url'] = $form['url']->getData();
             $data['url'] = $this->generateUrl('giftlist-user', ['uuiduser' => $giftListEntity->getUuid()]);
             $data['subject'] = 'Gifts';
             $data['admin'] = $giftListEntity;
             $data['emails'] = $form['emails']->getData();
 
-            $this->sendToAdmin($giftListEntity->getEmail(), $data);
-
             foreach ($data['emails'] as $email) {
                 $this->shareWithFriends($email, $data);
             }
-
-            if ($data['emails']) {
-                $this->sendToAdmin($giftListEntity->getEmail(), $data);
-            }
+            $this->sendToAdmin($giftListEntity->getEmail(), $data);
 
             return $this->redirectToRoute('giftlist-admin', ['uuidadmin' => $uuidadmin]);
         }
@@ -85,8 +79,8 @@ class GiftListsController extends Controller
         if (!$giftListEntity) {
             $this->addFlash(
                 'danger',
-                'Wishlist does not exist! '
-                . 'Please, check the URL and try again, if you believe the URL has a valid format.'
+                'Wishlist does not exist! Please, 
+                check the URL and try again, if you believe the URL has a valid format.'
             );
             return $this->redirectToRoute('home');
         }
@@ -109,43 +103,28 @@ class GiftListsController extends Controller
     public function reserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
-            $this->addFlash(
-                'warning',
-                'Gift list was not found.'
-            );
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $giftById = $entityManager->getRepository(Gift::class)->findOneBy(['id' => $id]);
-        if (!$giftById) {
+        $active = $entityManager->getRepository(Gift::class)->findOneBy(['id' => $id, 'reservedAt' => null]);
+        if (!$active) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
+            );
+        }
+        if ($active) {
             $this->addFlash(
                 'warning',
-                'This gift was not found.'
+                'Be careful and think twice! You have 10 minutes to undo your reservation.'
             );
-            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
         }
-
-        $giftByReservedAt = $entityManager->getRepository(Gift::class)->findOneBy(['reservedAt' => null]);
-        if (!$giftByReservedAt->getReservedAt() === null) {
-            $this->addFlash(
-                'warning',
-                'This gift is already reserved.'
-            );
-            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
-        }
-
-        $this->addFlash(
-            'warning',
-            'Be careful and think twice! You have 10 minutes to undo your reservation.'
-        );
-
         $reservationToken = Uuid::uuid4()->toString();
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
         $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
 
-        $giftList = $giftById->getGiftList();
+        $giftList = $active->getGiftList();
 
         if (ReservedGiftCookieResolver::hasReservedGifts($cookie, $giftList)) {
             $this->addFlash(
@@ -156,8 +135,8 @@ class GiftListsController extends Controller
         $cookie = ReservedGiftCookieResolver::addGift($cookie, $id, $reservationToken);
         $response->headers->setCookie($cookie);
 
-        $giftById->setReservedAt(new \DateTime());
-        $giftById->setReservationToken($reservationToken);
+        $active->setReservedAt(new \DateTime());
+        $active->setReservationToken($reservationToken);
         $entityManager->flush();
 
         return $response;
@@ -173,40 +152,25 @@ class GiftListsController extends Controller
     public function unreserve(Request $request, $id, $uuiduser)
     {
         if (!$this->uuidUser($uuiduser)) {
-            $this->addFlash(
-                'warning',
-                'Gift list was not found.'
-            );
             return $this->redirectToRoute('home');
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $giftById = $entityManager->getRepository(Gift::class)->find($id);
-        if (!$giftById) {
-            $this->addFlash(
-                'warning',
-                'No gift found.'
+        $active = $entityManager->getRepository(Gift::class)->find($id);
+        if (!$active) {
+            throw $this->createNotFoundException(
+                'No product found for id ' . $id
             );
-            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
         }
-
-        $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
-        if (!ReservedGiftCookieResolver::
-        isReservedForTime($cookie, $id, $giftById->getReservationToken(), $giftById->getReservedAt())) {
-            $this->addFlash(
-                'warning',
-                'This is not yours reservation.'
-            );
-            return $this->redirectToRoute('giftlist-user', ['uuiduser' => $uuiduser]);
-        }
-        $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
-
 
         $response = new RedirectResponse($this->generateUrl('giftlist-user', ['uuiduser' => $uuiduser]));
 
+        $cookie = $request->cookies->get(self::RESERVED_GIFTS_COOKIE);
+        $cookie = ReservedGiftCookieResolver::removeGift($cookie, $id);
+
         $response->headers->setCookie($cookie);
-        $giftById->setReservedAt(null);
-        $giftById->setReservationToken(null);
+        $active->setReservedAt(null);
+        $active->setReservationToken(null);
         $entityManager->flush();
 
         $this->addFlash(
@@ -220,7 +184,7 @@ class GiftListsController extends Controller
     private function shareWithFriends($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
-            ->setFrom('wishagift@gmail.com')
+            ->setFrom('nejuras@gmail.com')
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
@@ -236,7 +200,7 @@ class GiftListsController extends Controller
     private function sendToAdmin($emails, $data)
     {
         $message = (new \Swift_Message($data['subject']))
-            ->setFrom('wishagift@gmail.com')
+            ->setFrom('nejuras@gmail.com')
             ->setTo($emails)
             ->setBody(
                 $this->renderView(
@@ -266,7 +230,7 @@ class GiftListsController extends Controller
 
         return $this->render(
             'emails/sharewithfriends.html.twig',
-            array('data' => $data)
+            ['data' => $data]
         );
     }
 
@@ -288,7 +252,7 @@ class GiftListsController extends Controller
 
         return $this->render(
             'emails/sendtoadmin.html.twig',
-            array('data' => $data)
+            ['data' => $data]
         );
     }
 }
