@@ -6,7 +6,6 @@ php:
   - 7.2
 
 services:
-  - mysql
   - docker
 
 addons:
@@ -15,6 +14,7 @@ addons:
     - selenium.symfony
     - prod.php.symfony
     - php.symfony
+    - mysql.symfony
     - frontend.symfony
 
 cache:
@@ -24,8 +24,7 @@ cache:
   - node_modules
 
 before_install:
-  - cp .env.dist .env
-  - echo "DATABASE_URL=mysql://root:@127.0.0.1:3306/gifts" >> .env # Last parameter is used. Updated to Travis login
+  - cat .env.dist | sed "s/_REPLACE_MYSQL_PASSWORD_/$TRAVIS_PROD_DB_PASS/g" | sed "s/APP_SECRET=.+$/APP_SECRET=$TRAVIS_APP_SECRET/" > .env
   - chmod -R 0777 ./
   # Starting docker containers
   - ./start-containers.sh
