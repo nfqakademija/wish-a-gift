@@ -3,7 +3,6 @@
 namespace App\Tests\Service;
 
 use App\Controller\GiftListsController;
-use App\Entity\GiftList;
 use App\Service\ReservedGiftCookieResolver;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +14,6 @@ class ReservedGiftCookieResolverTest extends TestCase
     {
         $this->cookieResolver = new ReservedGiftCookieResolver();
     }
-
     public function getFormatData()
     {
         return [
@@ -41,6 +39,7 @@ class ReservedGiftCookieResolverTest extends TestCase
         $this->assertEquals('reserved_gifts', GiftListsController::RESERVED_GIFTS_COOKIE);
 //        $this->assertEquals([$id => $reserveToken], json_decode($result->getValue(), true));
         $this->assertInternalType("array", json_decode($result->getValue(), true));
+
     }
 
     /**
@@ -68,7 +67,6 @@ class ReservedGiftCookieResolverTest extends TestCase
         $result = $this->cookieResolver->isReservedForTime($cookie, $id, $reserveToken, $reservedAt);
         $this->assertTrue($result);
     }
-
     /**
      * @dataProvider getFormatData
      * @param $id
