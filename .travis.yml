@@ -24,7 +24,7 @@ cache:
   - node_modules
 
 before_install:
-  - cat .env.dist | sed "s/_REPLACE_MYSQL_PASSWORD_/$TRAVIS_PROD_DB_PASS/g" | sed "s/APP_SECRET=.+$/APP_SECRET=$TRAVIS_APP_SECRET/" > .env
+  - cat .env.dist | sed "s/_REPLACE_MYSQL_PASSWORD_/$TRAVIS_PROD_DB_PASS/g" | sed "s/APP_SECRET=.*$/APP_SECRET=$TRAVIS_APP_SECRET/" > .env
   - chmod -R 0777 ./
   # Starting docker containers
   - ./start-containers.sh
