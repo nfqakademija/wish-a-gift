@@ -31,7 +31,6 @@ class GiftListRepository extends ServiceEntityRepository
             ->orderBy('RAND()')
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

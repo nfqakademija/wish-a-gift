@@ -47,6 +47,6 @@ script:
 after_failure:
   - tail -n 5000 $TRAVIS_BUILD_DIR/acceptance-tests/tests/_output/*
 
-notifications:
-#  email: false
-  slack: "$SLACK_ACCOUNT:$SLACK_TOKEN#$SLACK_CHANNEL"
+#notifications:
+##  email: false
+#  slack: "$SLACK_ACCOUNT:$SLACK_TOKEN#$SLACK_CHANNEL"

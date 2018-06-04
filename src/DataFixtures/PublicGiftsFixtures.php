@@ -81,6 +81,37 @@ class PublicGiftsFixtures extends Fixture
     ];
 
     /**
+     * Load data fixtures with the passed EntityManager
+     *
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager)
+    {
+        $uuid = 22;
+        foreach ($this->partyTitles as $partyTitle) {
+            $giftList = new GiftList();
+            $giftList->setFirstName('John');
+            $giftList->setEmail('email@localhost.com');
+            $giftList->setUuidAdminFixtures($uuid . '4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
+            $giftList->setTitle($partyTitle);
+            $giftList->setDescription('Public gift list');
+            $giftList->setIsPublic(true);
+            $usedTitles = [];
+
+            for ($j = 0; $j < random_int(5, 7); $j++) {
+                $gift = new Gift();
+                $gift->setTitle($this->getGiftTitle($usedTitles));
+                $usedTitles[] = $gift->getTitle();
+                $giftList->addGift($gift);
+            }
+
+            $manager->persist($giftList);
+            $uuid++;
+        }
+        $manager->flush();
+    }
+
+    /**
      * Returns random gift title (using pre-defined hardcoded array of values)
      * @param array $alreadyUsed
      * @return string
@@ -92,35 +123,5 @@ class PublicGiftsFixtures extends Fixture
         } while (in_array($title, $alreadyUsed));
 
         return $title;
-    }
-
-    /**
-     * Load data fixtures with the passed EntityManager
-     *
-     * @param ObjectManager $manager
-     */
-    public function load(ObjectManager $manager)
-    {
-        foreach ($this->partyTitles as $partyTitle) {
-            $giftList = new GiftList();
-            $giftList->setFirstName('John');
-            $giftList->setEmail('email@localhost');
-            $giftList->setTitle($partyTitle);
-            $giftList->setDescription('Public gift list');
-            $giftList->setIsPublic(true);
-
-            $usedTitles = [];
-
-            for ($j = 0; $j < random_int(5, 7); $j++) {
-                $gift = new Gift();
-                $gift->setTitle($this->getGiftTitle($usedTitles));
-                $usedTitles[] = $gift->getTitle();
-                $giftList->addGift($gift);
-            }
-
-            $manager->persist($giftList);
-        }
-
-        $manager->flush();
     }
 }
