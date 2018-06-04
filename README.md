@@ -1,3 +1,5 @@
+# WISH A GIFT
+
 # Table of Contents
 - [Project Description](#project Description)
 - [Requirements](#Requirements)
@@ -17,7 +19,7 @@ The tempo of modern life is too fast to waste the time organizing a party.  **Wi
  - docker-compose: >=1.20.1
 ```
 
-#How to Run dev environment
+# How to Run dev environment
 ```
  $ git clone <project>
  $ cd path/to/<project>
