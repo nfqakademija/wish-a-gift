@@ -197,10 +197,8 @@ class GiftList
         $this->isPublic = $isPublic;
     }
 
-    public function setUuidAdminFixtures(string $uuidAdminFixtures): self
+    public function setUuidAdminFixtures(string $uuidAdminFixtures): void
     {
         $this->uuidAdmin = $uuidAdminFixtures;
-
-        return $this;
     }
 }
