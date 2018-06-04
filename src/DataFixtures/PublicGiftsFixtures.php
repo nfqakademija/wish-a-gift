@@ -116,12 +116,13 @@ class PublicGiftsFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->uuidAdmins as $uuid) {
+//        foreach ($this->uuidAdmins as $uuid) {
+        $i = 22;
             foreach ($this->partyTitles as $partyTitle) {
                 $giftList = new GiftList();
                 $giftList->setFirstName('John');
                 $giftList->setEmail('email@localhost.lt');
-                $giftList->setUuidAdminFixtures($uuid);
+                $giftList->setUuidAdminFixtures($i.'4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
                 $giftList->setTitle($partyTitle);
                 $giftList->setDescription('Public gift list');
                 $giftList->setIsPublic(true);
@@ -135,8 +136,9 @@ class PublicGiftsFixtures extends Fixture
                 }
 
                 $manager->persist($giftList);
+                $i++;
             }
-        }
+//        }
 
         $manager->flush();
     }
