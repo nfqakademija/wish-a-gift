@@ -80,32 +80,33 @@ class PublicGiftsFixtures extends Fixture
         'You\'re Here for the Party!'
     ];
 
-    private $uuidAdmins = [
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe0',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe1',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe2',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe3',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe4',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe5',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe6',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe7',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe8',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe9',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb10',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb11',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb12',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb13',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb14',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb15',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb16',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb17',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb18',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb19',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb20',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb21',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb22',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb23'
-    ];
+    private $uuidAdmins = ['224cc6f3-c306-4e17-90e8-45bb8ea9cbe0'];
+//        = [
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe0',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe1',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe2',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe3',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe4',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe5',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe6',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe7',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe8',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe9',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb10',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb11',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb12',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb13',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb14',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb15',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb16',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb17',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb18',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb19',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb20',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb21',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb22',
+//        '224cc6f3-c306-4e17-90e8-45bb8ea9cb23'
+//    ];
 
     /**
      * Returns random gift title (using pre-defined hardcoded array of values)
@@ -128,12 +129,14 @@ class PublicGiftsFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+//        $u = ['224cc6f3-c306-4e17-90e8-45bb8ea9cbe0'];
         foreach ($this->partyTitles as $partyTitle) {
-//            foreach ($this->uuidAdmins as $uuidAdmin) {
+            $u[] = \Ramsey\Uuid\Uuid::uuid4();
+            foreach ($this->uuidAdmins as $u) {
                 $giftList = new GiftList();
                 $giftList->setFirstName('John');
-                $giftList->setEmail('email@localhost');
-                $giftList->setUuidAdminFixtures(\Ramsey\Uuid\Uuid::uuid4());
+                $giftList->setEmail('email@localhost.lt');
+                $giftList->setUuidAdminFixtures($u);
                 $giftList->setTitle($partyTitle);
                 $giftList->setDescription('Public gift list');
                 $giftList->setIsPublic(true);
@@ -147,7 +150,7 @@ class PublicGiftsFixtures extends Fixture
                 }
 
                 $manager->persist($giftList);
-//            }
+            }
         }
 
         $manager->flush();
