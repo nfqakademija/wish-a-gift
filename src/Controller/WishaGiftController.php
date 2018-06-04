@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\GiftListType;
 use App\Entity\GiftList;
 use App\Entity\Gift;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +35,11 @@ class WishaGiftController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Congratulation! You just created your Giftlist!'
+            );
 
             return $this->redirectToRoute(
                 'giftlist-admin',
