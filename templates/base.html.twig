@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %} &#x1F381 {{ "Wish a Gift" }}{% endblock %}</title>
-  {% block stylesheets %}
-    <!-- Custom fonts for this template -->
-    {#<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">#}
-    {#<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>#}
-    {#<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>#}
-    {#<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>#}
-    <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/css/startbootstrap-agency.css') }}">
-    {#<link rel="stylesheet" href="{{ asset('build/scss/agency.css') }}">#}
-  {% endblock %}
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-  {% block canonical_meta %}{% endblock %}
+    <meta charset="UTF-8">
+    <title>{% block title %} &#x1F381 {{ "Wish a Gift" }}{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Custom fonts for this template -->
+        {#<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">#}
+        {#<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>#}
+        {#<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>#}
+        {#<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>#}
+        <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('build/css/startbootstrap-agency.css') }}">
+        {#<link rel="stylesheet" href="{{ asset('build/scss/agency.css') }}">#}
+    {% endblock %}
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    {% block canonical_meta %}{% endblock %}
 </head>
 
 <body id="page-top">
 {% block header %}{% endblock %}
 
 {% block body %}
-  {# add flash message to all pages #}
+    {# add flash message to all pages #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-          <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-            <strong> {{ message }} </strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                <strong> {{ message }} </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         {% endfor %}
     {% endfor %}
 {% endblock %}
@@ -38,7 +38,7 @@
 {% block footer %}{% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('build/js/app.js') }}"></script>
+    <script src="{{ asset('build/js/app.js') }}"></script>
 {% endblock %}
 </body>
 

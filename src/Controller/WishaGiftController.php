@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Form\GiftListType;
-use App\Entity\GiftList;
 use App\Entity\Gift;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\GiftList;
+use App\Form\GiftListType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class WishaGiftController extends Controller
 {
