@@ -196,4 +196,11 @@ class GiftList
     {
         $this->isPublic = $isPublic;
     }
+
+    public function setUuidAdminFixtures(): self
+    {
+        $this->uuidAdmin = '224cc6f3-c306-4e17-90e8-45bb8ea9cbe0';
+
+        return $this;
+    }
 }

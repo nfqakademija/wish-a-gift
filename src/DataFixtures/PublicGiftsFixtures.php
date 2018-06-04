@@ -105,10 +105,10 @@ class PublicGiftsFixtures extends Fixture
             $giftList = new GiftList();
             $giftList->setFirstName('John');
             $giftList->setEmail('email@localhost');
+            $giftList->setUuidAdminFixtures();
             $giftList->setTitle($partyTitle);
             $giftList->setDescription('Public gift list');
             $giftList->setIsPublic(true);
-
             $usedTitles = [];
 
             for ($j = 0; $j < random_int(5, 7); $j++) {
