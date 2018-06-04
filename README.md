@@ -1,17 +1,17 @@
-#Table of Contents
+# Table of Contents
 - [Project Description](#project Description)
 - [Requirements](#Requirements)
 - [How to Run?](#How to Run dev environment)
 - [Development help tools](#Development help tools)
 - [Team Members](#Team Members)
 
-#Project Description
+# Project Description
 
 The tempo of modern life is too fast to waste the time organizing a party.  **Wish a Gift**  is an application which helps you to easily  organize your party, create a gift lists, share them with friends and get the desired presents. If you know best what you really want, you can create a list of gifts and share it with your friends in just few clicks!
 
  **Wish a Gift**  was developed to make your life easier!
 
-#Requirements
+# Requirements
 ```
  - docker: >=18.x-ce
  - docker-compose: >=1.20.1
@@ -36,28 +36,28 @@ For loading sample data
 Open: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 
-#Development help tools
+# Development help tools
 
-####Check coding convention PSR-2:
+#### Check coding convention PSR-2:
 ```
  $ docker-compose exec -T prod.php.symfony vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php ./src
 ```
 
-####Fix coding style, where possible, according to PSR-2:
+#### Fix coding style, where possible, according to PSR-2:
 ``` 
  $ docker-compose exec -T prod.php.symfony vendor/bin/phpcbf -p --colors --standard=PSR2 --extensions=php ./src
 ```
 
 
-####Travis continuous integration: 
+#### Travis continuous integration: 
 ``` 
  Generate strong random values for TRAVIS_APP_SECRET and TRAVIS_PROD_DB_PASS and add to travis.com settings
 ```
 
 
-#Team Members
-####Mentor:
+# Team Members
+#### Mentor:
 - Aistis Stramkauskas
-####Developers:
+#### Developers:
 - Nerijus Juras
 - Olga Zyk
