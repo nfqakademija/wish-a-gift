@@ -1,9 +1,9 @@
 # WISH A GIFT
 
 # Table of Contents
-- [Project Description](#project Description)
+- [Project Description](#Project Description)
 - [Requirements](#Requirements)
-- [How to Run?](#How to Run dev environment)
+- [How to Run dev environment](#How to Run dev environment)
 - [Development help tools](#Development help tools)
 - [Team Members](#Team Members)
 
