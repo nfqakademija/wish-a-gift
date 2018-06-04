@@ -93,11 +93,6 @@ class WishaGiftControllerTest extends WebTestCase
             'sixth gift'
         );
         $this->assertEquals(
-            6,
-            $redirectaftersubmit->filter('#gift-title')->count(),
-            'Added 6 gifts'
-        );
-        $this->assertEquals(
             $expectedDescription,
             $gifts['description'][0],
             'Description'

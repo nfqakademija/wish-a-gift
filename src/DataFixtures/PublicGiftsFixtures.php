@@ -80,34 +80,36 @@ class PublicGiftsFixtures extends Fixture
         'You\'re Here for the Party!'
     ];
 
-    private $uuidAdmins = [
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb45',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb73',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe0',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe1',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe2',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe3',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe4',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe5',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe6',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe7',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe8',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cbe9',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb10',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb11',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb12',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb13',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb14',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb15',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb16',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb17',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb18',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb19',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb20',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb21',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb22',
-        '224cc6f3-c306-4e17-90e8-45bb8ea9cb23'
-    ];
+    /**
+     * Load data fixtures with the passed EntityManager
+     *
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager)
+    {
+        $uuid = 22;
+        foreach ($this->partyTitles as $partyTitle) {
+            $giftList = new GiftList();
+            $giftList->setFirstName('John');
+            $giftList->setEmail('email@localhost.com');
+            $giftList->setUuidAdminFixtures($uuid . '4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
+            $giftList->setTitle($partyTitle);
+            $giftList->setDescription('Public gift list');
+            $giftList->setIsPublic(true);
+            $usedTitles = [];
+
+            for ($j = 0; $j < random_int(5, 7); $j++) {
+                $gift = new Gift();
+                $gift->setTitle($this->getGiftTitle($usedTitles));
+                $usedTitles[] = $gift->getTitle();
+                $giftList->addGift($gift);
+            }
+
+            $manager->persist($giftList);
+            $uuid++;
+        }
+        $manager->flush();
+    }
 
     /**
      * Returns random gift title (using pre-defined hardcoded array of values)
@@ -121,39 +123,5 @@ class PublicGiftsFixtures extends Fixture
         } while (in_array($title, $alreadyUsed));
 
         return $title;
-    }
-
-    /**
-     * Load data fixtures with the passed EntityManager
-     *
-     * @param ObjectManager $manager
-     */
-    public function load(ObjectManager $manager)
-    {
-        $uuid = 22;
-        foreach ($this->partyTitles as $partyTitle) {
-//            foreach ($this->uuidAdmins as $uuid) {
-                $giftList = new GiftList();
-                $giftList->setFirstName('John');
-                $giftList->setEmail('email@localhost.com');
-                $giftList->setUuidAdminFixtures($uuid.'4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
-                $giftList->setTitle($partyTitle);
-                $giftList->setDescription('Public gift list');
-                $giftList->setIsPublic(true);
-                $usedTitles = [];
-
-                for ($j = 0; $j < random_int(5, 7); $j++) {
-                    $gift = new Gift();
-                    $gift->setTitle($this->getGiftTitle($usedTitles));
-                    $usedTitles[] = $gift->getTitle();
-                    $giftList->addGift($gift);
-                }
-
-                $manager->persist($giftList);
-                $uuid++;
-            }
-//        }
-
-        $manager->flush();
     }
 }
