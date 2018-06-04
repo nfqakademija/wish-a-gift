@@ -132,16 +132,13 @@
                         {% for gift in data.gifts %}
                             {% if gift is not null %}
                                 <div class="row">
-                                    <div class="col-md-2 pr-0">
-                                        <div class="fa-stack fa-2x">
+                                    <div class="col-md-12 pr-0">
+                                        <div class="fa-stack fa-2x inline-icon mr-2">
                                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                                             <i class="fa fa-gift fa-stack-1x fa-inverse"></i>
                                         </div>
+                                        <p class="text-muted text-left">{{ gift.title|capitalize }}</p>
                                     </div>
-                                    <div class="col-md-10 p-0">
-                                        <p class="text-muted text-left" id="gift-title">{{ gift.title|capitalize }}</p>
-                                    </div>
-                                    <div class="clearfix"></div>
                                 </div>
                             {% endif %}
                         {% endfor %}

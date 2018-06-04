@@ -6,7 +6,7 @@ suites:
         modules:
             enabled:
                 - WebDriver:
-                    url: http://nginx.symfony:8000
+                    url: http://nginx.symfony
                     host: selenium.symfony
                     port: 4444
                     browser: chrome
