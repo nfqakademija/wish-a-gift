@@ -110,19 +110,33 @@ class PublicGiftsFixtures extends Fixture
     ];
 
     /**
+     * Returns random gift title (using pre-defined hardcoded array of values)
+     * @param array $alreadyUsed
+     * @return string
+     */
+    private function getGiftTitle(array $alreadyUsed)
+    {
+        do {
+            $title = $this->giftTitles[array_rand($this->giftTitles)];
+        } while (in_array($title, $alreadyUsed));
+
+        return $title;
+    }
+
+    /**
      * Load data fixtures with the passed EntityManager
      *
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-//        foreach ($this->uuidAdmins as $uuid) {
-        $i = 22;
-            foreach ($this->partyTitles as $partyTitle) {
+        $uuid = 22;
+        foreach ($this->partyTitles as $partyTitle) {
+//            foreach ($this->uuidAdmins as $uuid) {
                 $giftList = new GiftList();
                 $giftList->setFirstName('John');
-                $giftList->setEmail('email@localhost.lt');
-                $giftList->setUuidAdminFixtures($i.'4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
+                $giftList->setEmail('email@localhost.com');
+                $giftList->setUuidAdminFixtures($uuid.'4cc6f3-c306-4e17-90e8-45bb8ea9cbe0');
                 $giftList->setTitle($partyTitle);
                 $giftList->setDescription('Public gift list');
                 $giftList->setIsPublic(true);
@@ -136,24 +150,10 @@ class PublicGiftsFixtures extends Fixture
                 }
 
                 $manager->persist($giftList);
-                $i++;
+                $uuid++;
             }
 //        }
 
         $manager->flush();
-    }
-
-    /**
-     * Returns random gift title (using pre-defined hardcoded array of values)
-     * @param array $alreadyUsed
-     * @return string
-     */
-    private function getGiftTitle(array $alreadyUsed)
-    {
-        do {
-            $title = $this->giftTitles[array_rand($this->giftTitles)];
-        } while (in_array($title, $alreadyUsed));
-
-        return $title;
     }
 }
