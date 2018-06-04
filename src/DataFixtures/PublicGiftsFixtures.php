@@ -110,28 +110,14 @@ class PublicGiftsFixtures extends Fixture
     ];
 
     /**
-     * Returns random gift title (using pre-defined hardcoded array of values)
-     * @param array $alreadyUsed
-     * @return string
-     */
-    private function getGiftTitle(array $alreadyUsed)
-    {
-        do {
-            $title = $this->giftTitles[array_rand($this->giftTitles)];
-        } while (in_array($title, $alreadyUsed));
-
-        return $title;
-    }
-
-    /**
      * Load data fixtures with the passed EntityManager
      *
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
-        foreach ($this->partyTitles as $partyTitle) {
-            foreach ($this->uuidAdmins as $uuid) {
+        foreach ($this->uuidAdmins as $uuid) {
+            foreach ($this->partyTitles as $partyTitle) {
                 $giftList = new GiftList();
                 $giftList->setFirstName('John');
                 $giftList->setEmail('email@localhost.lt');
@@ -153,5 +139,19 @@ class PublicGiftsFixtures extends Fixture
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Returns random gift title (using pre-defined hardcoded array of values)
+     * @param array $alreadyUsed
+     * @return string
+     */
+    private function getGiftTitle(array $alreadyUsed)
+    {
+        do {
+            $title = $this->giftTitles[array_rand($this->giftTitles)];
+        } while (in_array($title, $alreadyUsed));
+
+        return $title;
     }
 }
