@@ -8,8 +8,8 @@ services:
       - .:/code # Mount your code, so nginx/phpcould see it
       - .docker/nginx/site.conf:/etc/nginx/conf.d/site.conf # Use custom virtual hosts
     ports:
-      - 127.0.0.1:8000:8000 # For development. Open in browser 127.0.0.1:8000
-      - 127.0.0.1:8888:80 # To simulate production. Open in browser 127.0.0.1:8888
+      - 127.0.0.1:$LOCAL_NGINX_DEV_PORT:8000 # For development. Open in browser 127.0.0.1:8000
+      - 127.0.0.1:$LOCAL_NGINX_PROD_PORT:80 # To simulate production. Open in browser 127.0.0.1:8888
 
   php.symfony:
     container_name: php.symfony
@@ -26,6 +26,8 @@ services:
     build: .docker/php/
     environment: # Production environment should not use parameters from .env, but get them via nginx/apache
       - APP_ENV=prod # bin/console use APP_ENV value from environment
+      - APP_SECRET=$APP_SECRET
+      - DATABASE_URL=$DATABASE_URL
     volumes:
       - .:/code # Mount your code, so nginx/phpcould see it
 
@@ -33,7 +35,7 @@ services:
     container_name: mysql.symfony
     image: mysql:5.7.21
     environment: # During first run root user with is generated with this password
-      - MYSQL_ROOT_PASSWORD=p9iijKcfgENjBWDYgSH7
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
     volumes:
       - .docker/mysql-data/:/var/lib/mysql
     ports:
@@ -46,13 +48,10 @@ services:
       - mysql.symfony:db
     ports:
       - 127.0.0.1:32773:80
-#      environment:
-#        - MYSQL_USERNAME=$MYSQL_USERNAME
-#        - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
 
   frontend.symfony:
-    build: .docker/frontend/
     container_name: frontend.symfony
+    build: .docker/frontend/
     volumes:
       - .:/code # Mount your code, so javaScript tools could see it
     ports:
@@ -60,12 +59,9 @@ services:
     extra_hosts:
      - "symfony.local:0.0.0.0"
 
-  mailcatcher:
-    image: yappabe/mailcatcher
+  selenium.symfony:
+    container_name: selenium.symfony
+    image: selenium/standalone-chrome-debug
     ports:
-      - 127.0.0.1:1025:1025
-      - 127.0.0.1:1080:1080
-    environment:
-      - MAILER_URL=$MAILER_URL
-#          links:
-#              - php.symfony
+      - 127.0.0.1:4444:4444 # To debug selenium API
+      - 127.0.0.1:5900:5900 # To connect via VNC

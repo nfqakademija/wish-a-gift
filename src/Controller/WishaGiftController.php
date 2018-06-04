@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\GiftListType;
 use App\Entity\GiftList;
 use App\Entity\Gift;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +21,8 @@ class WishaGiftController extends Controller
         // build the form
         $giftList = new GiftList();
         $giftList->addGift(new Gift());
-        $form = $this->createForm(GiftListType::class/*, $giftList*/);
+
+        $form = $this->createForm(GiftListType::class, $giftList);
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
@@ -31,20 +31,28 @@ class WishaGiftController extends Controller
              * @var $giftList GiftList
              */
             $giftList = $form->getData();
-
             // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftList);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
+            $this->addFlash(
+                'success',
+                'Congratulation! You just created your Giftlist!'
+            );
+
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
                     'uuidadmin' => $giftList->getUuidAdmin(),
-                ));
+                ]
+            );
         }
 
-        return $this->render('create/index.html.twig',
-            ['form' => $form->createView(),
+        return $this->render(
+            'giftlist/create.html.twig',
+            [
+                'form' => $form->createView(),
             ]
         );
     }
@@ -62,29 +70,52 @@ class WishaGiftController extends Controller
             ->getRepository(GiftList::class)
             ->findOneBy(['uuidAdmin' => $uuidadmin]);
 
+        if (null === $giftListEntity) {
+            throw $this->createNotFoundException();
+        }
+
         // build the form
-        $form = $this->createForm(GiftListType::class, $giftListEntity, ['allow_gift_editing' => false]); // TODO: allow only if not reservedAt flags are set in gifts collection
+        $form = $this->createForm(
+            GiftListType::class,
+            $giftListEntity,
+            ['allow_gift_editing' => $this->isEditingAllowed($giftListEntity)]
+        );
 
         // handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $giftListEntity = $form->getData();
-            $giftListEntity->setUuid(Uuid::uuid4()->toString());
-            $giftListEntity->setUuidAdmin(Uuid::uuid4()->toString());
 
             // save data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($giftListEntity);
             $entityManager->flush();
 
-            return $this->redirectToRoute('giftlist-admin',
-                array(
+            return $this->redirectToRoute(
+                'giftlist-admin',
+                [
                     'uuidadmin' => $giftListEntity->getUuidAdmin(),
-                ));
+                ]
+            );
         }
 
-        return $this->render('create/index.html.twig',
-            ['form' => $form->createView()]
+        return $this->render(
+            'giftlist/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'uuidAdmin' => $giftListEntity->getUuidAdmin()
+            ]
         );
+    }
+
+    private function isEditingAllowed(GiftList $giftList): bool
+    {
+        foreach ($giftList->getGifts() as $gift) {
+            if (null !== $gift->getReservedAt()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

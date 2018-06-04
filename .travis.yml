@@ -1,12 +1,52 @@
-sudo: false
+sudo: required
+
 language: php
+
 php:
   - 7.2
+
 services:
-  - mysql
+  - docker
+
+addons:
+  hosts:
+    - nginx.symfony
+    - selenium.symfony
+    - prod.php.symfony
+    - php.symfony
+    - mysql.symfony
+    - frontend.symfony
+
+cache:
+  yarn: true
+  directories:
+  - $HOME/.composer/cache/files
+  - node_modules
+
+before_install:
+  - cat .env.dist | sed "s/_REPLACE_MYSQL_PASSWORD_/$TRAVIS_PROD_DB_PASS/g" | sed "s/APP_SECRET=.*$/APP_SECRET=$TRAVIS_APP_SECRET/" > .env
+  - chmod -R 0777 ./
+  # Starting docker containers
+  - ./start-containers.sh
+
+install:
+  - ./install-dependencies.sh
+
 before_script:
 # Get the token from github and put it in travis repo under GITHUB_COMPOSER_AUTH ENV variable, then uncomment line below.
 #  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
-  - composer install --no-interaction --prefer-dist
+  - ./setup-database.sh
+  - ./load-fixtures.sh
+  - ./build-frontend.sh
+
 script:
-  - vendor/bin/phpcs -p --standard=PSR2 --extensions=php ./src
+  - docker-compose exec -T prod.php.symfony vendor/bin/phpcs -p --colors --standard=PSR2 --extensions=php --ignore=*/Migrations/* ./src
+  - docker-compose exec -T prod.php.symfony vendor/bin/phpunit
+  - docker-compose exec -T prod.php.symfony acceptance-tests/vendor/bin/codecept run --debug --env=travis --config=acceptance-tests
+
+after_failure:
+  - tail -n 5000 $TRAVIS_BUILD_DIR/acceptance-tests/tests/_output/*
+
+notifications:
+#  email: false
+  slack: "$SLACK_ACCOUNT:$SLACK_TOKEN#$SLACK_CHANNEL"
