@@ -46,7 +46,8 @@ class GiftType extends AbstractType
                     'data-placement' =>'right',
                     'title' => 'Unchecked checkbox means to disable gift reservation'
                     ]
-                ]);
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
