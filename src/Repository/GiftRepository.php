@@ -47,4 +47,15 @@ class GiftRepository extends ServiceEntityRepository
         ;
     }
     */
+//    public function findByIdAndUuid($id,$uuid)
+//    {
+//        $qb = $this->createQueryBuilder('g');
+//        return $qb
+//            ->leftJoin('gift_list', 'gl', 'ON', 'gl.id = g.user_id')
+//            ->where('p.dateVFin IS NULL')
+//            ->andWhere('g.uuid=:uuid')
+//            ->addOrderBy('t.cp', 'DESC')
+//            ->setParameter('uuid', $uuid)
+//            ;
+//    }
 }

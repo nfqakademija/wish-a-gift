@@ -2,64 +2,101 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GiftListRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"uuid", "uuidadmin"})})
+ * @ORM\Table(name="gift_list")
  */
 class GiftList
 {
     /**
+     * @var \Ramsey\Uuid\UuidInterface
+     *
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @ORM\ManyToOne(targetEntity="App\Entity\Gift", inversedBy="userid")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
-    /**
-     * @ORM\Column(type="string", length=101, nullable=true)
-     */
-    private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=101, nullable=true)
+     * @ORM\Column(type="string")
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string")
      */
     private $email;
+
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string")
      */
     private $title;
+
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="text")
      */
     private $description;
+
     /**
-     * @ORM\Column(type="string", length=254, unique=true)
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $uuid;
+
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @var \Ramsey\Uuid\UuidInterface
+     *
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
-    private $uuidadmin;
+    private $uuidAdmin;
 
-    protected $gift;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="giftList", cascade={"all"}, orphanRemoval=true)
+     */
+    private $gifts;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isPublic;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->gifts = new ArrayCollection();
+        $this->uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $this->uuidAdmin = \Ramsey\Uuid\Uuid::uuid4();
+        $this->isPublic = false;
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -88,6 +125,9 @@ class GiftList
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
@@ -100,37 +140,60 @@ class GiftList
         return $this;
     }
 
-    public function getUuid(): ?string
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getUuid(): \Ramsey\Uuid\UuidInterface
     {
         return $this->uuid;
     }
 
-    public function setUuid(string $uuid): self
+    /**
+     * @return \Ramsey\Uuid\UuidInterface
+     */
+    public function getUuidAdmin(): \Ramsey\Uuid\UuidInterface
     {
-        $this->uuid = $uuid;
-
-        return $this;
+        return $this->uuidAdmin;
     }
 
-    public function getUuidAdmin(): ?string
+
+    /**
+     * @return Collection|Gift[]
+     */
+    public function getGifts(): Collection
     {
-        return $this->uuidadmin;
+        return $this->gifts;
     }
 
-    public function setUuidAdmin(string $uuidadmin): self
+    public function addGift(Gift $gift): void
     {
-        $this->uuidadmin = $uuidadmin;
-
-        return $this;
+        if (!$this->gifts->contains($gift)) {
+            $this->gifts->add($gift);
+            $gift->setGiftList($this);
+        }
     }
 
-    public function getGift()
+    public function removeGift(Gift $gift): void
     {
-        return $this->gift;
+        if ($this->gifts->contains($gift)) {
+            $this->gifts->removeElement($gift);
+            $gift->setGiftList(null);
+        }
     }
 
-    public function setGift(Gift $gift = null)
+    /**
+     * @return mixed
+     */
+    public function getIsPublic()
     {
-        $this->gift= $gift;
+        return $this->isPublic;
+    }
+
+    /**
+     * @param mixed $isPublic
+     */
+    public function setIsPublic($isPublic): void
+    {
+        $this->isPublic = $isPublic;
     }
 }

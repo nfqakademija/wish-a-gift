@@ -10,49 +10,135 @@ use Doctrine\ORM\Mapping as ORM;
 class Gift
 {
     /**
+     * @var \Ramsey\Uuid\UuidInterface
+     *
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="Ramsey\Uuid\Doctrine\UuidGenerator")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\OneToMany(targetEntity="App\Entity\GiftList", mappedBy="id")
+     * @ORM\Column(type="string")
      */
-    private $userId;
+    private $title;
 
     /**
-     * @ORM\Column(type="string", length=254, nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $gift;
+    private $reservedAt;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $reservationToken;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $reservable = true;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\GiftList", inversedBy="gifts")
+     * @ORM\JoinColumn(name="gift_list_id", referencedColumnName="id", nullable=false)
+     */
+    private $giftList;
+
+    /**
+     * @return GiftList|null
+     */
+    public function getGiftList(): ?GiftList
+    {
+        return $this->giftList;
+    }
+
+    /**
+     * @param GiftList|null $giftList
+     * @return Gift
+     */
+    public function setGiftList(?GiftList $giftList): self
+    {
+        $this->giftList = $giftList;
+        return $this;
+    }
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getTitle()
     {
-        return $this->userId;
+        return $this->title;
     }
 
-    public function setUserId(int $userId): self
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
     {
-        $this->userId = $userId;
-
-        return $this;
+        $this->title = $title;
     }
 
-    public function getGift(): ?string
+    /**
+     * @return mixed
+     */
+    public function getReservedAt()
     {
-        return $this->gift;
+        return $this->reservedAt;
     }
 
-    public function setGift(string $gift): self
+    /**
+     * @param mixed $reservedAt
+     */
+    public function setReservedAt($reservedAt): void
     {
-        $this->gift = $gift;
+        $this->reservedAt = $reservedAt;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getReservationToken()
+    {
+        return $this->reservationToken;
+    }
+
+    /**
+     * @param mixed $reservationToken
+     */
+    public function setReservationToken($reservationToken): void
+    {
+        $this->reservationToken = $reservationToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReservable()
+    {
+        return $this->reservable;
+    }
+
+    /**
+     * @param mixed $reservable
+     */
+    public function setReservable($reservable): void
+    {
+        $this->reservable = $reservable;
     }
 }
