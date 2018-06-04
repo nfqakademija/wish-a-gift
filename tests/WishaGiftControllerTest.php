@@ -4,6 +4,10 @@ namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class WishaGiftControllerTest
+ * @package App\Tests
+ */
 class WishaGiftControllerTest extends WebTestCase
 {
     /**
