@@ -1,4 +1,4 @@
-ARTIFACT_INCLUDES = bin config public src templates vendor composer.json composer.lock symfony.lock
+ARTIFACT_INCLUDES = bin config public src templates vendor composer.json composer.lock symfony.lock translations
 ARTIFACT_EXCLUDES = public/images/.gitkeep
 
 .PHONY: build
