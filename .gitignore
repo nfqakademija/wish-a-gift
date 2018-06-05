@@ -32,7 +32,6 @@ yarn-error.log
 /web/js
 /web/fonts
 /node_modules
-.env
 npm-debug.log
 /project.tar.gz
 /.deploy/*.retry
