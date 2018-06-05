@@ -6,7 +6,7 @@
           deploy_path: "/home/{{ ansible_user_id }}"
           archive_path: ../project.tar.gz
           linked_files:
-              - .env
+              - shared/.env
           linked_directories:
               - var/log
 
