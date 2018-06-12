@@ -197,15 +197,28 @@
                         <div class="col-md-6">
                             <ul class="gifts"
                                 data-prototype="
+                                <label class='checkbox-bootstrap checkbox-lg'>
                                     {{ form_widget(form.gifts.vars.prototype.reservable, {
                                     'attr': {
                                         'checked' : 'checked'
                                     }})|e('html_attr') }}
+                                    <span class='checkbox-placeholder'></span>
+                                    </label>
                                     {{ form_widget(form.gifts.vars.prototype.title)|e('html_attr') }}">
                                 {% for gift in form.gifts %}
                                     <li class="form-group">
                                         <div class="input-group">
-                                            {{ form_widget(gift.reservable) }}
+                                            <div class="input-group-prepend">
+                                                {#<div class="checkbox">#}
+                                                <label class="checkbox-bootstrap checkbox-lg">
+                                                    {{ form_widget(gift.reservable, {
+                                                        'attr': {
+                                                            'checked' : 'checked'
+                                                        }}) }}
+                                                    <span class="checkbox-placeholder"></span>
+                                                </label>
+                                                {#</div>#}
+                                            </div>
                                             {{ form_widget(gift.title) }}
                                         </div>
                                     </li>

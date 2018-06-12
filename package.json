@@ -2,7 +2,7 @@
   "devDependencies": {
     "@symfony/webpack-encore": "^0.17.0",
     "babel-preset-env": "^1.7.0",
-    "bootstrap": "4.0.0",
+    "bootstrap": "^4.1.1",
     "jquery": "3.2.1",
     "node-sass": "^4.9.0",
     "popper.js": "^1.14.3",
@@ -19,6 +19,8 @@
   },
   "dependencies": {
     "amazon-autocomplete": "^1.0.1",
+    "awesome-bootstrap-checkbox": "^1.0.1",
+    "bootstrap-loader": "^3.0.0",
     "font-awesome": "^4.7.0",
     "startbootstrap-agency": "^4.0.0-beta"
   },
