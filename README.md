@@ -53,7 +53,7 @@ Open: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 #### Travis continuous integration: 
 ``` 
- Generate strong random values for TRAVIS_APP_SECRET and TRAVIS_PROD_DB_PASS and add to travis.com settings
+ Generate strong random values for TRAVIS_APP_SECRET and TRAVIS_PROD_DB_PASS and add to travis-ci.com settings
 ```
 
 
