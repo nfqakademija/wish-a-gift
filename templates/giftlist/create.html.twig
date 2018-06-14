@@ -209,15 +209,10 @@
                                     <li class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                {#<div class="checkbox">#}
                                                 <label class="checkbox-bootstrap checkbox-lg">
-                                                    {{ form_widget(gift.reservable, {
-                                                        'attr': {
-                                                            'checked' : 'checked'
-                                                        }}) }}
+                                                    {{ form_widget(gift.reservable) }}
                                                     <span class="checkbox-placeholder"></span>
                                                 </label>
-                                                {#</div>#}
                                             </div>
                                             {{ form_widget(gift.title) }}
                                         </div>
